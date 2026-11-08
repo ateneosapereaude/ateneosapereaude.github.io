@@ -3,198 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ateneo Cultural - Tu Espacio de Conocimiento y Creación</title>
-    <style>
-        /* Estilos generales */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #ffffff; /* Fondo blanco */
-            color: #333;
-            line-height: 1.6;
-            position: relative; /* Necesario para posicionar el logo de fondo */
-            min-height: 100vh; /* Asegura que el body ocupe al menos toda la altura de la ventana */
-        }
-
-        /* Logo en el fondo (marca de agua) */
-        .background-logo {
-            position: fixed; /* O 'absolute' si prefieres que se desplace con el scroll del contenido */
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80%; /* Ajusta el tamaño según tu logo */
-            height: auto;
-            opacity: 0.1; /* Transparencia para que se vea sutilmente */
-            z-index: -1; /* Asegura que esté detrás del contenido */
-            pointer-events: none; /* Permite que el ratón interactúe con el contenido por encima */
-        }
-
-        /* Encabezado y Navegación */
-        header {
-            background-color: #ffffff;
-            padding: 1rem 0;
-            border-bottom: 1px solid #eee;
-            text-align: center;
-            position: sticky; /* Menú fijo al hacer scroll */
-            top: 0;
-            z-index: 1000;
-        }
-
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-        }
-
-        nav ul li {
-            margin: 0 15px;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            color: #0056b3; /* Un azul para los enlaces */
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
-
-        nav ul li a:hover {
-            color: #003d7a; /* Un azul más oscuro al pasar el ratón */
-        }
-
-        /* Contenido principal */
-        main {
-            padding: 20px;
-            max-width: 1200px;
-            margin: 20px auto;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        section {
-            margin-bottom: 40px;
-            padding: 20px;
-            border-bottom: 1px solid #eee;
-        }
-
-        section:last-child {
-            border-bottom: none;
-        }
-
-        h1, h2 {
-            color: #0056b3;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        p {
-            margin-bottom: 10px;
-        }
-
-        .button {
-            display: inline-block;
-            background-color: #28a745; /* Un verde para los botones de acción */
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 15px;
-            transition: background-color 0.3s ease;
-        }
-
-        .button:hover {
-            background-color: #218838;
-        }
-
-        /* Pie de página */
-        footer {
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-            background-color: #f8f8f8;
-            border-top: 1px solid #eee;
-            color: #555;
-        }
-    </style>
+    <title>Ateneo Sapere Aude</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-[#0b1d3a] text-white font-sans antialiased min-h-screen flex flex-col justify-between">
 
-    <img src="https://via.placeholder.com/800x400?text=Logo+Ateneo" alt="Logo del Ateneo" class="background-logo">
+    <!-- Navegación -->
+    <header class="border-b border-white/10 bg-[#071326]/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <!-- Escudo exacto integrado en SVG -->
+                <svg viewBox="0 0 500 500" class="w-12 h-12" xmlns="http://www.w3.org/2000/svg">
+                    <path id="curve" d="M 110,210 A 150,150 0 0,1 390,210" fill="transparent" />
+                    <text font-family="sans-serif" font-weight="bold" font-size="34" fill="#d4af37" letter-spacing="4">
+                        <textPath href="#curve" startOffset="50%" text-anchor="middle">GLOBAL ATENEO</textPath>
+                    </text>
+                    
+                    <!-- Escudo central -->
+                    <g transform="translate(135, 130)">
+                        <path d="M 115,0 L 230,30 L 230,130 C 230,200 170,250 115,270 C 60,250 0,200 0,130 L 0,30 Z" fill="#0b1d3a" stroke="#d4af37" stroke-width="8"/>
+                        <line x1="115" y1="0" x2="115" y2="270" stroke="#d4af37" stroke-width="6"/>
+                        <line x1="0" y1="130" x2="230" y2="130" stroke="#d4af37" stroke-width="6"/>
+                        
+                        <!-- Íconos de los cuarteles -->
+                        <!-- Templo -->
+                        <g transform="translate(35, 45) scale(0.7)" fill="none" stroke="#d4af37" stroke-width="4">
+                            <path d="M10 40 L50 10 L90 40 Z" />
+                            <line x1="20" y1="40" x2="20" y2="80" />
+                            <line x1="40" y1="40" x2="40" y2="80" />
+                            <line x1="60" y1="40" x2="60" y2="80" />
+                            <line x1="80" y1="40" x2="80" y2="80" />
+                            <rect x="10" y="80" width="80" height="10" />
+                        </g>
+                        <!-- Pluma -->
+                        <g transform="translate(140, 45) scale(0.6)" fill="#d4af37" stroke="#d4af37" stroke-width="2">
+                            <path d="M50,10 C30,30 10,70 10,90 C20,90 40,70 60,50 Z" />
+                            <line x1="10" y1="90" x2="30,70" stroke-width="4" />
+                        </g>
+                        <!-- Átomo -->
+                        <g transform="translate(35, 155) scale(0.7)" fill="none" stroke="#d4af37" stroke-width="4">
+                            <ellipse cx="50" cy="50" rx="40" ry="15" transform="rotate(30 50 50)"/>
+                            <ellipse cx="50" cy="50" rx="40" ry="15" transform="rotate(-30 50 50)"/>
+                            <circle cx="50" cy="50" r="8" fill="#d4af37"/>
+                        </g>
+                        <!-- Búho -->
+                        <g transform="translate(140, 150) scale(0.55)" fill="#d4af37" stroke="#d4af37">
+                            <circle cx="35" cy="35" r="12" fill="none" stroke-width="4"/>
+                            <circle cx="65" cy="35" r="12" fill="none" stroke-width="4"/>
+                            <polygon points="50,45 42,60 58,60"/>
+                            <path d="M30,70 L50,85 L70,70 L65,95 L35,95 Z" fill="none" stroke-width="4"/>
+                        </g>
+                    </g>
 
-    <header>
-        <nav>
-            <ul>
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#cursos-idiomas">Cursos de Idiomas</a></li>
-                <li><a href="#publicacion-libros">Publicación de Libros</a></li>
-                <li><a href="#revista-ateneo">Revista del Ateneo</a></li>
-                <li><a href="#comunidad-ateneo">Comunidad Ateneo</a></li>
-                <li><a href="#contacto">Contacto</a></li>
-            </ul>
-        </nav>
+                    <!-- Listón Inferior Sapere Aude -->
+                    <g transform="translate(60, 415)">
+                        <polygon points="10,25 30,5 350,5 370,25 350,45 30,45" fill="#d4af37" stroke="#b38f27" stroke-width="2"/>
+                        <polygon points="0,15 10,25 10,45 0,35" fill="#8c6d18"/>
+                        <polygon points="380,15 370,25 370,45 380,35" fill="#8c6d18"/>
+                        <text x="190" y="32" font-family="serif" font-weight="bold" font-size="22" fill="#0b1d3a" text-anchor="middle" letter-spacing="3">SAPERE AUDE</text>
+                    </g>
+                </svg>
+                <span class="text-xl font-serif tracking-wide">Ateneo Sapere Aude</span>
+            </div>
+            
+            <nav class="hidden md:flex space-x-8 text-sm font-medium text-slate-300">
+                <a href="#centros" class="hover:text-amber-400 transition">Centros</a>
+                <a href="#editorial" class="hover:text-amber-400 transition">Editorial</a>
+                <a href="#investigacion" class="hover:text-amber-400 transition">Investigación</a>
+            </nav>
+        </div>
     </header>
 
-    <main>
-        <section id="inicio">
-            <h1>Bienvenido al Ateneo Cultural</h1>
-            <p>Un espacio dedicado al fomento de la cultura, el aprendizaje y la creación. Aquí encontrarás las herramientas y la comunidad para crecer intelectual y artísticamente.</p>
-            <p>Explora nuestras secciones y descubre todo lo que el Ateneo tiene para ofrecerte.</p>
-        </section>
+    <!-- Contenido Principal / Portada -->
+    <main class="flex-grow flex items-center justify-center px-6 py-12">
+        <div class="max-w-4xl mx-auto text-center space-y-12">
+            
+            <div class="space-y-4">
+                <span class="text-amber-400 uppercase tracking-widest text-xs font-semibold px-3 py-1 bg-amber-400/10 rounded-full border border-amber-400/20">Institución Académica</span>
+                <h1 class="text-4xl md:text-6xl font-serif font-bold text-white tracking-tight">
+                    Ateneo Sapere Aude
+                </h1>
+                <p class="text-slate-300 max-w-2xl mx-auto text-lg leading-relaxed font-light">
+                    Espacio dedicado al rigor intelectual, la investigación científica y humanística, la actualización constante del conocimiento y la difusión editorial.
+                </p>
+            </div>
 
-        <section id="cursos-idiomas">
-            <h2>Cursos de Idiomas</h2>
-            <p>¡Abre nuevas puertas al mundo con nuestros cursos de idiomas! Ofrecemos clases de inglés, francés, alemán y español para extranjeros, adaptadas a todos los niveles, desde principiantes hasta avanzados.</p>
-            <p>Nuestra metodología se centra en la conversación y la inmersión cultural para que aprendas de manera efectiva y divertida.</p>
-            <a href="#" class="button">Ver Programación de Cursos</a>
-        </section>
+            <!-- Pilares Académicos -->
+            <div class="grid md:grid-cols-3 gap-6 text-left pt-6">
+                <div id="investigacion" class="bg-[#11264d]/60 border border-white/10 p-6 rounded-xl hover:border-amber-400/40 transition">
+                    <div class="w-10 h-10 rounded-lg bg-amber-400/10 flex items-center justify-center text-amber-400 mb-4 font-bold text-lg">01</div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Investigación</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Generación de nuevo conocimiento en ciencias y humanidades bajo estrictos estándares metodológicos.</p>
+                </div>
 
-        <section id="publicacion-libros">
-            <h2>Publicación de Libros</h2>
-            <p>¿Tienes una historia que contar o un conocimiento que compartir? En el Ateneo, te ayudamos a hacer realidad tu sueño de publicar un libro. Ofrecemos servicios de edición, diseño, maquetación y distribución.</p>
-            <p>Apoyamos a autores emergentes y establecidos en diversos géneros.</p>
-            <a href="#" class="button">Envía tu Manuscrito</a>
-        </section>
+                <div id="centros" class="bg-[#11264d]/60 border border-white/10 p-6 rounded-xl hover:border-amber-400/40 transition">
+                    <div class="w-10 h-10 rounded-lg bg-amber-400/10 flex items-center justify-center text-amber-400 mb-4 font-bold text-lg">02</div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Centros & Educación</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Programas de actualización continua y formación académica orientados al desarrollo integral.</p>
+                </div>
 
-        <section id="revista-ateneo">
-            <h2>Revista del Ateneo</h2>
-            <p>Sumérgete en la reflexión y el debate con nuestra revista cultural. Publicamos artículos, ensayos, reseñas y creaciones literarias que exploran temas de interés cultural, social y artístico.</p>
-            <p>Afíliate para recibir los últimos números y acceso exclusivo a contenido.</p>
-            <a href="#" class="button">Suscríbete a la Revista</a>
-        </section>
+                <div id="editorial" class="bg-[#11264d]/60 border border-white/10 p-6 rounded-xl hover:border-amber-400/40 transition">
+                    <div class="w-10 h-10 rounded-lg bg-amber-400/10 flex items-center justify-center text-amber-400 mb-4 font-bold text-lg">03</div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Editorial</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Publicación y divulgación de obras académicas, ensayos y revistas científicas arbitradas.</p>
+                </div>
+            </div>
 
-        <section id="comunidad-ateneo">
-            <h2>Comunidad Ateneo</h2>
-            <p>Únete a nuestra vibrante comunidad y forma parte de una red de amantes del conocimiento y la cultura. Disfruta de beneficios exclusivos como descuentos en cursos y eventos, participación en clubes de lectura y acceso a foros de discusión.</p>
-            <p>Conecta con mentes afines y enriquece tu experiencia.</p>
-            <a href="#" class="button">Afíliate Ahora</a>
-        </section>
-
-        <section id="contacto">
-            <h2>Contacto</h2>
-            <p>¿Tienes preguntas o necesitas más información? No dudes en contactarnos. Estamos aquí para ayudarte.</p>
-            <p>Email: info@ateneocultural.com</p>
-            <p>Teléfono: +XX XXX XXX XXXX</p>
-            <p>Dirección: Calle del Saber, Edificio Cultura, Ciudad, País</p>
-            <form action="#" method="POST">
-                <p><label for="nombre">Nombre:</label><br>
-                <input type="text" id="nombre" name="nombre" required></p>
-
-                <p><label for="email">Email:</label><br>
-                <input type="email" id="email" name="email" required></p>
-
-                <p><label for="mensaje">Mensaje:</label><br>
-                <textarea id="mensaje" name="mensaje" rows="5" required></textarea></p>
-
-                <button type="submit" class="button">Enviar Mensaje</button>
-            </form>
-        </section>
+        </div>
     </main>
 
-    <footer>
-        <p>&copy; 2023 Ateneo Cultural. Todos los derechos reservados.</p>
+    <!-- Pie de página -->
+    <footer class="border-t border-white/10 py-6 text-center text-xs text-slate-400">
+        <p>&copy; 2026 Ateneo Sapere Aude. Todos los derechos reservados.</p>
     </footer>
 
 </body>
