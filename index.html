@@ -5,27 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ateneo Sapere Aude</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { serif: ['Georgia', 'Cambria', 'Times New Roman', 'serif'] }
+                }
+            }
+        }
+    </script>
 </head>
 <body class="bg-[#0b1d3a] text-white font-sans antialiased min-h-screen flex flex-col justify-between">
 
-    <!-- Navegación -->
+    <!-- ================= NAVEGACIÓN ================= -->
     <header class="border-b border-white/10 bg-[#071326]/80 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <!-- Escudo exacto integrado en SVG -->
-                <svg viewBox="0 0 500 500" class="w-12 h-12" xmlns="http://www.w3.org/2000/svg">
+            <a href="#/inicio" class="flex items-center space-x-3">
+                <!-- Escudo -->
+                <svg viewBox="0 0 500 500" class="w-12 h-12 shrink-0" xmlns="http://www.w3.org/2000/svg">
                     <path id="curve" d="M 110,210 A 150,150 0 0,1 390,210" fill="transparent" />
                     <text font-family="sans-serif" font-weight="bold" font-size="34" fill="#d4af37" letter-spacing="4">
                         <textPath href="#curve" startOffset="50%" text-anchor="middle">GLOBAL ATENEO</textPath>
                     </text>
-                    
-                    <!-- Escudo central -->
+
                     <g transform="translate(135, 130)">
                         <path d="M 115,0 L 230,30 L 230,130 C 230,200 170,250 115,270 C 60,250 0,200 0,130 L 0,30 Z" fill="#0b1d3a" stroke="#d4af37" stroke-width="8"/>
                         <line x1="115" y1="0" x2="115" y2="270" stroke="#d4af37" stroke-width="6"/>
                         <line x1="0" y1="130" x2="230" y2="130" stroke="#d4af37" stroke-width="6"/>
-                        
-                        <!-- Íconos de los cuarteles -->
+
                         <!-- Templo -->
                         <g transform="translate(35, 45) scale(0.7)" fill="none" stroke="#d4af37" stroke-width="4">
                             <path d="M10 40 L50 10 L90 40 Z" />
@@ -38,7 +45,7 @@
                         <!-- Pluma -->
                         <g transform="translate(140, 45) scale(0.6)" fill="#d4af37" stroke="#d4af37" stroke-width="2">
                             <path d="M50,10 C30,30 10,70 10,90 C20,90 40,70 60,50 Z" />
-                            <line x1="10" y1="90" x2="30,70" stroke-width="4" />
+                            <line x1="10" y1="90" x2="30" y2="70" stroke-width="4" />
                         </g>
                         <!-- Átomo -->
                         <g transform="translate(35, 155) scale(0.7)" fill="none" stroke="#d4af37" stroke-width="4">
@@ -55,7 +62,6 @@
                         </g>
                     </g>
 
-                    <!-- Listón Inferior Sapere Aude -->
                     <g transform="translate(60, 415)">
                         <polygon points="10,25 30,5 350,5 370,25 350,45 30,45" fill="#d4af37" stroke="#b38f27" stroke-width="2"/>
                         <polygon points="0,15 10,25 10,45 0,35" fill="#8c6d18"/>
@@ -63,59 +69,399 @@
                         <text x="190" y="32" font-family="serif" font-weight="bold" font-size="22" fill="#0b1d3a" text-anchor="middle" letter-spacing="3">SAPERE AUDE</text>
                     </g>
                 </svg>
-                <span class="text-xl font-serif tracking-wide">Ateneo Sapere Aude</span>
-            </div>
-            
-            <nav class="hidden md:flex space-x-8 text-sm font-medium text-slate-300">
-                <a href="#centros" class="hover:text-amber-400 transition">Centros</a>
-                <a href="#editorial" class="hover:text-amber-400 transition">Editorial</a>
-                <a href="#investigacion" class="hover:text-amber-400 transition">Investigación</a>
+                <span class="text-lg md:text-xl font-serif tracking-wide">Ateneo Sapere Aude</span>
+            </a>
+
+            <!-- Navegación escritorio -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+                <a href="#/inicio" data-nav class="hover:text-amber-400 transition">Inicio</a>
+                <a href="#/centros" data-nav class="hover:text-amber-400 transition">Centros</a>
+                <a href="#/editorial" data-nav class="hover:text-amber-400 transition">Editorial</a>
+                <a href="#/contacto" data-nav class="hover:text-amber-400 transition">Contacto</a>
             </nav>
+
+            <!-- Botón móvil -->
+            <button id="menuBtn" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-white/10 text-slate-300 hover:text-amber-400 transition" aria-label="Abrir menú">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Menú móvil -->
+        <div id="mobileMenu" class="hidden md:hidden border-t border-white/10 px-6 py-4 space-y-3 text-sm font-medium text-slate-300 bg-[#071326]">
+            <a href="#/inicio" data-nav class="block hover:text-amber-400 transition">Inicio</a>
+            <a href="#/centros" data-nav class="block hover:text-amber-400 transition">Centros</a>
+            <a href="#/editorial" data-nav class="block hover:text-amber-400 transition">Editorial</a>
+            <a href="#/contacto" data-nav class="block hover:text-amber-400 transition">Contacto</a>
         </div>
     </header>
 
-    <!-- Contenido Principal / Portada -->
-    <main class="flex-grow flex items-center justify-center px-6 py-12">
-        <div class="max-w-4xl mx-auto text-center space-y-12">
-            
-            <div class="space-y-4">
-                <span class="text-amber-400 uppercase tracking-widest text-xs font-semibold px-3 py-1 bg-amber-400/10 rounded-full border border-amber-400/20">Institución Académica</span>
-                <h1 class="text-4xl md:text-6xl font-serif font-bold text-white tracking-tight">
-                    Ateneo Sapere Aude
-                </h1>
-                <p class="text-slate-300 max-w-2xl mx-auto text-lg leading-relaxed font-light">
-                    Espacio dedicado al rigor intelectual, la investigación científica y humanística, la actualización constante del conocimiento y la difusión editorial.
+    <!-- ================= CONTENIDO ================= -->
+    <main class="flex-grow px-6 py-12">
+
+        <!-- ---------- VISTA: INICIO ---------- -->
+        <section data-view="inicio">
+            <div class="max-w-4xl mx-auto text-center space-y-12">
+                <div class="space-y-4">
+                    <span class="inline-block text-amber-400 uppercase tracking-widest text-xs font-semibold px-3 py-1 bg-amber-400/10 rounded-full border border-amber-400/20"></span>
+                    <h1 class="text-4xl md:text-6xl font-serif font-bold tracking-tight">Ateneo Sapere Aude</h1>
+                    <p class="text-slate-300 max-w-2xl mx-auto text-lg leading-relaxed font-light">
+                        Espacio dedicado al rigor intelectual, la investigación científica y humanística, la actualización constante del conocimiento y la difusión editorial.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6 text-left pt-6">
+                    <a href="#/centros" class="group bg-[#11264d]/60 border border-white/10 p-6 rounded-xl hover:border-amber-400/40 transition">
+                        <div class="w-10 h-10 rounded-lg bg-amber-400/10 flex items-center justify-center text-amber-400 mb-4 font-bold text-lg">01</div>
+                        <h3 class="text-lg font-semibold mb-2">Investigación</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Generación de nuevo conocimiento en ciencias y humanidades bajo estrictos estándares metodológicos.</p>
+                    </a>
+
+                    <a href="#/centros" class="group bg-[#11264d]/60 border border-white/10 p-6 rounded-xl hover:border-amber-400/40 transition">
+                        <div class="w-10 h-10 rounded-lg bg-amber-400/10 flex items-center justify-center text-amber-400 mb-4 font-bold text-lg">02</div>
+                        <h3 class="text-lg font-semibold mb-2">Centros &amp; Educación</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Programas de actualización continua y formación académica orientados al desarrollo integral.</p>
+                    </a>
+
+                    <a href="#/editorial" class="group bg-[#11264d]/60 border border-white/10 p-6 rounded-xl hover:border-amber-400/40 transition">
+                        <div class="w-10 h-10 rounded-lg bg-amber-400/10 flex items-center justify-center text-amber-400 mb-4 font-bold text-lg">03</div>
+                        <h3 class="text-lg font-semibold mb-2">Editorial</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Publicación y divulgación de obras académicas, ensayos y revistas científicas arbitradas.</p>
+                    </a>
+                </div>
+
+                <div class="pt-4">
+                    <a href="#/centros" class="inline-flex items-center gap-2 bg-amber-400 text-[#0b1d3a] font-semibold text-sm px-6 py-3 rounded-lg hover:bg-amber-300 transition">
+                        Conocer nuestros centros
+                        <span aria-hidden="true">→</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ---------- VISTA: CENTROS ---------- -->
+        <section data-view="centros" class="hidden">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12 space-y-3">
+                    <span class="inline-block text-amber-400 uppercase tracking-widest text-xs font-semibold px-3 py-1 bg-amber-400/10 rounded-full border border-amber-400/20">Áreas Académicas</span>
+                    <h1 class="text-3xl md:text-5xl font-serif font-bold">Nuestros Centros</h1>
+                    <p class="text-slate-300 max-w-2xl mx-auto font-light leading-relaxed">
+                        Tres centros de estudio que articulan la formación filosófica, lingüística y humanística del Ateneo.
+                    </p>
+                </div>
+
+                <div class="grid gap-6 md:grid-cols-3">
+
+                    <!-- Centro de Filosofía -->
+                    <a href="#/centros/filosofia" class="group bg-[#11264d]/60 border border-white/10 p-7 rounded-xl hover:border-amber-400/50 transition flex flex-col">
+                        <div class="w-10 h-10 rounded-lg bg-amber-400/10 flex items-center justify-center text-amber-400 mb-5 font-bold text-lg">01</div>
+                        <h2 class="text-xl font-serif font-semibold mb-2">Centro de Filosofía Ateneo</h2>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-5">
+                            Estudio riguroso de los grandes problemas del pensamiento, desde la lógica y la metafísica hasta la reflexión sobre la ciencia y la tecnología.
+                        </p>
+                        <ul class="text-sm text-slate-300 space-y-1.5 mb-6">
+                            <li>· Diplomados en Lógica, Historia de la Filosofía y Metafísica</li>
+                            <li>· Seminarios de Filosofía de la Ciencia, de la Física, de la Tecnología y de la IA</li>
+                        </ul>
+                        <span class="mt-auto text-amber-400 text-sm font-medium inline-flex items-center gap-1 group-hover:gap-2 transition-all">Ver centro <span aria-hidden="true">→</span></span>
+                    </a>
+
+                    <!-- Centro de Idiomas -->
+                    <a href="#/centros/idiomas" class="group bg-[#11264d]/60 border border-white/10 p-7 rounded-xl hover:border-amber-400/50 transition flex flex-col">
+                        <div class="w-10 h-10 rounded-lg bg-amber-400/10 flex items-center justify-center text-amber-400 mb-5 font-bold text-lg">02</div>
+                        <h2 class="text-xl font-serif font-semibold mb-2">Centro de Idiomas Polyglots</h2>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-5">
+                            Formación lingüística con enfoque comunicativo, orientada a la lectura de fuentes, la conversación y la comprensión cultural.
+                        </p>
+                        <ul class="text-sm text-slate-300 space-y-1.5 mb-6">
+                            <li>· Inglés</li>
+                            <li>· Italiano</li>
+                            <li>· Portugués europeo</li>
+                        </ul>
+                        <span class="mt-auto text-amber-400 text-sm font-medium inline-flex items-center gap-1 group-hover:gap-2 transition-all">Ver centro <span aria-hidden="true">→</span></span>
+                    </a>
+
+                    <!-- Centro de Letras -->
+                    <a href="#/centros/letras" class="group bg-[#11264d]/60 border border-white/10 p-7 rounded-xl hover:border-amber-400/50 transition flex flex-col">
+                        <div class="w-10 h-10 rounded-lg bg-amber-400/10 flex items-center justify-center text-amber-400 mb-5 font-bold text-lg">03</div>
+                        <h2 class="text-xl font-serif font-semibold mb-2">Centro de Letras Ateneo</h2>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-5">
+                            Espacio para la palabra escrita: la edición, la investigación histórica y la creación literaria.
+                        </p>
+                        <ul class="text-sm text-slate-300 space-y-1.5 mb-6">
+                            <li>· Editorial</li>
+                            <li>· Diplomados en Historia</li>
+                            <li>· Taller de Escritura Creativa</li>
+                        </ul>
+                        <span class="mt-auto text-amber-400 text-sm font-medium inline-flex items-center gap-1 group-hover:gap-2 transition-all">Ver centro <span aria-hidden="true">→</span></span>
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ---------- VISTA: CENTRO DE FILOSOFÍA ---------- -->
+        <section data-view="filosofia" class="hidden">
+            <div class="max-w-5xl mx-auto">
+                <a href="#/centros" class="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-amber-400 transition mb-8">← Volver a Centros</a>
+
+                <div class="space-y-3 mb-12">
+                    <span class="inline-block text-amber-400 uppercase tracking-widest text-xs font-semibold px-3 py-1 bg-amber-400/10 rounded-full border border-amber-400/20">Centro 01</span>
+                    <h1 class="text-3xl md:text-5xl font-serif font-bold">Centro de Filosofía Ateneo</h1>
+                    <p class="text-slate-300 max-w-3xl font-light leading-relaxed">
+                        Un espacio de lectura, argumentación y discusión dirigido a quienes desean pensar con rigor los problemas fundamentales del ser, del conocimiento y de la ciencia contemporánea.
+                    </p>
+                </div>
+
+                <!-- Diplomados -->
+                <h2 class="text-2xl font-serif font-semibold mb-6 flex items-center gap-3">
+                    <span class="w-8 h-px bg-amber-400/60"></span> Diplomados
+                </h2>
+                <div class="grid md:grid-cols-3 gap-5 mb-14">
+                    <div class="bg-[#11264d]/60 border border-white/10 p-6 rounded-xl hover:border-amber-400/40 transition">
+                        <h3 class="text-lg font-semibold mb-2 text-amber-400">Lógica</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Sistemas formales, inferencia válida, lógica proposicional y de predicados, y sus aplicaciones al razonamiento filosófico y científico.</p>
+                    </div>
+                    <div class="bg-[#11264d]/60 border border-white/10 p-6 rounded-xl hover:border-amber-400/40 transition">
+                        <h3 class="text-lg font-semibold mb-2 text-amber-400">Historia de la Filosofía</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Recorrido por las grandes etapas del pensamiento occidental —Antigüedad, Medievo, Modernidad y Contemporaneidad— con lectura directa de las fuentes.</p>
+                    </div>
+                    <div class="bg-[#11264d]/60 border border-white/10 p-6 rounded-xl hover:border-amber-400/40 transition">
+                        <h3 class="text-lg font-semibold mb-2 text-amber-400">Metafísica</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Los problemas del ser, la sustancia, la causalidad, el tiempo y la posibilidad, desde Aristóteles hasta la ontología contemporánea.</p>
+                    </div>
+                </div>
+
+                <!-- Seminarios -->
+                <h2 class="text-2xl font-serif font-semibold mb-6 flex items-center gap-3">
+                    <span class="w-8 h-px bg-amber-400/60"></span> Seminarios
+                </h2>
+                <div class="grid md:grid-cols-2 gap-5">
+                    <div class="bg-[#11264d]/60 border border-white/10 p-6 rounded-xl hover:border-amber-400/40 transition">
+                        <h3 class="text-lg font-semibold mb-2">Filosofía de la Ciencia</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Método, explicación, causalidad, falsabilidad y estructura de las teorías científicas.</p>
+                    </div>
+                    <div class="bg-[#11264d]/60 border border-white/10 p-6 rounded-xl hover:border-amber-400/40 transition">
+                        <h3 class="text-lg font-semibold mb-2">Filosofía de la Física</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Espacio, tiempo, determinismo e interpretación de la mecánica cuántica y la relatividad.</p>
+                    </div>
+                    <div class="bg-[#11264d]/60 border border-white/10 p-6 rounded-xl hover:border-amber-400/40 transition">
+                        <h3 class="text-lg font-semibold mb-2">Filosofía de la Tecnología</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Técnica, artefactos, determinismo tecnológico y las relaciones entre ciencia, técnica y sociedad.</p>
+                    </div>
+                    <div class="bg-[#11264d]/60 border border-white/10 p-6 rounded-xl hover:border-amber-400/40 transition">
+                        <h3 class="text-lg font-semibold mb-2">Filosofía de la Inteligencia Artificial</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Conciencia, mente, agencia, ética algorítmica y los límites epistémicos de los sistemas inteligentes.</p>
+                    </div>
+                </div>
+
+                <div class="mt-12 text-center">
+                    <a href="#/contacto" class="inline-flex items-center gap-2 bg-amber-400 text-[#0b1d3a] font-semibold text-sm px-6 py-3 rounded-lg hover:bg-amber-300 transition">Solicitar información →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ---------- VISTA: CENTRO DE IDIOMAS ---------- -->
+        <section data-view="idiomas" class="hidden">
+            <div class="max-w-5xl mx-auto">
+                <a href="#/centros" class="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-amber-400 transition mb-8">← Volver a Centros</a>
+
+                <div class="space-y-3 mb-12">
+                    <span class="inline-block text-amber-400 uppercase tracking-widest text-xs font-semibold px-3 py-1 bg-amber-400/10 rounded-full border border-amber-400/20">Centro 02</span>
+                    <h1 class="text-3xl md:text-5xl font-serif font-bold">Centro de Idiomas Polyglots</h1>
+                    <p class="text-slate-300 max-w-3xl font-light leading-relaxed">
+                        Formación lingüística con enfoque comunicativo, pensada tanto para la lectura de fuentes académicas como para la conversación y la comprensión cultural.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-5">
+                    <div class="bg-[#11264d]/60 border border-white/10 p-6 rounded-xl hover:border-amber-400/40 transition">
+                        <h3 class="text-lg font-semibold mb-2 text-amber-400">Inglés</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Comprensión y producción oral y escrita con enfoque comunicativo y preparación para exámenes internacionales.</p>
+                        <p class="text-xs text-slate-500 mt-4 uppercase tracking-widest">Niveles A1 – C1</p>
+                    </div>
+                    <div class="bg-[#11264d]/60 border border-white/10 p-6 rounded-xl hover:border-amber-400/40 transition">
+                        <h3 class="text-lg font-semibold mb-2 text-amber-400">Italiano</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Lengua y cultura italiana: desde la pronunciación y el léxico básico hasta la conversación y la lectura de textos.</p>
+                        <p class="text-xs text-slate-500 mt-4 uppercase tracking-widest">Niveles A1 – B2</p>
+                    </div>
+                    <div class="bg-[#11264d]/60 border border-white/10 p-6 rounded-xl hover:border-amber-400/40 transition">
+                        <h3 class="text-lg font-semibold mb-2 text-amber-400">Portugués europeo</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Variante europea del portugués: fonética, gramática y usos culturales de Portugal.</p>
+                        <p class="text-xs text-slate-500 mt-4 uppercase tracking-widest">Niveles A1 – B2</p>
+                    </div>
+                </div>
+
+                <div class="mt-12 text-center">
+                    <a href="#/contacto" class="inline-flex items-center gap-2 bg-amber-400 text-[#0b1d3a] font-semibold text-sm px-6 py-3 rounded-lg hover:bg-amber-300 transition">Solicitar información →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ---------- VISTA: CENTRO DE LETRAS ---------- -->
+        <section data-view="letras" class="hidden">
+            <div class="max-w-5xl mx-auto">
+                <a href="#/centros" class="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-amber-400 transition mb-8">← Volver a Centros</a>
+
+                <div class="space-y-3 mb-12">
+                    <span class="inline-block text-amber-400 uppercase tracking-widest text-xs font-semibold px-3 py-1 bg-amber-400/10 rounded-full border border-amber-400/20">Centro 03</span>
+                    <h1 class="text-3xl md:text-5xl font-serif font-bold">Centro de Letras Ateneo</h1>
+                    <p class="text-slate-300 max-w-3xl font-light leading-relaxed">
+                        El espacio de la palabra escrita: edición académica, investigación histórica y creación literaria.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-5">
+                    <div class="bg-[#11264d]/60 border border-white/10 p-6 rounded-xl hover:border-amber-400/40 transition flex flex-col">
+                        <h3 class="text-lg font-semibold mb-2 text-amber-400">Editorial</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">Publicación y divulgación de obras académicas, ensayos, revistas científicas arbitradas y traducciones.</p>
+                        <a href="#/editorial" class="mt-auto text-sm text-amber-400 hover:underline">Ver la editorial →</a>
+                    </div>
+                    <div class="bg-[#11264d]/60 border border-white/10 p-6 rounded-xl hover:border-amber-400/40 transition">
+                        <h3 class="text-lg font-semibold mb-2 text-amber-400">Diplomados en Historia</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Historia universal, historia de América y metodología de la investigación histórica con trabajo sobre fuentes.</p>
+                    </div>
+                    <div class="bg-[#11264d]/60 border border-white/10 p-6 rounded-xl hover:border-amber-400/40 transition">
+                        <h3 class="text-lg font-semibold mb-2 text-amber-400">Taller de Escritura Creativa</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Narrativa, ensayo y poesía: técnicas de composición, construcción de estilo y revisión de textos propios.</p>
+                    </div>
+                </div>
+
+                <div class="mt-12 text-center">
+                    <a href="#/contacto" class="inline-flex items-center gap-2 bg-amber-400 text-[#0b1d3a] font-semibold text-sm px-6 py-3 rounded-lg hover:bg-amber-300 transition">Solicitar información →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ---------- VISTA: EDITORIAL ---------- -->
+        <section data-view="editorial" class="hidden">
+            <div class="max-w-3xl mx-auto text-center space-y-6">
+                <span class="inline-block text-amber-400 uppercase tracking-widest text-xs font-semibold px-3 py-1 bg-amber-400/10 rounded-full border border-amber-400/20">Sello Editorial</span>
+                <h1 class="text-3xl md:text-5xl font-serif font-bold">Editorial Ateneo</h1>
+                <p class="text-slate-300 font-light leading-relaxed">
+                    Publicamos obras académicas, ensayos, revistas arbitradas y traducciones que contribuyan a la circulación seria del conocimiento. Cada texto pasa por un proceso de revisión y cuidado editorial.
                 </p>
+                <div class="grid sm:grid-cols-3 gap-4 pt-4 text-left">
+                    <div class="bg-[#11264d]/60 border border-white/10 p-5 rounded-xl">
+                        <h3 class="text-sm font-semibold text-amber-400 mb-1">Libros y ensayos</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Monografías y volúmenes colectivos de filosofía, historia y humanidades.</p>
+                    </div>
+                    <div class="bg-[#11264d]/60 border border-white/10 p-5 rounded-xl">
+                        <h3 class="text-sm font-semibold text-amber-400 mb-1">Revistas arbitradas</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Publicación periódica con evaluación por pares.</p>
+                    </div>
+                    <div class="bg-[#11264d]/60 border border-white/10 p-5 rounded-xl">
+                        <h3 class="text-sm font-semibold text-amber-400 mb-1">Traducciones</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Versiones en español de textos filosóficos y científicos de referencia.</p>
+                    </div>
+                </div>
+                <p class="text-slate-400 text-sm">La Editorial es una iniciativa del <a href="#/centros/letras" class="text-amber-400 hover:underline">Centro de Letras Ateneo</a>.</p>
+                <a href="#/contacto" class="inline-flex items-center gap-2 bg-amber-400 text-[#0b1d3a] font-semibold text-sm px-6 py-3 rounded-lg hover:bg-amber-300 transition">Enviar una propuesta →</a>
             </div>
+        </section>
 
-            <!-- Pilares Académicos -->
-            <div class="grid md:grid-cols-3 gap-6 text-left pt-6">
-                <div id="investigacion" class="bg-[#11264d]/60 border border-white/10 p-6 rounded-xl hover:border-amber-400/40 transition">
-                    <div class="w-10 h-10 rounded-lg bg-amber-400/10 flex items-center justify-center text-amber-400 mb-4 font-bold text-lg">01</div>
-                    <h3 class="text-lg font-semibold text-white mb-2">Investigación</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">Generación de nuevo conocimiento en ciencias y humanidades bajo estrictos estándares metodológicos.</p>
+        <!-- ---------- VISTA: CONTACTO ---------- -->
+        <section data-view="contacto" class="hidden">
+            <div class="max-w-3xl mx-auto text-center space-y-8">
+                <div class="space-y-3">
+                    <span class="inline-block text-amber-400 uppercase tracking-widest text-xs font-semibold px-3 py-1 bg-amber-400/10 rounded-full border border-amber-400/20">Contacto</span>
+                    <h1 class="text-3xl md:text-5xl font-serif font-bold">Hablemos</h1>
+                    <p class="text-slate-300 font-light leading-relaxed">
+                        Escríbenos para inscripciones, programas académicos, propuestas editoriales o cualquier consulta sobre el Ateneo.
+                    </p>
                 </div>
 
-                <div id="centros" class="bg-[#11264d]/60 border border-white/10 p-6 rounded-xl hover:border-amber-400/40 transition">
-                    <div class="w-10 h-10 rounded-lg bg-amber-400/10 flex items-center justify-center text-amber-400 mb-4 font-bold text-lg">02</div>
-                    <h3 class="text-lg font-semibold text-white mb-2">Centros & Educación</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">Programas de actualización continua y formación académica orientados al desarrollo integral.</p>
+                <div class="grid sm:grid-cols-2 gap-5 text-left">
+                    <a href="mailto:ateneosapereaude@gmail.com" class="bg-[#11264d]/60 border border-white/10 p-6 rounded-xl hover:border-amber-400/50 transition">
+                        <div class="w-10 h-10 rounded-lg bg-amber-400/10 flex items-center justify-center text-amber-400 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l9 6 9-6M4 5h16a1 1 0 011 1v12a1 1 0 01-1 1H4a1 1 0 01-1-1V6a1 1 0 011-1z" />
+                            </svg>
+                        </div>
+                        <p class="text-xs uppercase tracking-widest text-amber-400 mb-1">Correo electrónico</p>
+                        <p class="text-white break-all">ateneosapereaude@gmail.com</p>
+                    </a>
+
+                    <a href="https://instagram.com/ateneosapereaude" target="_blank" rel="noopener noreferrer" class="bg-[#11264d]/60 border border-white/10 p-6 rounded-xl hover:border-amber-400/50 transition">
+                        <div class="w-10 h-10 rounded-lg bg-amber-400/10 flex items-center justify-center text-amber-400 mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                <rect x="3" y="3" width="18" height="18" rx="5" />
+                                <circle cx="12" cy="12" r="4" />
+                                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+                            </svg>
+                        </div>
+                        <p class="text-xs uppercase tracking-widest text-amber-400 mb-1">Instagram</p>
+                        <p class="text-white">@ateneosapereaude</p>
+                    </a>
                 </div>
 
-                <div id="editorial" class="bg-[#11264d]/60 border border-white/10 p-6 rounded-xl hover:border-amber-400/40 transition">
-                    <div class="w-10 h-10 rounded-lg bg-amber-400/10 flex items-center justify-center text-amber-400 mb-4 font-bold text-lg">03</div>
-                    <h3 class="text-lg font-semibold text-white mb-2">Editorial</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">Publicación y divulgación de obras académicas, ensayos y revistas científicas arbitradas.</p>
-                </div>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    Al escribir, indícanos el centro y el programa de tu interés (diplomado, seminario o idioma) para orientarte con mayor precisión.
+                </p>
+
+                <a href="mailto:ateneosapereaude@gmail.com?subject=Solicitud%20de%20informaci%C3%B3n%20-%20Ateneo%20Sapere%20Aude" class="inline-flex items-center gap-2 bg-amber-400 text-[#0b1d3a] font-semibold text-sm px-6 py-3 rounded-lg hover:bg-amber-300 transition">
+                    Solicitar información
+                    <span aria-hidden="true">→</span>
+                </a>
             </div>
+        </section>
 
-        </div>
     </main>
 
-    <!-- Pie de página -->
-    <footer class="border-t border-white/10 py-6 text-center text-xs text-slate-400">
-        <p>&copy; 2026 Ateneo Sapere Aude. Todos los derechos reservados.</p>
+    <!-- ================= PIE DE PÁGINA ================= -->
+    <footer class="border-t border-white/10 py-8 text-center text-xs text-slate-400">
+        <div class="max-w-6xl mx-auto px-6 space-y-3">
+            <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-slate-400">
+                <a href="mailto:ateneosapereaude@gmail.com" class="hover:text-amber-400 transition">ateneosapereaude@gmail.com</a>
+                <a href="https://instagram.com/ateneosapereaude" target="_blank" rel="noopener noreferrer" class="hover:text-amber-400 transition">@ateneosapereaude</a>
+            </div>
+            <p>&copy; 2026 Ateneo Sapere Aude. Todos los derechos reservados.</p>
+        </div>
     </footer>
+
+    <!-- ================= ROUTER ================= -->
+    <script>
+        const routes = {
+            '': 'inicio',
+            'inicio': 'inicio',
+            'centros': 'centros',
+            'centros/filosofia': 'filosofia',
+            'centros/idiomas': 'idiomas',
+            'centros/letras': 'letras',
+            'editorial': 'editorial',
+            'contacto': 'contacto'
+        };
+
+        const views = document.querySelectorAll('[data-view]');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        function currentRoute() {
+            return location.hash.replace(/^#\/?/, '').replace(/\/+$/, '');
+        }
+
+        function render() {
+            const route = currentRoute();
+            const view = routes[route] || 'inicio';
+
+            views.forEach(v => v.classList.toggle('hidden', v.dataset.view !== view));
+
+            document.querySelectorAll('[data-nav]').forEach(link => {
+                const target = link.getAttribute('href').replace(/^#\/?/, '');
+                link.classList.toggle('text-amber-400', routes[target] === view);
+            });
+
+            mobileMenu.classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'auto' });
+        }
+
+        document.getElementById('menuBtn').addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        window.addEventListener('hashchange', render);
+        window.addEventListener('DOMContentLoaded', render);
+    </script>
 
 </body>
 </html>
