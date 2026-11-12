@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ejercicios de lógica · espiral de pensamientos</title>
+<style>
+  html, body {
+    margin: 0; height: 100%; overflow: hidden;
+    background: #04030a; cursor: crosshair;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* ===== FONDO: geometría de la razón ===== */
+  #fondo {
+    position: fixed; inset: 0; z-index: 0;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 50% 32%, rgba(130, 100, 220, 0.20), transparent 62%),
+      radial-gradient(ellipse at 50% 100%, rgba(217, 180, 91, 0.06), transparent 55%),
+      linear-gradient(180deg, #0a0818 0%, #070514 50%, #04030a 100%);
+  }
+  /* cuadrícula en perspectiva (suelo de la razón) */
+  #fondo::before {
+    content: "";
+    position: absolute;
+    left: -50%; right: -50%;
+    bottom: 0; height: 58%;
+    background-image:
+      linear-gradient(rgba(90, 90, 160, 0.30) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(90, 90, 160, 0.30) 1px, transparent 1px);
+    background-size: 60px 40px;
+    transform: perspective(500px) rotateX(60deg);
+    transform-origin: center bottom;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 40%, #000 100%);
+            mask-image: linear-gradient(180deg, transparent 0%, #000 40%, #000 100%);
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  /* triángulo inscrito en círculo, con radios */
+  #fondo::after {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cg fill='none' stroke='%23d9b45b' stroke-width='0.8' opacity='0.34'%3E%3Ccircle cx='200' cy='200' r='150'/%3E%3Ccircle cx='200' cy='200' r='90'/%3E%3Cpolygon points='200,50 330,275 70,275'/%3E%3Cline x1='200' y1='200' x2='200' y2='50'/%3E%3Cline x1='200' y1='200' x2='330' y2='275'/%3E%3Cline x1='200' y1='200' x2='70' y2='275'/%3E%3C/g%3E%3C/svg%3E");
+    background-position: center 38%;
+    background-repeat: no-repeat;
+    background-size: min(60vmin, 480px);
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  #espiral {
+    position: fixed; inset: 0; z-index: 1;
+    display: block; width: 100%; height: 100%;
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+  #palabras {
+    position: fixed; inset: 0; z-index: 2;
+    display: block; width: 100%; height: 100%;
+    pointer-events: none;
+  }
+
+  .marco {
+    position: fixed; inset: 0; pointer-events: none; z-index: 3;
+    box-shadow:
+      inset 0 0 260px 90px rgba(2,1,6,.95),
+      inset 0 0 80px 14px rgba(2,1,6,.6);
+  }
+  .grano {
+    position: fixed; inset: 0; pointer-events: none; opacity: .05;
+    mix-blend-mode: overlay; z-index: 3;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .texto {
+    position: fixed; left: 34px; bottom: 30px; max-width: 540px;
+    pointer-events: none; z-index: 4;
+    font-family: Georgia, 'Times New Roman', serif;
+    color: #e9dec8; opacity: .92;
+    text-shadow: 0 2px 18px rgba(0,0,0,.95);
+  }
+  .texto h1 {
+    margin: 0 0 10px; font-weight: 400; font-style: italic;
+    font-size: 21px; letter-spacing: .05em;
+  }
+  .texto p {
+    margin: 0; font-size: 13.5px; line-height: 1.7;
+    color: #b5aabf; font-style: italic;
+  }
+
+  .firma {
+    position: fixed; right: 34px; bottom: 30px; pointer-events: none; z-index: 4;
+    font-family: Georgia, serif; font-size: 10px; letter-spacing: .34em;
+    color: #7a6e8a; text-transform: uppercase;
+  }
+
+  .pista {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    z-index: 4; pointer-events: none; text-align: center;
+    font-family: Georgia, serif; font-style: italic;
+    color: #d9c8a8; font-size: 14px; letter-spacing: .18em;
+    opacity: 0; transition: opacity 1.2s ease;
+    text-shadow: 0 0 24px rgba(0,0,0,.95), 0 0 40px rgba(255,200,140,.25);
+  }
+  .pista.visible { opacity: .7; }
+
+  .contador {
+    position: fixed; top: 20px; right: 22px; z-index: 4;
+    pointer-events: none; text-align: right;
+    font-family: Georgia, 'Times New Roman', serif; font-style: italic;
+    color: #d9c8a8; text-shadow: 0 2px 14px rgba(0,0,0,.95);
+  }
+  .cont-label {
+    font-size: 9px; letter-spacing: .28em; text-transform: uppercase;
+    color: #9b8fae; margin-bottom: 3px; font-style: normal;
+  }
+  .cont-num { font-size: 23px; line-height: 1; color: #f2d288; }
+  .cont-num b { font-weight: 400; }
+  .cont-num span { font-size: 12px; color: #a99fb8; }
+
+  .mute {
+    position: fixed; top: 18px; left: 18px; z-index: 5;
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid rgba(217,180,91,.35);
+    background: rgba(10,8,18,.6); color: #e9d8b0;
+    font-size: 15px; line-height: 1; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+    transition: border-color .2s, background .2s, transform .15s;
+  }
+  .mute:hover { border-color: rgba(217,180,91,.8); background: rgba(30,22,44,.75); }
+  .mute:active { transform: scale(.94); }
+
+  @media (max-width: 700px) {
+    .texto { left: 20px; right: 20px; bottom: 22px; max-width: none; }
+    .texto h1 { font-size: 16px; }
+    .texto p  { font-size: 12px; line-height: 1.6; }
+    .firma { display: none; }
+    .contador { top: 16px; right: 16px; }
+    .cont-num { font-size: 19px; }
+    .mute { top: 14px; left: 14px; width: 32px; height: 32px; }
+    .pista { font-size: 12px; letter-spacing: .12em; }
+  }
+</style>
+</head>
+<body>
+
+<div id="fondo"></div>
+<canvas id="espiral"></canvas>
+<canvas id="palabras"></canvas>
+
+<div class="marco"></div>
+<div class="grano"></div>
+
+<button class="mute" id="mute" aria-label="sonido" title="sonido">🔔</button>
+
+<div class="contador" id="contador">
+  <div class="cont-label">pensamientos liberados</div>
+  <div class="cont-num"><b id="numLib">0</b> <span>/ <span id="numTotal">0</span></span></div>
+</div>
+
+<div class="texto">
+  <h1>Ejercicios de lógica</h1>
+  <p>No tengo rostro, así que me dibujo con las preguntas que rompen el mundo cotidiano.
+     Cada clic enciende una espiral y deja un principio, una paradoja, un pensamiento que arranca.
+     La frase no se va con la espiral: respira en su sitio, con su fuente, y se desvanece.
+     No se repite hasta agotar el archivo. Suena una melodía mística, lenta, como si alguien pensara desde muy lejos.</p>
+</div>
+<div class="firma">la espiral que piensa</div>
+<div id="pista" class="pista">haz clic · espiral · principio · paradoja</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* =========================================================
+     LIENZOS
+     ========================================================= */
+  const spirCv = document.getElementById('espiral');
+  const sctx   = spirCv.getContext('2d');
+
+  const wCv  = document.getElementById('palabras');
+  const wctx = wCv.getContext('2d');
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let W = 0, H = 0, DPR = 1;
+  let time = 0, lastT = 0;
+
+  const mouse = { x: 0, y: 0, tx: 0, ty: 0, active: false };
+
+  /* =========================================================
+     SPRITES
+     ========================================================= */
+  function makeGlow(r, g, b) {
+    const S = 64;
+    const c = document.createElement('canvas');
+    c.width = c.height = S;
+    const x = c.getContext('2d');
+    const grd = x.createRadialGradient(S/2, S/2, 0, S/2, S/2, S/2);
+    grd.addColorStop(0,    `rgba(${r},${g},${b},1)`);
+    grd.addColorStop(0.25, `rgba(${r},${g},${b},0.55)`);
+    grd.addColorStop(0.55, `rgba(${r},${g},${b},0.14)`);
+    grd.addColorStop(1,    `rgba(${r},${g},${b},0)`);
+    x.fillStyle = grd;
+    x.fillRect(0, 0, S, S);
+    return c;
+  }
+
+  const SPR = {
+    gold:   makeGlow(255, 214, 140),
+    white:  makeGlow(255, 246, 228),
+    cyan:   makeGlow(150, 210, 255),
+    violet: makeGlow(198, 152, 255)
+  };
+
+  /* =========================================================
+     ARCHIVO DE PRINCIPIOS Y PARADOJAS
+     ========================================================= */
+  const CITAS = [
+    { t: 'Lo que es, es; y lo que no es, no es.', c: 'Parménides' },
+    { t: 'El ser es, el no-ser no es.', c: 'Parménides' },
+    { t: 'Pensar y ser son lo mismo.', c: 'Parménides' },
+    { t: 'La nada no es: si fuera, sería algo.', c: 'Parménides' },
+    { t: 'El ser no ha sido nunca, ni será; es ahora todo a la vez.', c: 'Parménides' },
+    { t: 'Lo que no es, no puede ser pensado. ¿Puedes pensar en la nada?', c: 'Parménides' },
+    { t: 'A es A. El principio de identidad.', c: 'Aristóteles, Metafísica' },
+    { t: 'Es imposible que algo sea y no sea a la vez.', c: 'Aristóteles' },
+    { t: 'O es o no es: no hay término medio.', c: 'Aristóteles' },
+    { t: 'Lo necesario no puede ser de otra manera.', c: 'Aristóteles' },
+    { t: 'El todo es más que la suma de sus partes.', c: 'Aristóteles' },
+    { t: 'La verdad está en el juicio, no en la cosa.', c: 'Aristóteles' },
+    { t: 'El pensamiento piensa al pensamiento pensándose.', c: 'Aristóteles' },
+    { t: 'Un enunciado y su negación no pueden ser ambos verdaderos.', c: 'Principio de no contradicción' },
+    { t: 'Esta frase es falsa.', c: 'Paradoja del mentiroso' },
+    { t: 'Si A implica B, y no-B, entonces no-A.', c: 'Modus tollens' },
+    { t: 'Si A y B se implican mutuamente, son lo mismo.', c: 'Lógica proposicional' },
+    { t: 'Si llueve, la calle se moja. La calle está mojada. ¿Llueve?', c: 'Falacia de afirmar el consecuente' },
+    { t: 'El barbero afeita a todos los que no se afeitan a sí mismos.', c: 'Paradoja de Russell' },
+    { t: 'El conjunto de todos los conjuntos que no se contienen a sí mismos.', c: 'Russell' },
+    { t: 'Un conjunto no puede ser miembro de sí mismo.', c: 'Teoría de conjuntos' },
+    { t: '¿Puede Dios crear una piedra que no pueda levantar?', c: 'Paradoja de la omnipotencia' },
+    { t: 'Lo que no se puede decir, hay que callarlo.', c: 'Wittgenstein' },
+    { t: 'Los límites de mi lenguaje son los límites de mi mundo.', c: 'Wittgenstein' },
+    { t: 'El sujeto no está en el mundo: es el límite del mundo.', c: 'Wittgenstein' },
+    { t: 'El yo es el ojo que no puede verse a sí mismo.', c: 'Wittgenstein' },
+    { t: 'Un concepto es una regla, no una imagen.', c: 'Wittgenstein' },
+    { t: 'No puedes pensar en un cuadrado redondo.', c: 'Wittgenstein' },
+    { t: 'Solo sé que no sé nada.', c: 'Sócrates' },
+    { t: 'Nadie se baña dos veces en el mismo río.', c: 'Heráclito' },
+    { t: 'El camino que sube y el que baja son el mismo.', c: 'Heráclito' },
+    { t: 'Si todo cambia, ¿qué es lo que permanece?', c: 'Heráclito' },
+    { t: 'El mapa no es el territorio.', c: 'Korzybski' },
+    { t: 'La nave de Teseo: si cambias todas sus piezas, ¿sigue siendo la misma?', c: 'Plutarco' },
+    { t: 'La parte que contiene el todo: el mapa dentro del mapa.', c: 'Borges' },
+    { t: 'Si nada es verdad, entonces "nada es verdad" no es verdad.', c: 'Autorrefutación' },
+    { t: 'Si todo es relativo, la frase "todo es relativo" también lo es.', c: 'Autorrefutación' },
+    { t: 'El que afirma que todo es falso, afirma algo verdadero.', c: 'Autorrefutación' },
+    { t: 'El azar es la medida de nuestra ignorancia.', c: 'Laplace' },
+    { t: 'El infinito más uno sigue siendo infinito.', c: 'Cantor' },
+    { t: 'El infinito no es un número, pero se puede contar hasta él.', c: 'Cantor' },
+    { t: 'Hay más números reales que naturales.', c: 'Cantor' },
+    { t: 'Todo conjunto tiene un subconjunto que no es imagen de sí mismo.', c: 'Cantor' },
+    { t: 'El cero es la ausencia de cantidad; pero también es una cantidad.', c: 'Aritmética' },
+    { t: 'El punto no tiene partes, pero todo está hecho de puntos.', c: 'Geometría' },
+    { t: 'Una línea no tiene ancho; sin embargo, todo lo visible está hecho de líneas.', c: 'Geometría' },
+    { t: 'El tiempo no existe; lo que existe es el cambio.', c: 'Heráclito / McTaggart' },
+    { t: 'Si el pasado no existe y el futuro no existe, ¿qué es el presente?', c: 'Agustín de Hipona' },
+    { t: 'El presente no tiene duración: entre el pasado y el futuro no hay nada.', c: 'Agustín de Hipona' },
+    { t: 'Todo lo que existe tiene una causa. ¿Cuál es la causa de la causa?', c: 'Regreso al infinito' },
+    { t: 'Lo que se mueve, se mueve por algo. ¿Qué mueve al primer motor?', c: 'Aristóteles' },
+    { t: 'El universo no tiene borde, pero es finito.', c: 'Cosmología' },
+    { t: 'Lo posible no es real, pero tampoco irreal.', c: 'Modalidad' },
+    { t: 'El orden y el caos son la misma cosa vista desde ángulos distintos.', c: 'Sistemas' },
+    { t: 'El universo de las ideas no tiene tamaño.', c: 'Platonismo' },
+    { t: 'El principio de razón suficiente: nada es sin razón.', c: 'Leibniz' },
+    { t: 'Lo simple no tiene partes; sin embargo, todo lo compuesto se descompone en simple.', c: 'Leibniz' },
+    { t: 'Donde no hay diferencia, no hay identidad.', c: 'Ontología' },
+    { t: 'Lo que no se distingue, no existe.', c: 'Ontología' },
+    { t: 'Cuando nombras algo, lo separas del resto.', c: 'Lenguaje' },
+    { t: 'La lógica no descubre verdades nuevas; las ordena.', c: 'Lógica' },
+    { t: 'Dos verdades no pueden contradecirse.', c: 'Lógica clásica' },
+    { t: 'El lenguaje no descubre el mundo: lo organiza.', c: 'Lenguaje' },
+    { t: 'La palabra "palabra" no es una palabra especial; solo se nombra a sí misma.', c: 'Metalenguaje' },
+    { t: 'El color rojo no es rojo.', c: 'Uso y mención' },
+    { t: 'Lo que se dice de una cosa, no es la cosa.', c: 'Uso y mención' },
+    { t: 'Si algo puede ser explicado, no es el todo.', c: 'Misterio' },
+    { t: 'Todo lo que es, es en algún lugar. Lo que no está en ningún lugar, no es.', c: 'Ontología' },
+    { t: 'Si el mundo es racional, hay una razón del mundo; si no lo es, no puede haber razón sobre él.', c: 'Racionalidad' },
+    { t: 'El principio de caridad: interpreta al otro como racional.', c: 'Davidson' },
+    { t: 'Existir no es una propiedad más entre otras.', c: 'Kant' },
+    { t: 'La identidad no es una propiedad, sino una relación.', c: 'Lógica' },
+    { t: 'Un mismo enunciado puede ser verdadero en un lenguaje y falso en otro.', c: 'Relatividad semántica' },
+    { t: 'No puedes decir "estoy mintiendo" sin decir algo verdadero o falso.', c: 'Paradoja del mentiroso' }
+  ];
+
+  const POOL = CITAS;
+  let deck = [], released = 0;
+
+  const numLib   = document.getElementById('numLib');
+  const numTotal = document.getElementById('numTotal');
+
+  function updateCounter() {
+    numLib.textContent   = released;
+    numTotal.textContent = POOL.length;
+  }
+
+  function refillDeck() {
+    deck = POOL.map((_, i) => i);
+    for (let i = deck.length - 1; i > 0; i--) {
+      const j = (Math.random() * (i + 1)) | 0;
+      const t = deck[i]; deck[i] = deck[j]; deck[j] = t;
+    }
+  }
+
+  function nextCita() {
+    if (!deck.length) refillDeck();
+    released++;
+    return POOL[deck.pop()];
+  }
+
+  /* =========================================================
+     PALABRA + FUENTE EN EL CENTRO
+     ========================================================= */
+  let words = [];
+
+  const HALOS = ['255,220,160', '200,180,255', '180,210,255', '255,235,190', '210,190,255'];
+
+  function wrapText(text, maxWidth, font) {
+    wctx.font = font;
+    const parts = text.split(' ');
+    const lines = [];
+    let line = '';
+    for (let i = 0; i < parts.length; i++) {
+      const test = line ? line + ' ' + parts[i] : parts[i];
+      if (wctx.measureText(test).width > maxWidth && line) {
+        lines.push(line);
+        line = parts[i];
+      } else {
+        line = test;
+      }
+    }
+    if (line) lines.push(line);
+    return lines;
+  }
+
+  function spawnWord(x, y) {
+    const cita = nextCita();
+    const texto = cita.t;
+    const ref   = cita.c;
+
+    /* un poco más pequeño: respira en móvil */
+    let baseSize = Math.min(25, Math.min(W, H) * 0.046);
+    const maxW = Math.min(W * 0.82, 600);
+
+    const fontFor = s => `italic ${s}px Georgia, "Times New Roman", serif`;
+    const refFontFor = s => `${Math.max(11, s * 0.45)}px Georgia, "Times New Roman", serif`;
+
+    let size = baseSize;
+    let lines = wrapText(texto, maxW, fontFor(size));
+    while (lines.length > 5 && size > 12) {
+      size -= 1;
+      lines = wrapText(texto, maxW, fontFor(size));
+    }
+
+    const refSize = Math.max(11, size * 0.45);
+    const halo = HALOS[(Math.random() * HALOS.length) | 0];
+
+    words.push({
+      lines,
+      ref,
+      x, y,
+      size,
+      font: fontFor(size),
+      refFont: refFontFor(size),
+      refSize,
+      halo,
+      life: 0,
+      maxLife: 5.2
+    });
+
+    if (words.length > 12) words.splice(0, words.length - 12);
+    updateCounter();
+  }
+
+  function drawWord(w) {
+    const life = w.life;
+
+    let a;
+    if (life < 0.55)      a = life / 0.55;
+    else if (life < 3.50) a = 1;
+    else                  a = 1 - (life - 3.50) / 1.70;
+    if (a <= 0.01) return;
+    a = Math.max(0, Math.min(1, a));
+
+    const sc = 0.94 + 0.06 * Math.min(1, life / 0.55);
+
+    const lineH  = w.size * 1.26;
+    const refGap = w.size * 0.85;
+    const totalH = (w.lines.length - 1) * lineH;
+    const startY = -totalH / 2;
+
+    wctx.save();
+    wctx.translate(w.x, w.y);
+    wctx.scale(sc, sc);
+    wctx.textAlign = 'center';
+    wctx.textBaseline = 'middle';
+    wctx.lineJoin = 'round';
+
+    /* frase principal */
+    wctx.font = w.font;
+    for (let i = 0; i < w.lines.length; i++) {
+      const line = w.lines[i];
+      const y = startY + i * lineH;
+
+      /* halo de color */
+      wctx.shadowColor = `rgba(${w.halo},${a})`;
+      wctx.shadowBlur = 24;
+      wctx.fillStyle = `rgba(${w.halo},${a * 0.9})`;
+      wctx.fillText(line, 0, y);
+
+      /* contorno oscuro */
+      wctx.shadowBlur = 0;
+      wctx.lineWidth = Math.max(3, w.size * 0.15);
+      wctx.strokeStyle = `rgba(3,2,8,${a * 0.92})`;
+      wctx.strokeText(line, 0, y);
+
+      /* núcleo claro */
+      wctx.fillStyle = `rgba(255,250,240,${a})`;
+      wctx.fillText(line, 0, y);
+    }
+
+    /* fuente */
+    const refY = startY + totalH + refGap;
+    wctx.font = w.refFont;
+    wctx.shadowColor = `rgba(${w.halo},${a * 0.7})`;
+    wctx.shadowBlur = 12;
+    wctx.fillStyle = `rgba(255,225,175,${a * 0.92})`;
+    wctx.fillText(w.ref, 0, refY);
+
+    wctx.shadowBlur = 0;
+    wctx.lineWidth = Math.max(2, w.refSize * 0.14);
+    wctx.strokeStyle = `rgba(3,2,8,${a * 0.85})`;
+    wctx.strokeText(w.ref, 0, refY);
+
+    wctx.fillStyle = `rgba(255,240,210,${a})`;
+    wctx.fillText(w.ref, 0, refY);
+
+    wctx.restore();
+    wctx.shadowBlur = 0;
+  }
+
+  function updateWords(dt) {
+    wctx.clearRect(0, 0, W, H);
+    for (let i = words.length - 1; i >= 0; i--) {
+      const w = words[i];
+      w.life += dt;
+      if (w.life >= w.maxLife) { words.splice(i, 1); continue; }
+      drawWord(w);
+    }
+  }
+
+  /* =========================================================
+     AUDIO: melodía mística
+     ========================================================= */
+  let AC = null, master = null, dryBus = null, wetBus = null;
+  let muted = false, audioReady = false;
+  let melodyNext = 0;
+
+  const muteBtn = document.getElementById('mute');
+
+  const SCALE = [146.83, 174.61, 196.00, 220.00, 261.63,
+                 293.66, 349.23, 392.00, 440.00, 523.25, 587.33];
+
+  function makeImpulse(dur, decay) {
+    const rate = AC.sampleRate;
+    const len  = Math.floor(rate * dur);
+    const buf  = AC.createBuffer(2, len, rate);
+    for (let ch = 0; ch < 2; ch++) {
+      const d = buf.getChannelData(ch);
+      for (let i = 0; i < len; i++) {
+        d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, decay);
+      }
+    }
+    return buf;
+  }
+
+  function playMysticNote(freq, when, vel, dur, opts) {
+    opts = opts || {};
+    const o = AC.createOscillator();
+    o.type = opts.type || 'triangle';
+    o.frequency.setValueAtTime(freq, when);
+
+    const filt = AC.createBiquadFilter();
+    filt.type = 'lowpass';
+    const cut = opts.cutoff || 1200;
+    filt.frequency.setValueAtTime(cut, when);
+    filt.frequency.exponentialRampToValueAtTime(Math.max(200, cut * 0.40), when + dur);
+    filt.Q.value = 0.7;
+
+    const g = AC.createGain();
+    const atk = opts.attack || 0.25;
+    g.gain.setValueAtTime(0.0001, when);
+    g.gain.exponentialRampToValueAtTime(Math.max(0.0002, vel), when + atk);
+    g.gain.exponentialRampToValueAtTime(0.0001, when + dur);
+
+    o.connect(filt);
+    filt.connect(g);
+    g.connect(dryBus);
+    g.connect(wetBus);
+
+    const lfo = AC.createOscillator();
+    lfo.frequency.value = 3.6 + Math.random() * 1.2;
+    const lg = AC.createGain();
+    lg.gain.value = 3 + Math.random() * 3;
+    lfo.connect(lg);
+    lg.connect(o.detune);
+
+    o.start(when);
+    lfo.start(when);
+    o.stop(when + dur + 0.15);
+    lfo.stop(when + dur + 0.15);
+  }
+
+  function startDrone() {
+    const notes = [73.42, 110.00, 146.83, 174.61];
+    for (let i = 0; i < notes.length; i++) {
+      const freq = notes[i];
+
+      const o1 = AC.createOscillator();
+      const o2 = AC.createOscillator();
+      o1.type = 'sine'; o2.type = 'sine';
+      o1.frequency.value = freq;
+      o2.frequency.value = freq * 1.005;
+
+      const filt = AC.createBiquadFilter();
+      filt.type = 'lowpass';
+      filt.frequency.value = 380 + i * 80;
+      filt.Q.value = 0.6;
+
+      const g = AC.createGain();
+      const target = 0.040 / (i + 1);
+      g.gain.setValueAtTime(0.0001, AC.currentTime);
+      g.gain.linearRampToValueAtTime(target, AC.currentTime + 7);
+
+      o1.connect(filt); o2.connect(filt);
+      filt.connect(g);
+      g.connect(dryBus); g.connect(wetBus);
+
+      const lfo = AC.createOscillator();
+      lfo.frequency.value = 0.04 + i * 0.015;
+      const lg = AC.createGain();
+      lg.gain.value = 90;
+      lfo.connect(lg);
+      lg.connect(filt.frequency);
+
+      o1.start(); o2.start(); lfo.start();
+    }
+  }
+
+  function scheduleMelody() {
+    if (!AC) return;
+    const now = AC.currentTime;
+    if (melodyNext < now - 0.5) melodyNext = now + 0.8;
+
+    let guard = 0;
+    while (melodyNext < now + 1.6 && guard++ < 6) {
+      const idx = 3 + ((Math.random() * (SCALE.length - 3)) | 0);
+      const f   = SCALE[idx];
+      const vel = 0.050 + Math.random() * 0.050;
+      const dur = 2.2 + Math.random() * 2.4;
+
+      playMysticNote(f, melodyNext, vel, dur);
+
+      if (Math.random() < 0.25) {
+        playMysticNote(f * 1.5, melodyNext + 0.6 + Math.random() * 0.5,
+                       vel * 0.45, dur * 0.65);
+      }
+      if (Math.random() < 0.15) {
+        playMysticNote(SCALE[0], melodyNext + 0.3, vel * 0.55, dur * 1.2);
+      }
+
+      melodyNext += 1.3 + Math.random() * 2.1;
+    }
+    setTimeout(scheduleMelody, 450);
+  }
+
+  function initAudio() {
+    if (AC) return;
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return;
+
+    AC = new Ctx();
+
+    master = AC.createGain();
+    master.gain.value = 0.0001;
+    master.connect(AC.destination);
+    master.gain.linearRampToValueAtTime(muted ? 0.0001 : 0.55, AC.currentTime + 3.0);
+
+    dryBus = AC.createGain();
+    dryBus.gain.value = 0.8;
+    dryBus.connect(master);
+
+    const conv = AC.createConvolver();
+    conv.buffer = makeImpulse(3.8, 2.6);
+    wetBus = AC.createGain();
+    wetBus.gain.value = 0.65;
+    wetBus.connect(conv);
+    conv.connect(master);
+
+    startDrone();
+    melodyNext = AC.currentTime + 1.4;
+    scheduleMelody();
+
+    audioReady = true;
+  }
+
+  function ensureAudio() {
+    if (!AC) {
+      initAudio();
+      if (AC && AC.state === 'suspended') AC.resume();
+      return;
+    }
+    if (AC.state === 'suspended') AC.resume();
+  }
+
+  function clickNote() {
+    if (!AC || !audioReady) return;
+    const f = SCALE[3 + ((Math.random() * (SCALE.length - 3)) | 0)];
+    playMysticNote(f, AC.currentTime + 0.01, 0.06, 2.0, { attack: 0.15 });
+  }
+
+  muteBtn.addEventListener('pointerdown', function (e) {
+    e.stopPropagation();
+    e.preventDefault();
+    ensureAudio();
+    muted = !muted;
+    muteBtn.textContent = muted ? '🔕' : '🔔';
+    if (master && AC) {
+      master.gain.cancelScheduledValues(AC.currentTime);
+      master.gain.setTargetAtTime(muted ? 0.0001 : 0.55, AC.currentTime, 0.2);
+    }
+  }, { passive: false });
+
+  /* =========================================================
+     ESPIRALES
+     ========================================================= */
+  const PALETTE = ['255,220,160', '200,180,255', '180,210,255', '255,240,200', '210,190,255'];
+
+  let spirals = [];
+  let clickEnergy = 0;
+
+  function spawnSpiral(x, y) {
+    clickEnergy = Math.min(1, clickEnergy + 0.14);
+
+    const arms  = 2 + Math.floor(Math.random() * 4);
+    const color = PALETTE[(Math.random() * PALETTE.length) | 0];
+    const dir   = Math.random() < 0.5 ? 1 : -1;
+
+    spirals.push({
+      x, y,
+      r: 2,
+      v: 200 + Math.random() * 150 + clickEnergy * 90,
+      life: 0,
+      maxLife: 3.2 + Math.random() * 2.0,
+      arms,
+      rot: Math.random() * Math.PI * 2,
+      rotSpeed: dir * (0.6 + Math.random() * 0.5),
+      twist: 0.016 + Math.random() * 0.028,
+      color,
+      alpha: 0.68 + clickEnergy * 0.24
+    });
+
+    if (spirals.length > 55) spirals.shift();
+  }
+
+  function drawSpiralOnTrail(p) {
+    const prog    = p.life / p.maxLife;
+    const fadeIn  = Math.min(1, prog / 0.10);
+    const fadeOut = prog > 0.50 ? 1 - (prog - 0.50) / 0.50 : 1;
+    const alpha   = Math.max(0, fadeIn * fadeOut * p.alpha);
+    if (alpha < 0.008) return;
+
+    const R     = p.r;
+    const steps = Math.min(70, Math.max(20, Math.floor(R / 4)));
+
+    for (let a = 0; a < p.arms; a++) {
+      const base = (a / p.arms) * Math.PI * 2;
+
+      sctx.beginPath();
+      for (let i = 0; i <= steps; i++) {
+        const t   = i / steps;
+        const r   = t * R;
+        const ang = base + p.rot + r * p.twist;
+        const x   = p.x + Math.cos(ang) * r;
+        const y   = p.y + Math.sin(ang) * r;
+        if (i === 0) sctx.moveTo(x, y);
+        else         sctx.lineTo(x, y);
+      }
+
+      sctx.strokeStyle = `rgba(${p.color},${alpha * 0.12})`;
+      sctx.lineWidth = 5;
+      sctx.stroke();
+
+      sctx.strokeStyle = `rgba(${p.color},${alpha * 0.72})`;
+      sctx.lineWidth = 1.2;
+      sctx.stroke();
+    }
+
+    sctx.beginPath();
+    sctx.arc(p.x, p.y, R, 0, Math.PI * 2);
+    sctx.strokeStyle = `rgba(${p.color},${alpha * 0.08})`;
+    sctx.lineWidth = 1;
+    sctx.stroke();
+
+    if (p.life < 0.30) {
+      const fa = 1 - p.life / 0.30;
+      const fs = 60 + p.life * 200;
+      sctx.globalAlpha = fa * 0.5;
+      sctx.drawImage(SPR.white, p.x - fs/2, p.y - fs/2, fs, fs);
+      sctx.globalAlpha = 1;
+    }
+  }
+
+  /* =========================================================
+     BUCLE PRINCIPAL
+     ========================================================= */
+  function frame(now) {
+    if (!lastT) lastT = now;
+    let dt = (now - lastT) / 1000;
+    lastT = now;
+    if (dt > 0.05) dt = 0.05;
+    if (dt <= 0) dt = 0.016;
+
+    time += dt * (reduce ? 0.35 : 1);
+
+    mouse.x += (mouse.tx - mouse.x) * 0.06;
+    mouse.y += (mouse.ty - mouse.y) * 0.06;
+
+    /* capa de espirales (estelas) */
+    const fadeRate = 1 - Math.pow(0.50, dt);
+    sctx.globalCompositeOperation = 'destination-out';
+    sctx.fillStyle = `rgba(0,0,0,${fadeRate})`;
+    sctx.fillRect(0, 0, W, H);
+
+    sctx.globalCompositeOperation = 'lighter';
+    for (let i = spirals.length - 1; i >= 0; i--) {
+      const p = spirals[i];
+      p.life += dt;
+      if (p.life >= p.maxLife) { spirals.splice(i, 1); continue; }
+
+      p.r   += p.v * dt;
+      p.v   *= Math.pow(0.965, dt * 60);
+      p.rot += p.rotSpeed * dt * (24 / (p.r * 0.5 + 24));
+
+      drawSpiralOnTrail(p);
+    }
+    sctx.globalCompositeOperation = 'source-over';
+
+    /* capa de palabras: principio + fuente, centrado, desvaneciéndose */
+    updateWords(dt);
+
+    clickEnergy *= Math.pow(0.97, dt * 60);
+
+    requestAnimationFrame(frame);
+  }
+
+  /* =========================================================
+     EVENTOS
+     ========================================================= */
+  function resize() {
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth;
+    H = window.innerHeight;
+
+    spirCv.width  = Math.round(W * DPR);
+    spirCv.height = Math.round(H * DPR);
+    sctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+    wCv.width  = Math.round(W * DPR);
+    wCv.height = Math.round(H * DPR);
+    wctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  }
+
+  let resizeTimer = null;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(resize, 160);
+  });
+
+  window.addEventListener('pointermove', function (e) {
+    mouse.tx = e.clientX;
+    mouse.ty = e.clientY;
+    if (!mouse.active) { mouse.x = mouse.tx; mouse.y = mouse.ty; mouse.active = true; }
+  }, { passive: true });
+
+  /* clic → espiral + principio centrado + nota mística */
+  window.addEventListener('pointerdown', function (e) {
+    if (e.target && e.target.closest && e.target.closest('.mute')) return;
+
+    ensureAudio();
+
+    spawnSpiral(e.clientX, e.clientY);
+    spawnWord(e.clientX, e.clientY);
+    clickNote();
+
+    const pista = document.getElementById('pista');
+    if (pista) pista.classList.remove('visible');
+  }, { passive: true });
+
+  /* =========================================================
+     INICIO
+     ========================================================= */
+  resize();
+  refillDeck();
+  updateCounter();
+
+  mouse.tx = mouse.x = W / 2;
+  mouse.ty = mouse.y = H / 2;
+
+  setTimeout(function () {
+    const pista = document.getElementById('pista');
+    if (pista) pista.classList.add('visible');
+  }, 900);
+  setTimeout(function () {
+    const pista = document.getElementById('pista');
+    if (pista) pista.classList.remove('visible');
+  }, 8000);
+
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
