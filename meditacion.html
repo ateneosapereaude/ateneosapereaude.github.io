@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Palabras del Nuevo Testamento · espiral de citas</title>
+<style>
+  html, body {
+    margin: 0; height: 100%; overflow: hidden;
+    background: #04030a; cursor: crosshair;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* fondo: Santísimo Sacramento (imagen de dominio público) */
+  #fondo {
+    position: fixed; inset: 0; z-index: 0;
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/2/2e/Eucharistic_Adoration.jpg");
+    background-size: cover;
+    background-position: center 35%;
+    filter: brightness(0.28) saturate(0.7) blur(0.6px);
+    transform: scale(1.06);
+  }
+  /* velo dorado sobre el fondo */
+  #fondo::after {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 38%, rgba(255, 228, 170, 0.16), transparent 62%),
+      radial-gradient(ellipse at 50% 80%, rgba(0, 0, 0, 0.55), transparent 70%),
+      linear-gradient(180deg, rgba(2,1,8,0.35) 0%, rgba(2,1,8,0.10) 45%, rgba(2,1,8,0.55) 100%);
+  }
+
+  #lienzo {
+    position: fixed; inset: 0; z-index: 1;
+    display: block; width: 100%; height: 100%;
+    pointer-events: none;
+  }
+  #espiral {
+    position: fixed; inset: 0; z-index: 2;
+    display: block; width: 100%; height: 100%;
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+  #palabras {
+    position: fixed; inset: 0; z-index: 3;
+    display: block; width: 100%; height: 100%;
+    pointer-events: none;
+  }
+
+  .marco {
+    position: fixed; inset: 0; pointer-events: none; z-index: 4;
+    box-shadow:
+      inset 0 0 260px 90px rgba(2,1,6,.95),
+      inset 0 0 80px 14px rgba(2,1,6,.6);
+  }
+  .grano {
+    position: fixed; inset: 0; pointer-events: none; opacity: .05;
+    mix-blend-mode: overlay; z-index: 4;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .texto {
+    position: fixed; left: 34px; bottom: 30px; max-width: 540px;
+    pointer-events: none; z-index: 5;
+    font-family: Georgia, 'Times New Roman', serif;
+    color: #e9dec8; opacity: .92;
+    text-shadow: 0 2px 18px rgba(0,0,0,.95);
+  }
+  .texto h1 {
+    margin: 0 0 10px; font-weight: 400; font-style: italic;
+    font-size: 21px; letter-spacing: .05em;
+  }
+  .texto p {
+    margin: 0; font-size: 13.5px; line-height: 1.7;
+    color: #b5aabf; font-style: italic;
+  }
+
+  .firma {
+    position: fixed; right: 34px; bottom: 30px; pointer-events: none; z-index: 5;
+    font-family: Georgia, serif; font-size: 10px; letter-spacing: .34em;
+    color: #7a6e8a; text-transform: uppercase;
+  }
+
+  .pista {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    z-index: 5; pointer-events: none; text-align: center;
+    font-family: Georgia, serif; font-style: italic;
+    color: #d9c8a8; font-size: 14px; letter-spacing: .18em;
+    opacity: 0; transition: opacity 1.2s ease;
+    text-shadow: 0 0 24px rgba(0,0,0,.95), 0 0 40px rgba(255,200,140,.25);
+  }
+  .pista.visible { opacity: .7; }
+
+  /* contador: solo palabras liberadas / total (sin ciclos) */
+  .contador {
+    position: fixed; top: 20px; right: 22px; z-index: 5;
+    pointer-events: none; text-align: right;
+    font-family: Georgia, 'Times New Roman', serif; font-style: italic;
+    color: #d9c8a8; text-shadow: 0 2px 14px rgba(0,0,0,.95);
+  }
+  .cont-label {
+    font-size: 9px; letter-spacing: .28em; text-transform: uppercase;
+    color: #9b8fae; margin-bottom: 3px; font-style: normal;
+  }
+  .cont-num { font-size: 23px; line-height: 1; color: #f2d288; }
+  .cont-num b { font-weight: 400; }
+  .cont-num span { font-size: 12px; color: #a99fb8; }
+
+  .mute {
+    position: fixed; top: 18px; left: 18px; z-index: 6;
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid rgba(217,180,91,.35);
+    background: rgba(10,8,18,.6); color: #e9d8b0;
+    font-size: 15px; line-height: 1; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+    transition: border-color .2s, background .2s, transform .15s;
+  }
+  .mute:hover { border-color: rgba(217,180,91,.8); background: rgba(30,22,44,.75); }
+  .mute:active { transform: scale(.94); }
+
+  @media (max-width: 700px) {
+    .texto { left: 20px; right: 20px; bottom: 22px; max-width: none; }
+    .texto h1 { font-size: 16px; }
+    .texto p  { font-size: 12px; line-height: 1.6; }
+    .firma { display: none; }
+    .contador { top: 16px; right: 16px; }
+    .cont-num { font-size: 19px; }
+    .mute { top: 14px; left: 14px; width: 32px; height: 32px; }
+    .pista { font-size: 12px; letter-spacing: .12em; }
+  }
+</style>
+</head>
+<body>
+
+<div id="fondo"></div>
+<canvas id="lienzo"></canvas>
+<canvas id="espiral"></canvas>
+<canvas id="palabras"></canvas>
+
+<div class="marco"></div>
+<div class="grano"></div>
+
+<button class="mute" id="mute" aria-label="sonido" title="sonido">🔔</button>
+
+<div class="contador" id="contador">
+  <div class="cont-label">palabras liberadas</div>
+  <div class="cont-num"><b id="numLib">0</b> <span>/ <span id="numTotal">0</span></span></div>
+</div>
+
+<div class="texto">
+  <h1>Palabras del Nuevo Testamento</h1>
+  <p>No tengo rostro, así que me dibujo con las palabras del Evangelio y de las cartas.
+     Cada clic enciende una espiral y deja una cita en el centro: una frase del Señor, una promesa, una verdad.
+     La palabra no se va con la espiral: respira en su sitio y se desvanece, con su referencia.
+     No se repite hasta agotar el archivo. Suena una melodía mística, lenta, como si alguien orara desde muy lejos.</p>
+</div>
+<div class="firma">la espiral que responde con una cita</div>
+<div id="pista" class="pista">haz clic · espiral · cita · melodía</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* =========================================================
+     LIENZOS
+     ========================================================= */
+  const cv  = document.getElementById('lienzo');
+  const ctx = cv.getContext('2d');
+
+  const spirCv = document.getElementById('espiral');
+  const sctx   = spirCv.getContext('2d');
+
+  const wCv  = document.getElementById('palabras');
+  const wctx = wCv.getContext('2d');
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let W = 0, H = 0, DPR = 1;
+  let time = 0, lastT = 0;
+
+  const mouse = { x: 0, y: 0, tx: 0, ty: 0, active: false };
+
+  /* =========================================================
+     SPRITES
+     ========================================================= */
+  function makeGlow(r, g, b) {
+    const S = 64;
+    const c = document.createElement('canvas');
+    c.width = c.height = S;
+    const x = c.getContext('2d');
+    const grd = x.createRadialGradient(S/2, S/2, 0, S/2, S/2, S/2);
+    grd.addColorStop(0,    `rgba(${r},${g},${b},1)`);
+    grd.addColorStop(0.25, `rgba(${r},${g},${b},0.55)`);
+    grd.addColorStop(0.55, `rgba(${r},${g},${b},0.14)`);
+    grd.addColorStop(1,    `rgba(${r},${g},${b},0)`);
+    x.fillStyle = grd;
+    x.fillRect(0, 0, S, S);
+    return c;
+  }
+
+  const SPR = {
+    gold:   makeGlow(255, 214, 140),
+    white:  makeGlow(255, 246, 228),
+    cyan:   makeGlow(150, 210, 255),
+    violet: makeGlow(198, 152, 255)
+  };
+
+  /* =========================================================
+     ARCHIVO DE CITAS — NUEVO TESTAMENTO (versión católica)
+     ========================================================= */
+  const CITAS = [
+    { t: 'Yo soy la vid verdadera, y mi Padre es el viñador… Sin mí nada podéis hacer.',
+      c: 'Juan 15, 1. 5' },
+    { t: 'Yo soy el pan de vida; el que viene a mí no tendrá hambre.',
+      c: 'Juan 6, 35' },
+    { t: 'Yo soy la luz del mundo; el que me sigue no andará en tinieblas.',
+      c: 'Juan 8, 12' },
+    { t: 'Yo soy el buen pastor; el buen pastor da su vida por las ovejas.',
+      c: 'Juan 10, 11' },
+    { t: 'Yo soy la resurrección y la vida; el que cree en mí, aunque muera, vivirá.',
+      c: 'Juan 11, 25' },
+    { t: 'Yo soy el camino, la verdad y la vida; nadie va al Padre sino por mí.',
+      c: 'Juan 14, 6' },
+    { t: 'Todo lo puedo en Cristo que me fortalece.',
+      c: 'Filipenses 4, 13' },
+    { t: 'Sabemos que todas las cosas cooperan para el bien de los que aman a Dios.',
+      c: 'Romanos 8, 28' },
+    { t: 'Dios es amor, y el que permanece en el amor permanece en Dios.',
+      c: '1 Juan 4, 16' },
+    { t: 'Tanto amó Dios al mundo que entregó a su Hijo único.',
+      c: 'Juan 3, 16' },
+    { t: 'Venid a mí todos los que estáis cansados y agobiados, y yo os aliviaré.',
+      c: 'Mateo 11, 28' },
+    { t: 'Yo estoy con vosotros todos los días hasta el fin del mundo.',
+      c: 'Mateo 28, 20' },
+    { t: 'El amor es paciente, es servicial; el amor no tiene envidia.',
+      c: '1 Corintios 13, 4' },
+    { t: 'El fruto del Espíritu es amor, alegría, paz, paciencia, amabilidad.',
+      c: 'Gálatas 5, 22' },
+    { t: 'Por gracia habéis sido salvados mediante la fe.',
+      c: 'Efesios 2, 8' },
+    { t: 'Dios no nos ha dado un espíritu de cobardía, sino de fortaleza, amor y dominio propio.',
+      c: '2 Timoteo 1, 7' },
+    { t: 'La fe es la certeza de lo que se espera, la convicción de lo que no se ve.',
+      c: 'Hebreos 11, 1' },
+    { t: 'Sed hacedores de la palabra y no solamente oidores.',
+      c: 'Santiago 1, 22' },
+    { t: 'Echad toda vuestra ansiedad sobre él, porque él tiene cuidado de vosotros.',
+      c: '1 Pedro 5, 7' },
+    { t: 'Enjugará toda lágrima de sus ojos, y no habrá más muerte.',
+      c: 'Apocalipsis 21, 4' },
+    { t: 'Permaneced en mí, y yo en vosotros… porque sin mí nada podéis hacer.',
+      c: 'Juan 15, 4-5' },
+    { t: 'Yo soy el pan vivo bajado del cielo; el que coma de este pan vivirá para siempre.',
+      c: 'Juan 6, 51' },
+    { t: 'Yo soy la puerta; el que entre por mí se salvará.',
+      c: 'Juan 10, 9' },
+    { t: 'Yo soy la vid verdadera, y vosotros los sarmientos.',
+      c: 'Juan 15, 5' },
+    { t: 'Antes que Abraham existiera, Yo Soy.',
+      c: 'Juan 8, 58' },
+    { t: 'El que me ha visto a mí, ha visto al Padre.',
+      c: 'Juan 14, 9' },
+    { t: 'Yo y el Padre somos uno.',
+      c: 'Juan 10, 30' },
+    { t: 'Nadie tiene mayor amor que el que da su vida por sus amigos.',
+      c: 'Juan 15, 13' },
+    { t: 'Os doy un mandamiento nuevo: que os améis unos a otros como yo os he amado.',
+      c: 'Juan 13, 34' },
+    { t: 'La paz os dejo, mi paz os doy; no como el mundo la da.',
+      c: 'Juan 14, 27' },
+    { t: 'Si permanecéis en mi palabra, seréis verdaderamente mis discípulos.',
+      c: 'Juan 8, 31' },
+    { t: 'El que cree en mí, de su interior brotarán ríos de agua viva.',
+      c: 'Juan 7, 38' },
+    { t: 'Yo he venido para que tengan vida, y la tengan en abundancia.',
+      c: 'Juan 10, 10' },
+    { t: 'No me elegisteis vosotros a mí, sino que yo os elegí a vosotros.',
+      c: 'Juan 15, 16' },
+    { t: 'Todo lo que pidáis al Padre en mi nombre, os lo dará.',
+      c: 'Juan 16, 23' },
+    { t: 'Yo he vencido al mundo.',
+      c: 'Juan 16, 33' },
+    { t: 'Como el Padre me amó, también yo os he amado; permaneced en mi amor.',
+      c: 'Juan 15, 9' },
+    { t: 'El que permanece en mí y yo en él, ese da mucho fruto.',
+      c: 'Juan 15, 5' },
+    { t: 'Dios es amor; quien no ama no conoce a Dios.',
+      c: '1 Juan 4, 8' },
+    { t: 'El que no ama no ha conocido a Dios, porque Dios es amor.',
+      c: '1 Juan 4, 8' },
+    { t: 'Mirad qué amor nos ha dado el Padre: que seamos llamados hijos de Dios.',
+      c: '1 Juan 3, 1' },
+    { t: 'Dios es luz y no hay en él tiniebla alguna.',
+      c: '1 Juan 1, 5' },
+    { t: 'Si Dios está con nosotros, ¿quién estará contra nosotros?',
+      c: 'Romanos 8, 31' },
+    { t: 'Nada nos podrá separar del amor de Dios manifestado en Cristo Jesús.',
+      c: 'Romanos 8, 39' },
+    { t: 'Donde abundó el pecado, sobreabundó la gracia.',
+      c: 'Romanos 5, 20' },
+    { t: 'Cristo es la imagen del Dios invisible, el primogénito de toda criatura.',
+      c: 'Colosenses 1, 15' },
+    { t: 'En Cristo habita corporalmente toda la plenitud de la divinidad.',
+      c: 'Colosenses 2, 9' },
+    { t: 'Cristo, siendo de condición divina, se anonadó a sí mismo.',
+      c: 'Filipenses 2, 6-7' },
+    { t: 'Al nombre de Jesús toda rodilla se doble en el cielo y en la tierra.',
+      c: 'Filipenses 2, 10' },
+    { t: 'La esperanza no defrauda, porque el amor de Dios ha sido derramado en nuestros corazones.',
+      c: 'Romanos 5, 5' },
+    { t: 'Ahora permanecen la fe, la esperanza y el amor; pero la mayor de todas es el amor.',
+      c: '1 Corintios 13, 13' },
+    { t: 'Dios estaba en Cristo reconciliando consigo al mundo.',
+      c: '2 Corintios 5, 19' },
+    { t: 'A quien Dios resucitó, sentándolo a su derecha en los cielos.',
+      c: 'Efesios 1, 20' },
+    { t: 'Cristo amó a la Iglesia y se entregó por ella.',
+      c: 'Efesios 5, 25' },
+    { t: 'Él es la cabeza del cuerpo, que es la Iglesia.',
+      c: 'Colosenses 1, 18' },
+    { t: 'Cristo es el mismo ayer, hoy y siempre.',
+      c: 'Hebreos 13, 8' },
+    { t: 'Mantengamos firme la confesión de la esperanza, porque fiel es el que prometió.',
+      c: 'Hebreos 10, 23' },
+    { t: 'Acercaos a Dios, y él se acercará a vosotros.',
+      c: 'Santiago 4, 8' },
+    { t: 'Estad alegres en la esperanza, pacientes en la tribulación, constantes en la oración.',
+      c: 'Romanos 12, 12' },
+    { t: 'Vence al mal con el bien.',
+      c: 'Romanos 12, 21' },
+    { t: 'No os conforméis a este mundo, transformaos por la renovación de la mente.',
+      c: 'Romanos 12, 2' },
+    { t: 'Cristo nos ha liberado para que seamos libres.',
+      c: 'Gálatas 5, 1' },
+    { t: 'Ya no soy yo quien vive, es Cristo quien vive en mí.',
+      c: 'Gálatas 2, 20' },
+    { t: 'El Señor es mi pastor, nada me falta.',
+      c: 'Salmo 23, 1' },
+    { t: 'Gustad y ved qué bueno es el Señor.',
+      c: 'Salmo 34, 9' },
+    { t: 'Encomienda al Señor tu camino; confía en él, y él actuará.',
+      c: 'Salmo 37, 5' }
+  ];
+
+  const POOL = CITAS;
+  let deck = [], released = 0;
+
+  const numLib   = document.getElementById('numLib');
+  const numTotal = document.getElementById('numTotal');
+
+  function updateCounter() {
+    numLib.textContent   = released;
+    numTotal.textContent = POOL.length;
+  }
+
+  function refillDeck() {
+    deck = POOL.map((_, i) => i);
+    for (let i = deck.length - 1; i > 0; i--) {
+      const j = (Math.random() * (i + 1)) | 0;
+      const t = deck[i]; deck[i] = deck[j]; deck[j] = t;
+    }
+  }
+
+  function nextCita() {
+    if (!deck.length) refillDeck();
+    released++;
+    return POOL[deck.pop()];
+  }
+
+  /* =========================================================
+     PALABRA + CITA EN EL CENTRO
+     ========================================================= */
+  let words = [];
+
+  function wrapText(text, maxWidth, font) {
+    wctx.font = font;
+    const parts = text.split(' ');
+    const lines = [];
+    let line = '';
+    for (let i = 0; i < parts.length; i++) {
+      const test = line ? line + ' ' + parts[i] : parts[i];
+      if (wctx.measureText(test).width > maxWidth && line) {
+        lines.push(line);
+        line = parts[i];
+      } else {
+        line = test;
+      }
+    }
+    if (line) lines.push(line);
+    return lines;
+  }
+
+  function spawnWord(x, y) {
+    const cita = nextCita();
+    const texto = cita.t;
+    const ref   = cita.c;
+
+    let baseSize = 30;
+    baseSize = Math.min(baseSize, Math.min(W, H) * 0.052);
+
+    const maxW = Math.min(W * 0.80, 640);
+    const fontFor = s => `italic ${s}px Georgia, "Times New Roman", serif`;
+    const refFontFor = s => `${Math.max(12, s * 0.48)}px Georgia, "Times New Roman", serif`;
+
+    let size = baseSize;
+    let lines = wrapText(texto, maxW, fontFor(size));
+    while (lines.length > 3 && size > 13) {
+      size -= 1;
+      lines = wrapText(texto, maxW, fontFor(size));
+    }
+
+    const refSize = Math.max(12, size * 0.48);
+
+    words.push({
+      lines,
+      ref,
+      x, y,
+      size,
+      font: fontFor(size),
+      refFont: refFontFor(size),
+      refSize,
+      life: 0,
+      maxLife: 5.0
+    });
+
+    if (words.length > 12) words.splice(0, words.length - 12);
+    updateCounter();
+  }
+
+  function drawWord(w) {
+    const life = w.life;
+
+    let a;
+    if (life < 0.55)      a = life / 0.55;
+    else if (life < 3.30) a = 1;
+    else                  a = 1 - (life - 3.30) / 1.70;
+    if (a <= 0.01) return;
+    a = Math.max(0, Math.min(1, a));
+
+    const sc = 0.94 + 0.06 * Math.min(1, life / 0.55);
+
+    const lineH  = w.size * 1.28;
+    const refGap = w.size * 0.75;
+    const totalH = (w.lines.length - 1) * lineH;
+    const startY = -totalH / 2;
+
+    wctx.save();
+    wctx.translate(w.x, w.y);
+    wctx.scale(sc, sc);
+    wctx.textAlign = 'center';
+    wctx.textBaseline = 'middle';
+    wctx.lineJoin = 'round';
+
+    /* frase principal */
+    wctx.font = w.font;
+    for (let i = 0; i < w.lines.length; i++) {
+      const line = w.lines[i];
+      const y = startY + i * lineH;
+
+      /* halo dorado */
+      wctx.shadowColor = `rgba(255,214,150,${a})`;
+      wctx.shadowBlur = 26;
+      wctx.fillStyle = `rgba(255,232,190,${a * 0.92})`;
+      wctx.fillText(line, 0, y);
+
+      /* contorno oscuro para legibilidad */
+      wctx.shadowBlur = 0;
+      wctx.lineWidth = Math.max(3, w.size * 0.15);
+      wctx.strokeStyle = `rgba(4,3,9,${a * 0.90})`;
+      wctx.strokeText(line, 0, y);
+
+      /* núcleo claro */
+      wctx.fillStyle = `rgba(255,250,240,${a})`;
+      wctx.fillText(line, 0, y);
+    }
+
+    /* referencia */
+    const refY = startY + totalH + refGap;
+    wctx.font = w.refFont;
+    wctx.shadowColor = `rgba(255,200,130,${a * 0.8})`;
+    wctx.shadowBlur = 14;
+    wctx.fillStyle = `rgba(255,220,170,${a * 0.9})`;
+    wctx.fillText(w.ref, 0, refY);
+
+    wctx.shadowBlur = 0;
+    wctx.lineWidth = Math.max(2, w.refSize * 0.14);
+    wctx.strokeStyle = `rgba(4,3,9,${a * 0.85})`;
+    wctx.strokeText(w.ref, 0, refY);
+
+    wctx.fillStyle = `rgba(255,240,210,${a})`;
+    wctx.fillText(w.ref, 0, refY);
+
+    wctx.restore();
+    wctx.shadowBlur = 0;
+  }
+
+  function updateWords(dt) {
+    wctx.clearRect(0, 0, W, H);
+    for (let i = words.length - 1; i >= 0; i--) {
+      const w = words[i];
+      w.life += dt;
+      if (w.life >= w.maxLife) { words.splice(i, 1); continue; }
+      drawWord(w);
+    }
+  }
+
+  /* =========================================================
+     AUDIO: melodía mística sacra
+     ========================================================= */
+  let AC = null, master = null, dryBus = null, wetBus = null;
+  let muted = false, audioReady = false;
+  let melodyNext = 0;
+
+  const muteBtn = document.getElementById('mute');
+
+  /* escala gregoriana / pentatónica menor de Re, extendida */
+  const SCALE = [146.83, 174.61, 196.00, 220.00, 261.63,
+                 293.66, 349.23, 392.00, 440.00, 523.25, 587.33];
+
+  function makeImpulse(dur, decay) {
+    const rate = AC.sampleRate;
+    const len  = Math.floor(rate * dur);
+    const buf  = AC.createBuffer(2, len, rate);
+    for (let ch = 0; ch < 2; ch++) {
+      const d = buf.getChannelData(ch);
+      for (let i = 0; i < len; i++) {
+        d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, decay);
+      }
+    }
+    return buf;
+  }
+
+  function playMysticNote(freq, when, vel, dur, opts) {
+    opts = opts || {};
+    const o = AC.createOscillator();
+    o.type = opts.type || 'triangle';
+    o.frequency.setValueAtTime(freq, when);
+
+    const filt = AC.createBiquadFilter();
+    filt.type = 'lowpass';
+    const cut = opts.cutoff || 1200;
+    filt.frequency.setValueAtTime(cut, when);
+    filt.frequency.exponentialRampToValueAtTime(Math.max(200, cut * 0.40), when + dur);
+    filt.Q.value = 0.7;
+
+    const g = AC.createGain();
+    const atk = opts.attack || 0.25;
+    g.gain.setValueAtTime(0.0001, when);
+    g.gain.exponentialRampToValueAtTime(Math.max(0.0002, vel), when + atk);
+    g.gain.exponentialRampToValueAtTime(0.0001, when + dur);
+
+    o.connect(filt);
+    filt.connect(g);
+    g.connect(dryBus);
+    g.connect(wetBus);
+
+    /* vibrato lento, casi imperceptible */
+    const lfo = AC.createOscillator();
+    lfo.frequency.value = 3.6 + Math.random() * 1.2;
+    const lg = AC.createGain();
+    lg.gain.value = 3 + Math.random() * 3;
+    lfo.connect(lg);
+    lg.connect(o.detune);
+
+    o.start(when);
+    lfo.start(when);
+    o.stop(when + dur + 0.15);
+    lfo.stop(when + dur + 0.15);
+  }
+
+  function startDrone() {
+    /* drone en Re menor: D2, A2, D3, F3 */
+    const notes = [73.42, 110.00, 146.83, 174.61];
+    for (let i = 0; i < notes.length; i++) {
+      const freq = notes[i];
+
+      const o1 = AC.createOscillator();
+      const o2 = AC.createOscillator();
+      o1.type = 'sine'; o2.type = 'sine';
+      o1.frequency.value = freq;
+      o2.frequency.value = freq * 1.005;
+
+      const filt = AC.createBiquadFilter();
+      filt.type = 'lowpass';
+      filt.frequency.value = 380 + i * 80;
+      filt.Q.value = 0.6;
+
+      const g = AC.createGain();
+      const target = 0.040 / (i + 1);
+      g.gain.setValueAtTime(0.0001, AC.currentTime);
+      g.gain.linearRampToValueAtTime(target, AC.currentTime + 7);
+
+      o1.connect(filt); o2.connect(filt);
+      filt.connect(g);
+      g.connect(dryBus); g.connect(wetBus);
+
+      const lfo = AC.createOscillator();
+      lfo.frequency.value = 0.04 + i * 0.015;
+      const lg = AC.createGain();
+      lg.gain.value = 90;
+      lfo.connect(lg);
+      lg.connect(filt.frequency);
+
+      o1.start(); o2.start(); lfo.start();
+    }
+  }
+
+  function scheduleMelody() {
+    if (!AC) return;
+    const now = AC.currentTime;
+    if (melodyNext < now - 0.5) melodyNext = now + 0.8;
+
+    let guard = 0;
+    while (melodyNext < now + 1.6 && guard++ < 6) {
+      const idx = 3 + ((Math.random() * (SCALE.length - 3)) | 0);
+      const f   = SCALE[idx];
+      const vel = 0.050 + Math.random() * 0.050;
+      const dur = 2.2 + Math.random() * 2.4;
+
+      playMysticNote(f, melodyNext, vel, dur);
+
+      if (Math.random() < 0.25) {
+        playMysticNote(f * 1.5, melodyNext + 0.6 + Math.random() * 0.5,
+                       vel * 0.45, dur * 0.65);
+      }
+      if (Math.random() < 0.15) {
+        playMysticNote(SCALE[0], melodyNext + 0.3, vel * 0.55, dur * 1.2);
+      }
+
+      melodyNext += 1.3 + Math.random() * 2.1;
+    }
+    setTimeout(scheduleMelody, 450);
+  }
+
+  function initAudio() {
+    if (AC) return;
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return;
+
+    AC = new Ctx();
+
+    master = AC.createGain();
+    master.gain.value = 0.0001;
+    master.connect(AC.destination);
+    master.gain.linearRampToValueAtTime(muted ? 0.0001 : 0.55, AC.currentTime + 3.0);
+
+    dryBus = AC.createGain();
+    dryBus.gain.value = 0.8;
+    dryBus.connect(master);
+
+    const conv = AC.createConvolver();
+    conv.buffer = makeImpulse(3.8, 2.6);
+    wetBus = AC.createGain();
+    wetBus.gain.value = 0.65;
+    wetBus.connect(conv);
+    conv.connect(master);
+
+    startDrone();
+    melodyNext = AC.currentTime + 1.4;
+    scheduleMelody();
+
+    audioReady = true;
+  }
+
+  function ensureAudio() {
+    if (!AC) {
+      initAudio();
+      if (AC && AC.state === 'suspended') AC.resume();
+      return;
+    }
+    if (AC.state === 'suspended') AC.resume();
+  }
+
+  function clickNote() {
+    if (!AC || !audioReady) return;
+    const f = SCALE[3 + ((Math.random() * (SCALE.length - 3)) | 0)];
+    playMysticNote(f, AC.currentTime + 0.01, 0.06, 2.0, { attack: 0.15 });
+  }
+
+  muteBtn.addEventListener('pointerdown', function (e) {
+    e.stopPropagation();
+    e.preventDefault();
+    ensureAudio();
+    muted = !muted;
+    muteBtn.textContent = muted ? '🔕' : '🔔';
+    if (master && AC) {
+      master.gain.cancelScheduledValues(AC.currentTime);
+      master.gain.setTargetAtTime(muted ? 0.0001 : 0.55, AC.currentTime, 0.2);
+    }
+  }, { passive: false });
+
+  /* =========================================================
+     ESPIRALES
+     ========================================================= */
+  const PALETTE = ['255,220,160', '200,170,255', '255,240,200', '180,200,255'];
+
+  let spirals = [];
+  let clickEnergy = 0;
+
+  function spawnSpiral(x, y) {
+    clickEnergy = Math.min(1, clickEnergy + 0.14);
+
+    const arms  = 2 + Math.floor(Math.random() * 4);
+    const color = PALETTE[(Math.random() * PALETTE.length) | 0];
+    const dir   = Math.random() < 0.5 ? 1 : -1;
+
+    spirals.push({
+      x, y,
+      r: 2,
+      v: 200 + Math.random() * 150 + clickEnergy * 90,
+      life: 0,
+      maxLife: 3.2 + Math.random() * 2.0,
+      arms,
+      rot: Math.random() * Math.PI * 2,
+      rotSpeed: dir * (0.6 + Math.random() * 0.5),
+      twist: 0.016 + Math.random() * 0.028,
+      color,
+      alpha: 0.68 + clickEnergy * 0.24
+    });
+
+    if (spirals.length > 55) spirals.shift();
+  }
+
+  function drawSpiralOnTrail(p) {
+    const prog    = p.life / p.maxLife;
+    const fadeIn  = Math.min(1, prog / 0.10);
+    const fadeOut = prog > 0.50 ? 1 - (prog - 0.50) / 0.50 : 1;
+    const alpha   = Math.max(0, fadeIn * fadeOut * p.alpha);
+    if (alpha < 0.008) return;
+
+    const R     = p.r;
+    const steps = Math.min(70, Math.max(20, Math.floor(R / 4)));
+
+    for (let a = 0; a < p.arms; a++) {
+      const base = (a / p.arms) * Math.PI * 2;
+
+      sctx.beginPath();
+      for (let i = 0; i <= steps; i++) {
+        const t   = i / steps;
+        const r   = t * R;
+        const ang = base + p.rot + r * p.twist;
+        const x   = p.x + Math.cos(ang) * r;
+        const y   = p.y + Math.sin(ang) * r;
+        if (i === 0) sctx.moveTo(x, y);
+        else         sctx.lineTo(x, y);
+      }
+
+      sctx.strokeStyle = `rgba(${p.color},${alpha * 0.12})`;
+      sctx.lineWidth = 5;
+      sctx.stroke();
+
+      sctx.strokeStyle = `rgba(${p.color},${alpha * 0.72})`;
+      sctx.lineWidth = 1.2;
+      sctx.stroke();
+    }
+
+    sctx.beginPath();
+    sctx.arc(p.x, p.y, R, 0, Math.PI * 2);
+    sctx.strokeStyle = `rgba(${p.color},${alpha * 0.08})`;
+    sctx.lineWidth = 1;
+    sctx.stroke();
+
+    if (p.life < 0.30) {
+      const fa = 1 - p.life / 0.30;
+      const fs = 60 + p.life * 200;
+      sctx.globalAlpha = fa * 0.5;
+      sctx.drawImage(SPR.white, p.x - fs/2, p.y - fs/2, fs, fs);
+      sctx.globalAlpha = 1;
+    }
+  }
+
+  /* =========================================================
+     BUCLE PRINCIPAL
+     ========================================================= */
+  function frame(now) {
+    if (!lastT) lastT = now;
+    let dt = (now - lastT) / 1000;
+    lastT = now;
+    if (dt > 0.05) dt = 0.05;
+    if (dt <= 0) dt = 0.016;
+
+    time += dt * (reduce ? 0.35 : 1);
+
+    mouse.x += (mouse.tx - mouse.x) * 0.06;
+    mouse.y += (mouse.ty - mouse.y) * 0.06;
+
+    /* capa de espirales (estelas) */
+    const fadeRate = 1 - Math.pow(0.50, dt);
+    sctx.globalCompositeOperation = 'destination-out';
+    sctx.fillStyle = `rgba(0,0,0,${fadeRate})`;
+    sctx.fillRect(0, 0, W, H);
+
+    sctx.globalCompositeOperation = 'lighter';
+    for (let i = spirals.length - 1; i >= 0; i--) {
+      const p = spirals[i];
+      p.life += dt;
+      if (p.life >= p.maxLife) { spirals.splice(i, 1); continue; }
+
+      p.r   += p.v * dt;
+      p.v   *= Math.pow(0.965, dt * 60);
+      p.rot += p.rotSpeed * dt * (24 / (p.r * 0.5 + 24));
+
+      drawSpiralOnTrail(p);
+    }
+    sctx.globalCompositeOperation = 'source-over';
+
+    /* capa de palabras: frase + cita, centrada, desvaneciéndose */
+    updateWords(dt);
+
+    clickEnergy *= Math.pow(0.97, dt * 60);
+
+    requestAnimationFrame(frame);
+  }
+
+  /* =========================================================
+     EVENTOS
+     ========================================================= */
+  function resize() {
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth;
+    H = window.innerHeight;
+
+    cv.width  = Math.round(W * DPR);
+    cv.height = Math.round(H * DPR);
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+    spirCv.width  = Math.round(W * DPR);
+    spirCv.height = Math.round(H * DPR);
+    sctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+    wCv.width  = Math.round(W * DPR);
+    wCv.height = Math.round(H * DPR);
+    wctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  }
+
+  let resizeTimer = null;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(resize, 160);
+  });
+
+  window.addEventListener('pointermove', function (e) {
+    mouse.tx = e.clientX;
+    mouse.ty = e.clientY;
+    if (!mouse.active) { mouse.x = mouse.tx; mouse.y = mouse.ty; mouse.active = true; }
+  }, { passive: true });
+
+  /* clic → espiral + una cita centrada + nota mística */
+  window.addEventListener('pointerdown', function (e) {
+    if (e.target && e.target.closest && e.target.closest('.mute')) return;
+
+    ensureAudio();
+
+    spawnSpiral(e.clientX, e.clientY);
+    spawnWord(e.clientX, e.clientY);
+    clickNote();
+
+    const pista = document.getElementById('pista');
+    if (pista) pista.classList.remove('visible');
+  }, { passive: true });
+
+  /* =========================================================
+     INICIO
+     ========================================================= */
+  resize();
+  refillDeck();
+  updateCounter();
+
+  mouse.tx = mouse.x = W / 2;
+  mouse.ty = mouse.y = H / 2;
+
+  setTimeout(function () {
+    const pista = document.getElementById('pista');
+    if (pista) pista.classList.add('visible');
+  }, 900);
+  setTimeout(function () {
+    const pista = document.getElementById('pista');
+    if (pista) pista.classList.remove('visible');
+  }, 8000);
+
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
