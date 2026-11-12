@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spinoza · Filósofo de la Physis</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #080b10;
+            --surface: #10161e;
+            --surface-2: #161e28;
+            --surface-3: #1a2330;
+            --border: #26303e;
+            --border-light: #2e3b4e;
+            --text: #cfd9e8;
+            --text-dim: #8fa5c0;
+            --text-faint: #5a6a7e;
+            --gold: #e3c97a;
+            --gold-dim: #b38b4d;
+            --green: #4a8a6b;
+            --green-light: #8ad4a8;
+            --blue: #4a6b8a;
+            --blue-light: #8ab4d4;
+            --red: #8a4a4a;
+            --red-light: #d48a8a;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--bg);
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            color: var(--text);
+            line-height: 1.65;
+            overflow-x: hidden;
+        }
+
+        /* ===== PORTADA ===== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            background: radial-gradient(ellipse at 50% 30%, #1a2330 0%, #080b10 70%);
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/ea/Spinoza.jpg');
+            background-size: cover;
+            background-position: center 20%;
+            opacity: 0.14;
+            filter: blur(2px) grayscale(0.4);
+            z-index: 0;
+            animation: respirar 12s ease-in-out infinite;
+        }
+        @keyframes respirar {
+            0%, 100% { transform: scale(1); opacity: 0.14; }
+            50% { transform: scale(1.06); opacity: 0.2; }
+        }
+        .hero-content { position: relative; z-index: 1; max-width: 820px; }
+        .hero-retrato {
+            width: 190px; height: 190px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--gold-dim);
+            box-shadow: 0 0 70px rgba(227, 201, 122, 0.2), 0 20px 40px -10px #000;
+            margin-bottom: 1.5rem;
+            animation: flotar 6s ease-in-out infinite;
+        }
+        @keyframes flotar {
+            0%, 100% { transform: translateY(0) rotate(-1deg); }
+            50% { transform: translateY(-12px) rotate(1deg); }
+        }
+        .hero h1 {
+            font-weight: 300;
+            font-size: clamp(2rem, 5vw, 3.4rem);
+            letter-spacing: 2px;
+            color: #e8d08a;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 30px rgba(227, 201, 122, 0.25);
+        }
+        .hero .lema {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            color: var(--text-dim);
+            font-style: italic;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+        }
+        .hero .lema strong { color: var(--gold); font-style: normal; }
+        .hero .intro {
+            font-size: 0.92rem;
+            color: var(--text-faint);
+            max-width: 620px;
+            margin: 0 auto 1.5rem;
+        }
+        .hero-botones {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem;
+        }
+        .hero-botones button {
+            background: transparent;
+            border: 1px solid var(--gold-dim);
+            color: var(--gold);
+            padding: 0.6rem 1.4rem;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+        .hero-botones button:hover {
+            background: var(--gold);
+            color: #0a0d12;
+            box-shadow: 0 0 30px rgba(227, 201, 122, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* ===== NAVEGACIÓN ===== */
+        .nav {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(8, 11, 16, 0.94);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border);
+            padding: 0.6rem 1rem;
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem;
+        }
+        .nav button {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-dim);
+            font-family: inherit;
+            font-size: 0.8rem;
+            padding: 0.5rem 0.95rem;
+            border-radius: 30px;
+            cursor: pointer;
+            letter-spacing: 0.4px;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+        }
+        .nav button:hover {
+            color: var(--text);
+            background: var(--surface-2);
+            border-color: var(--border-light);
+            transform: translateY(-1px);
+        }
+        .nav button.activo {
+            color: #0a0d12;
+            background: var(--gold);
+            border-color: var(--gold);
+            font-weight: 600;
+            box-shadow: 0 0 20px rgba(227, 201, 122, 0.3);
+        }
+
+        /* ===== CONTENEDOR ===== */
+        .contenedor {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+        .pagina { display: none; animation: aparecer 0.45s ease; }
+        .pagina.visible { display: block; }
+        @keyframes aparecer {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== TIPOGRAFÍA ===== */
+        h2 {
+            font-size: 1.45rem;
+            font-weight: 400;
+            color: var(--gold);
+            letter-spacing: 0.8px;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-light);
+            display: flex; align-items: center; gap: 0.7rem;
+        }
+        h2 span { font-size: 1.5rem; opacity: 0.8; }
+        h3 {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--blue-light);
+            margin: 1.6rem 0 0.7rem;
+            letter-spacing: 0.4px;
+        }
+        h3 .num {
+            display: inline-block;
+            background: var(--gold);
+            color: #0a0d12;
+            font-size: 0.72rem;
+            padding: 0.1rem 0.6rem;
+            border-radius: 20px;
+            margin-right: 0.5rem;
+            font-weight: 700;
+            vertical-align: middle;
+        }
+        p { font-size: 0.95rem; color: var(--text-dim); margin-bottom: 0.9rem; }
+        ul, ol { padding-left: 1.4rem; margin-bottom: 1rem; }
+        li { font-size: 0.93rem; color: var(--text-dim); margin-bottom: 0.5rem; }
+        strong { color: var(--gold); font-weight: 500; }
+        em { color: #a8bfda; }
+
+        /* ===== CAJAS ===== */
+        .caja {
+            background: var(--surface-3);
+            border-left: 5px solid var(--blue);
+            border-radius: 1rem;
+            padding: 1.2rem 1.4rem;
+            margin: 1.2rem 0;
+        }
+        .caja.dorada { border-left-color: var(--gold-dim); background: #1e1f2b; }
+        .caja.verde { border-left-color: var(--green); background: #1a2420; }
+        .caja.roja { border-left-color: var(--red); background: #241a1a; }
+        .caja h4 {
+            font-size: 0.95rem; font-weight: 500; color: var(--gold);
+            margin-bottom: 0.5rem; letter-spacing: 0.4px;
+        }
+        .caja.verde h4 { color: var(--green-light); }
+        .caja.roja h4 { color: var(--red-light); }
+        .caja p { font-size: 0.9rem; margin-bottom: 0.4rem; }
+        .caja p:last-child { margin-bottom: 0; }
+
+        .formula {
+            display: inline-block;
+            background: #0d1117;
+            padding: 0.25rem 1rem;
+            border-radius: 30px;
+            font-family: 'Courier New', monospace;
+            color: #f0d68a;
+            border: 1px solid #5e4e2e;
+            font-size: 0.9rem;
+            margin: 0.3rem 0;
+        }
+
+        /* ===== IMÁGENES ===== */
+        .img-figura {
+            display: flex; flex-direction: column; align-items: center;
+            margin: 1.3rem 0;
+        }
+        .img-figura img {
+            max-width: 100%;
+            border-radius: 1rem;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 10px 30px -10px #000;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .img-figura img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 40px -10px #000;
+        }
+        .img-figura .pie-foto {
+            font-size: 0.78rem; color: var(--text-faint); font-style: italic;
+            margin-top: 0.5rem; text-align: center;
+        }
+
+        /* ===== ANIMACIÓN MENTE ===== */
+        .animacion-mente {
+            display: flex; flex-direction: column; align-items: center;
+            margin: 1.8rem 0; padding: 2rem 1.5rem;
+            background: #0d1117; border-radius: 1.5rem; border: 1px solid var(--border);
+        }
+        .cerebro-anim {
+            position: relative; width: 220px; height: 220px;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .circulo-exterior {
+            position: absolute; width: 200px; height: 200px; border-radius: 50%;
+            border: 2px dashed #3a5570; animation: rotar 22s linear infinite;
+        }
+        .circulo-medio {
+            position: absolute; width: 145px; height: 145px; border-radius: 50%;
+            border: 2px solid var(--blue); animation: rotar 15s linear infinite reverse; opacity: 0.6;
+        }
+        .circulo-interior {
+            position: absolute; width: 90px; height: 90px; border-radius: 50%;
+            background: radial-gradient(circle, #e3c97a 0%, #8a6b2a 55%, transparent 100%);
+            animation: pulso 3.5s ease-in-out infinite;
+            box-shadow: 0 0 50px rgba(227, 201, 122, 0.35);
+        }
+        .punto-orbita {
+            position: absolute; width: 11px; height: 11px; border-radius: 50%;
+            background: var(--green-light); box-shadow: 0 0 14px var(--green-light);
+            animation: orbitar 7s linear infinite; transform-origin: 0 100px;
+        }
+        .punto-orbita.dos {
+            background: var(--red-light); box-shadow: 0 0 14px var(--red-light);
+            animation-duration: 10s; animation-direction: reverse; transform-origin: 0 72px;
+        }
+        .punto-orbita.tres {
+            background: var(--blue-light); box-shadow: 0 0 14px var(--blue-light);
+            animation-duration: 13s; transform-origin: 0 45px;
+        }
+        @keyframes rotar { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes pulso {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.18); opacity: 1; }
+        }
+        @keyframes orbitar {
+            from { transform: rotate(0deg) translateX(100px) rotate(0deg); }
+            to { transform: rotate(360deg) translateX(100px) rotate(-360deg); }
+        }
+        .leyenda-anim {
+            font-size: 0.82rem; color: #7f95b0; text-align: center;
+            margin-top: 1rem; font-style: italic; max-width: 420px;
+        }
+
+        /* ===== TABLA ===== */
+        .tabla-wrap {
+            overflow-x: auto; border-radius: 0.8rem;
+            border: 1px solid var(--border-light); margin: 1.2rem 0;
+        }
+        table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+        th, td { padding: 0.65rem 0.9rem; text-align: left; border-bottom: 1px solid var(--border-light); }
+        th { background: var(--surface-3); color: #c8daf0; font-weight: 500; letter-spacing: 0.3px; }
+        td { color: var(--text-dim); }
+        tr:last-child td { border-bottom: none; }
+
+        /* ===== DOMINIOS ===== */
+        .dominios {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;
+        }
+        .dominio {
+            background: var(--surface-2); border-radius: 1.2rem;
+            padding: 1.2rem 1.3rem; border: 1px solid var(--border-light);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+        .dominio:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px -8px #000;
+            border-color: var(--blue);
+        }
+        .dominio h4 {
+            font-size: 1rem; font-weight: 500; color: var(--gold);
+            margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem;
+        }
+        .dominio p { font-size: 0.88rem; color: #9db3cc; margin-bottom: 0.3rem; }
+        .dominio .ejemplo {
+            font-size: 0.82rem; color: #7f95b0; font-style: italic;
+            border-top: 1px solid var(--border-light);
+            padding-top: 0.5rem; margin-top: 0.5rem;
+        }
+
+        /* ===== FLUJO ===== */
+        .flujo { display: flex; flex-direction: column; align-items: center; margin: 1.4rem 0; }
+        .flujo-nodo {
+            background: #1c2532; border: 1px solid #31485e; border-radius: 2rem;
+            padding: 0.65rem 1.8rem; font-size: 0.9rem; color: #d1def0;
+            text-align: center; width: 100%; max-width: 580px;
+            transition: transform 0.2s;
+        }
+        .flujo-nodo:hover { transform: scale(1.02); }
+        .flujo-nodo strong { color: var(--gold); }
+        .flujo-flecha { font-size: 1.3rem; color: #45607a; margin: 0.15rem 0; opacity: 0.7; }
+        .flujo-nodo.finito { border-color: var(--gold-dim); background: #1e1c18; }
+        .flujo-nodo.eterno { border-color: var(--green); background: #1a2420; }
+
+        /* ===== GENEALOGÍA ===== */
+        .genealogia { position: relative; padding-left: 2rem; }
+        .genealogia::before {
+            content: ''; position: absolute; left: 0.6rem; top: 0; bottom: 0; width: 2px;
+            background: linear-gradient(to bottom, #3a5570, var(--green), var(--gold-dim));
+            opacity: 0.5;
+        }
+        .nodo {
+            position: relative; margin-bottom: 1.2rem; padding: 1.2rem 1.4rem;
+            background: var(--surface-2); border-radius: 1.2rem;
+            border: 1px solid var(--border-light); transition: transform 0.2s;
+        }
+        .nodo:hover { transform: translateX(4px); }
+        .nodo::before {
+            content: ''; position: absolute; left: -1.55rem; top: 1.6rem;
+            width: 12px; height: 12px; border-radius: 50%;
+            background: #3a5570; border: 2px solid var(--surface);
+            box-shadow: 0 0 0 2px #3a5570;
+        }
+        .nodo.aristo::before { background: var(--gold-dim); box-shadow: 0 0 0 2px var(--gold-dim); }
+        .nodo.descartes::before { background: var(--blue); box-shadow: 0 0 0 2px var(--blue); }
+        .nodo.spinoza::before { background: var(--green); box-shadow: 0 0 0 2px var(--green); }
+        .nodo h3 { margin-top: 0; color: var(--gold); }
+        .nodo h3 .fecha {
+            font-size: 0.75rem; font-weight: 400; color: var(--text-faint);
+            background: #0d1117; padding: 0.1rem 0.6rem;
+            border-radius: 20px; border: 1px solid var(--border-light);
+        }
+        .concepto-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 0.6rem;
+        }
+        .concepto-item {
+            background: #0d1117; border-radius: 0.8rem;
+            padding: 0.7rem 1rem; border-left: 3px solid var(--blue);
+        }
+        .concepto-item .termino { font-size: 0.85rem; font-weight: 500; color: var(--gold); margin-bottom: 0.2rem; }
+        .concepto-item .definicion { font-size: 0.82rem; color: var(--text-dim); line-height: 1.5; }
+        .inversion {
+            background: #1a1f1a; border-left: 4px solid var(--gold-dim);
+            border-radius: 0.8rem; padding: 0.8rem 1.1rem; margin-top: 0.8rem;
+        }
+        .inversion h4 { font-size: 0.85rem; font-weight: 500; color: var(--red-light); margin-bottom: 0.3rem; }
+        .inversion p { font-size: 0.85rem; color: var(--text-dim); margin: 0; }
+
+        /* ===== REVEAL ON SCROLL ===== */
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ===== CONTADORES ===== */
+        .contador-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem; margin: 1.5rem 0;
+        }
+        .contador-card {
+            background: var(--surface-2); border-radius: 1.2rem;
+            padding: 1.3rem 1rem; text-align: center;
+            border: 1px solid var(--border-light);
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+        .contador-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--gold);
+            box-shadow: 0 15px 35px -12px #000;
+        }
+        .contador-num {
+            font-size: 2.3rem; font-weight: 700; color: var(--gold);
+            line-height: 1; margin-bottom: 0.3rem;
+            text-shadow: 0 0 25px rgba(227, 201, 122, 0.35);
+        }
+        .contador-label {
+            font-size: 0.74rem; color: var(--text-dim);
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        /* ===== CONSTELACIÓN FRANCESA ===== */
+        .constelacion {
+            position: relative; width: 100%; max-width: 620px; height: 620px;
+            margin: 2rem auto; overflow: hidden;
+        }
+        .constelacion-orbita {
+            position: absolute; top: 50%; left: 50%;
+            border: 1px dashed #3a5570; border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .constelacion-orbita.o1 { width: 250px; height: 250px; animation: rotar 30s linear infinite; }
+        .constelacion-orbita.o2 { width: 380px; height: 380px; animation: rotar 45s linear infinite reverse; }
+        .constelacion-orbita.o3 { width: 500px; height: 500px; animation: rotar 60s linear infinite; }
+        .constelacion-centro {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 110px; height: 110px; border-radius: 50%;
+            background: radial-gradient(circle, #e3c97a, #8a6b2a);
+            display: flex; justify-content: center; align-items: center;
+            font-weight: 700; color: #0a0d12; font-size: 0.9rem;
+            box-shadow: 0 0 70px rgba(227, 201, 122, 0.55);
+            z-index: 10; animation: pulso 4s ease-in-out infinite;
+            text-align: center; line-height: 1.1;
+        }
+        .constelacion-nodo {
+            position: absolute; top: 50%; left: 50%;
+            width: 62px; height: 62px; margin: -31px 0 0 -31px;
+            border-radius: 50%; background: #1c2532;
+            border: 2px solid var(--blue);
+            display: flex; justify-content: center; align-items: center;
+            font-size: 0.6rem; text-align: center; color: #d1def0;
+            font-weight: 500; padding: 0.3rem; line-height: 1.1;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.6);
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s, background 0.3s;
+            cursor: default; z-index: 5;
+            transform: rotate(var(--angle)) translateY(calc(-1 * var(--radius))) rotate(calc(-1 * var(--angle)));
+        }
+        .constelacion-nodo:hover {
+            border-color: var(--gold);
+            background: #223044;
+            box-shadow: 0 0 35px rgba(227, 201, 122, 0.7);
+            z-index: 20;
+            transform: rotate(var(--angle)) translateY(calc(-1 * var(--radius))) rotate(calc(-1 * var(--angle))) scale(1.25);
+        }
+
+        /* ===== LECTOR CARDS ===== */
+        .lectores-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1rem; margin: 1.2rem 0;
+        }
+        .lector-card {
+            background: var(--surface-2); border-radius: 1.2rem;
+            padding: 1.3rem; border: 1px solid var(--border-light);
+            position: relative; overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+        .lector-card::before {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            animation: barrido 3.5s linear infinite;
+        }
+        @keyframes barrido { from { left: -100%; } to { left: 100%; } }
+        .lector-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px -10px #000;
+            border-color: var(--gold-dim);
+        }
+        .lector-card .pais {
+            display: inline-block; font-size: 0.66rem;
+            padding: 0.1rem 0.6rem; border-radius: 20px;
+            background: #223044; color: #a0c0e0;
+            border: 1px solid #3a5570; margin-bottom: 0.5rem;
+            letter-spacing: 0.5px; text-transform: uppercase;
+        }
+        .lector-card .pais.fr { background: #2a2244; border-color: #5a4a8a; color: #c0a0e0; }
+        .lector-card .pais.it { background: #223a2a; border-color: #4a8a5a; color: #a0e0b0; }
+        .lector-card .pais.us { background: #3a2222; border-color: #8a4a4a; color: #e0a0a0; }
+        .lector-card .pais.es { background: #3a2e22; border-color: #8a6b4a; color: #e0c0a0; }
+        .lector-card h4 {
+            font-size: 1rem; color: var(--gold); margin-bottom: 0.3rem;
+        }
+        .lector-card .obra {
+            font-size: 0.78rem; color: var(--green-light);
+            font-style: italic; margin-bottom: 0.5rem;
+        }
+        .lector-card p { font-size: 0.85rem; color: #9db3cc; margin: 0; }
+
+        /* ===== MARQUESINA DE CITAS ===== */
+        .cita-marquee {
+            background: #0d1117; border-radius: 1rem;
+            padding: 1rem; overflow: hidden; position: relative;
+            border-left: 4px solid var(--gold); margin: 1rem 0;
+        }
+        .cita-marquee-inner {
+            display: inline-block; white-space: nowrap;
+            animation: marquee 40s linear infinite;
+            font-size: 0.9rem; color: #a8bfda; font-style: italic;
+        }
+        .cita-marquee-inner strong { color: var(--gold); font-style: normal; }
+        @keyframes marquee { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+        .cita-marquee:hover .cita-marquee-inner { animation-play-state: paused; }
+
+        /* ===== BARRA DE PROGRESO ===== */
+        .barra-progreso {
+            background: #0d1117; border-radius: 30px; height: 10px;
+            overflow: hidden; margin: 0.5rem 0 1rem;
+            border: 1px solid var(--border-light);
+        }
+        .barra-progreso-fill {
+            height: 100%; border-radius: 30px; width: 0;
+            background: linear-gradient(90deg, var(--blue), var(--gold));
+            transition: width 1.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* ===== TIMELINE ===== */
+        .timeline {
+            position: relative; padding-left: 2.5rem; margin: 2rem 0;
+        }
+        .timeline::before {
+            content: ''; position: absolute; left: 0.9rem; top: 0; bottom: 0;
+            width: 3px; border-radius: 2px;
+            background: linear-gradient(to bottom, var(--blue), var(--gold), var(--green));
+            opacity: 0.6;
+        }
+        .timeline-item {
+            position: relative; margin-bottom: 1.4rem;
+            background: var(--surface-2); border-radius: 1.1rem;
+            padding: 1.1rem 1.3rem; border: 1px solid var(--border-light);
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+        .timeline-item:hover {
+            transform: translateX(8px);
+            border-color: var(--gold);
+            box-shadow: 0 12px 35px -12px #000;
+        }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -2.1rem; top: 1.3rem;
+            width: 16px; height: 16px; border-radius: 50%;
+            background: var(--blue); border: 3px solid var(--surface);
+            box-shadow: 0 0 0 2px var(--blue);
+            transition: all 0.3s;
+        }
+        .timeline-item:hover::before {
+            background: var(--gold);
+            box-shadow: 0 0 0 2px var(--gold), 0 0 25px var(--gold);
+            transform: scale(1.35);
+        }
+        .timeline-fecha {
+            display: inline-block; background: #0d1117;
+            padding: 0.1rem 0.7rem; border-radius: 20px;
+            font-size: 0.72rem; color: var(--green-light);
+            border: 1px solid var(--border-light); margin-bottom: 0.4rem;
+        }
+        .timeline-item h4 {
+            font-size: 1rem; color: var(--gold); margin-bottom: 0.3rem;
+        }
+        .timeline-item .genero {
+            font-size: 0.78rem; color: var(--blue-light);
+            text-transform: uppercase; letter-spacing: 0.8px;
+            margin-bottom: 0.5rem;
+        }
+        .timeline-item p { font-size: 0.87rem; margin: 0; }
+
+        /* ===== PIE ===== */
+        .pie {
+            margin-top: 3rem; text-align: center; color: var(--text-faint);
+            font-size: 0.78rem; border-top: 1px solid #223040;
+            padding-top: 1.5rem; letter-spacing: 0.3px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 760px) {
+            .contenedor { padding: 1.2rem 1rem 3rem; }
+            .dominios, .concepto-grid, .lectores-grid { grid-template-columns: 1fr; }
+            .nav button { font-size: 0.72rem; padding: 0.4rem 0.7rem; }
+            .constelacion { height: 480px; max-width: 100%; transform: scale(0.78); transform-origin: top center; margin-bottom: -80px; }
+            .timeline { padding-left: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===================== PORTADA ===================== -->
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/ea/Spinoza.jpg"
+                 alt="Retrato de Baruch Spinoza" class="hero-retrato">
+            <h1 class="shimmer">Spinoza · Filósofo de la Physis</h1>
+            <p class="lema"><strong>Deus sive Natura</strong> — La naturaleza como totalidad sin exterior</p>
+            <p class="intro">
+                Un recorrido visual por la negación, los modos, lo eterno, la herencia griega del método
+                y las lecturas contemporáneas que devuelven a Spinoza al centro del pensamiento actual.
+            </p>
+            <div class="hero-botones">
+                <button onclick="document.querySelector('.nav button[data-target=physis]').click()">Comenzar el recorrido</button>
+                <button onclick="document.querySelector('.nav button[data-target=lecturas]').click()">Lecturas actuales</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== NAVEGACIÓN ===================== -->
+    <nav class="nav">
+        <button data-target="physis" class="activo">La Physis</button>
+        <button data-target="metodo">El Método</button>
+        <button data-target="negacion">La Negación</button>
+        <button data-target="modos">Los Modos</button>
+        <button data-target="eterno">Lo Eterno</button>
+        <button data-target="genealogia">Genealogía</button>
+        <button data-target="fisica">Física y Política</button>
+        <button data-target="lecturas">Lecturas Actuales</button>
+        <button data-target="textos">Los Textos</button>
+    </nav>
+
+    <!-- ===================== CONTENEDOR ===================== -->
+    <main class="contenedor">
+
+        <!-- ===== 1. LA PHYSIS ===== -->
+        <section class="pagina visible" id="physis">
+            <h2><span>🌍</span> 1. Spinoza y la <em>physis</em> griega</h2>
+            <p class="reveal">
+                La filosofía griega nace, como dice Tomás Calvo Martínez, como un <strong>proyecto de investigación sobre la <em>physis</em></strong>,
+                llevado a cabo por los jonios de Mileto. Esa investigación no era una simple física: era una indagación omniabarcante
+                sobre el origen, el orden y el devenir de todo lo existente. Spinoza hereda ese gesto, pero lo transforma radicalmente.
+            </p>
+            <div class="img-figura reveal">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/ae/Aristotle_Altemps_Inv8575.jpg"
+                     alt="Busto de Aristóteles" style="max-width:220px;">
+                <div class="pie-foto">Aristóteles · Roma, Palazzo Altemps · copia romana de un original de Lisipo</div>
+            </div>
+            <p class="reveal">
+                Para los presocráticos, la <em>physis</em> es <strong>actividad</strong>, <strong>nacimiento</strong>, <strong>desarrollo</strong>.
+                La palabra está emparentada con <em>phynai</em>: brotar, surgir, crecer. La naturaleza no es un conjunto de cosas muertas,
+                sino una <strong>fuente de vida y movimiento</strong> que se despliega desde sí misma.
+            </p>
+            <div class="caja dorada reveal">
+                <h4>La inversión spinoziana de la <em>physis</em></h4>
+                <p>Spinoza no niega la <em>physis</em> griega: la radicaliza. Si los griegos vieron la naturaleza como un orden que se genera
+                a partir de un principio, Spinoza ve la naturaleza como <strong>una sola sustancia</strong> que se expresa en infinitos atributos y modos.</p>
+                <p>No hay un "afuera" de la <em>physis</em>. No hay un Dios trascendente que la gobierne. <strong>Deus sive Natura</strong>: Dios y la Naturaleza son lo mismo.</p>
+            </div>
+            <p class="reveal">
+                Spinoza reivindica explícitamente a los atomistas antiguos (Demócrito, Epicuro, Lucrecio) en su correspondencia con Hugo Boxel.
+                Su materialismo no es el de los griegos, pero comparte con ellos la convicción de que <strong>la naturaleza se explica por sí misma</strong>,
+                sin recurrir a causas sobrenaturales.
+            </p>
+        </section>
+
+        <!-- ===== 2. EL MÉTODO ===== -->
+        <section class="pagina" id="metodo">
+            <h2><span>📐</span> 2. El método geométrico: de Euclides a Spinoza</h2>
+            <p class="reveal">
+                Spinoza escribe la <em>Ética</em> <em>more geometrico</em>: con definiciones, axiomas, proposiciones y demostraciones.
+                No es una elección estilística: es la convicción de que <strong>el orden del ser, el orden del conocer y el orden de la alegría coinciden</strong>.
+            </p>
+            <div class="flujo reveal">
+                <div class="flujo-nodo"><strong>Euclides</strong> · <em>Elementos</em> · siglo III a.C. — El modelo axiomático-deductivo</div>
+                <div class="flujo-flecha">↓</div>
+                <div class="flujo-nodo"><strong>Aristóteles</strong> · <em>Analíticos</em> — La lógica del silogismo y la demostración científica</div>
+                <div class="flujo-flecha">↓</div>
+                <div class="flujo-nodo"><strong>Descartes</strong> · <em>Principia</em> — El método aplicado a la filosofía</div>
+                <div class="flujo-flecha">↓</div>
+                <div class="flujo-nodo eterno"><strong>Spinoza</strong> · <em>Ética</em> — El orden geométrico como expresión de la necesidad divina</div>
+            </div>
+            <p class="reveal">
+                Spinoza no copia a Euclides: lo <strong>reinterpreta</strong>. Las definiciones geométricas (como la del círculo) no son meras convenciones,
+                sino <strong>definiciones por construcción</strong> que expresan la causa próxima de la cosa. Del mismo modo, las definiciones de la <em>Ética</em>
+                (Dios, sustancia, modo, atributo) no describen arbitrariamente: <strong>construyen</strong> el objeto mismo de la filosofía.
+            </p>
+            <div class="caja verde reveal">
+                <h4>La herencia griega del método</h4>
+                <p>Spinoza combina dos tradiciones griegas: la <strong>lógica aristotélica</strong> (el silogismo, la demostración) y la <strong>matemática euclidiana</strong>
+                (los axiomas, las definiciones, las proposiciones).</p>
+                <p>Pero hay una diferencia decisiva: para Spinoza, el método no es un instrumento externo. <strong>El orden de las ideas es el orden de las cosas</strong>.
+                La demostración geométrica no "representa" la realidad: la <em>expresa</em>.</p>
+            </div>
+        </section>
+
+        <!-- ===== 3. LA NEGACIÓN ===== -->
+        <section class="pagina" id="negacion">
+            <h2><span>⚡</span> 3. La negación: <em>determinatio negatio est</em></h2>
+            <p class="reveal">
+                Spinoza escribe en su carta a Jelles (1674): <span class="formula">Determinatio negatio est</span> — la determinación es negación.
+                Esto significa que <strong>tener figura es estar limitado</strong>: un cuerpo es <em>esta</em> figura y no otra porque otros cuerpos lo recortan.
+                La figura pertenece al <em>non-esse</em> de la cosa, no a su ser absoluto.
+            </p>
+            <div class="caja dorada reveal">
+                <h4>La clave del argumento</h4>
+                <p>La negación no añade realidad positiva. La finitud no es una "cosa" que se suma al ser, sino un <strong>límite</strong>, un contorno,
+                una contracción de la potencia infinita.</p>
+            </div>
+            <h3 class="reveal">Dos sentidos de "determinación"</h3>
+            <div class="tabla-wrap reveal">
+                <table>
+                    <tr><th></th><th>Determinación como necesidad</th><th>Determinación como negación (figura)</th></tr>
+                    <tr><td><strong>Qué es</strong></td><td>Seguirse necesariamente de la naturaleza de algo</td><td>Estar limitado, recortado, tener contorno</td></tr>
+                    <tr><td><strong>A quién conviene</strong></td><td>A todo: Dios, modos infinitos, modos finitos</td><td>Solo a los cuerpos finitos</td></tr>
+                    <tr><td><strong>Implica <em>non-esse</em></strong></td><td>No</td><td>Sí</td></tr>
+                </table>
+            </div>
+            <p class="reveal">
+                El error consiste en aplicar la fórmula de la negación a los modos infinitos como si fueran "cosas recortadas".
+                Spinoza es preciso: la negación pertenece a la <strong>figura</strong>, y la figura solo conviene a lo finito.
+            </p>
+        </section>
+
+        <!-- ===== 4. LOS MODOS ===== -->
+        <section class="pagina" id="modos">
+            <h2><span>🌌</span> 4. Los modos infinitos y el paso a lo finito</h2>
+            <p class="reveal">
+                Los modos infinitos <strong>no son determinaciones en el sentido de la figura</strong>. No tienen límite, no se recortan frente a un "otro".
+                Son <strong>expresiones necesarias e infinitas</strong> de la potencia de Dios, pero sin contorno, sin <em>non-esse</em>.
+            </p>
+            <h3 class="reveal">Los tres niveles</h3>
+            <ul class="reveal">
+                <li><strong>Modo infinito inmediato:</strong> la <em>Idea de Dios</em> (en el Pensamiento) y el <em>Movimiento y Reposo</em> (en la Extensión).</li>
+                <li><strong>Modo infinito mediato:</strong> la <em>facies totius Universi</em>, la faz del universo entero que permanece idéntica a través de infinitas variaciones.</li>
+                <li><strong>Modos finitos:</strong> las cosas singulares —este cuerpo, esta mente—, que sí están constituidas por la negación de la figura.</li>
+            </ul>
+            <div class="caja reveal">
+                <h4>¿Por qué los modos infinitos no son determinaciones?</h4>
+                <p>Porque la determinación como negación implica un contorno, un límite que excluye otra cosa. El Movimiento y el Reposo, o la Idea de Dios,
+                no tienen un "afuera" que los limite. Su infinitud es <strong>derivada</strong>, no absoluta, pero tampoco son finitos.</p>
+            </div>
+            <h3 class="reveal">Dios no tiene figura, luego nunca se ha contraído</h3>
+            <ol class="reveal">
+                <li><strong>La figura implica negación.</strong> Tener figura es estar limitado, recortado.</li>
+                <li><strong>Solo los cuerpos finitos tienen figura.</strong> Un cuerpo es <em>esta</em> figura porque otros lo limitan.</li>
+                <li><strong>Dios no es un cuerpo.</strong> La Extensión es un atributo suyo, pero Dios no es un cuerpo extenso (E I, prop. 15).</li>
+                <li><strong>Conclusión:</strong> Dios no tiene figura, luego <strong>nunca se ha contraído</strong>.</li>
+            </ol>
+            <div class="caja dorada reveal">
+                <h4>Consecuencia decisiva</h4>
+                <p>Si Dios nunca se contrae, entonces <strong>los modos infinitos tampoco son contracciones de Dios</strong>. No son "pedazos" recortados de la Sustancia,
+                porque la Sustancia no se puede recortar. Son expresiones necesarias de su potencia infinita, pero sin figura, sin <em>non-esse</em>.</p>
+            </div>
+            <div class="tabla-wrap reveal">
+                <table>
+                    <tr><th></th><th>Dios / Sustancia</th><th>Modos infinitos</th><th>Modos finitos</th></tr>
+                    <tr><td><strong>Figura</strong></td><td>No</td><td>No</td><td>Sí</td></tr>
+                    <tr><td><strong>Negación (límite)</strong></td><td>No</td><td>No</td><td>Sí</td></tr>
+                    <tr><td><strong>Contracción</strong></td><td>Nunca</td><td>No</td><td>Sí (por la figura)</td></tr>
+                    <tr><td><strong>Infinitud</strong></td><td>Absoluta</td><td>Derivada</td><td>No</td></tr>
+                </table>
+            </div>
+        </section>
+
+        <!-- ===== 5. LO ETERNO ===== -->
+        <section class="pagina" id="eterno">
+            <h2><span>🧬</span> 5. La parte eterna del cuerpo</h2>
+            <p class="reveal">
+                Spinoza lo dice en la <em>Ética</em> V, proposición 23: <strong>"La mente humana no puede destruirse absolutamente con el cuerpo,
+                sino que algo de ella permanece, algo que es eterno"</strong>. Ese "algo" no es la imaginación ni la memoria, que perecen con el cuerpo (V, 21).
+                Es <strong>la idea de la esencia del cuerpo</strong>, en tanto que esa idea está en Dios bajo la forma de la eternidad (V, 22).
+            </p>
+            <div class="animacion-mente reveal">
+                <div class="cerebro-anim">
+                    <div class="circulo-exterior"></div>
+                    <div class="circulo-medio"></div>
+                    <div class="circulo-interior"></div>
+                    <div class="punto-orbita"></div>
+                    <div class="punto-orbita dos"></div>
+                    <div class="punto-orbita tres"></div>
+                </div>
+                <div class="leyenda-anim">
+                    El núcleo dorado es la <strong>esencia eterna</strong> de la mente; las órbitas son los grados de conocimiento
+                    que se acercan o alejan de ella.
+                </div>
+            </div>
+            <div class="caja dorada reveal">
+                <h4>La distinción clave: esencia vs. existencia</h4>
+                <p><strong>La esencia del cuerpo</strong> es su estructura inteligible, su "código". Existe eternamente como idea en el atributo Pensamiento.</p>
+                <p><strong>La existencia del cuerpo</strong> es durational: nace, dura y perece. Lo que permanece es la esencia, no el cuerpo concreto ni los recuerdos ligados a él.</p>
+            </div>
+            <p class="reveal">
+                Por eso Spinoza puede decir que <strong>"sentimos y experimentamos que somos eternos"</strong> (V, 23, esc.),
+                pero no que recordemos haber existido antes del cuerpo. La eternidad no es una prolongación temporal infinita hacia atrás o hacia adelante;
+                es un modo de ser necesario, no sujeto a duración.
+            </p>
+            <h3 class="reveal">Por qué esta eternidad no está en otros seres</h3>
+            <p class="reveal">
+                Todos los modos finitos tienen una esencia eterna en Dios. El cuerpo de un perro, de una piedra o de un árbol también tiene su idea en el atributo Pensamiento.
+                Pero <strong>solo la mente humana puede conocer adecuadamente esa esencia</strong>, y solo a través del tercer género de conocimiento.
+                La eternidad de la mente no es una propiedad que se posea de facto por el mero hecho de existir; es una <strong>participación activa</strong>
+                en la necesidad divina que se conquista mediante el entendimiento.
+            </p>
+            <p class="reveal">
+                Spinoza es explícito: <strong>"Cuanto más conoce la mente las cosas por el segundo y tercer género de conocimiento, mayor es la parte de ella que sobrevive"</strong> (V, 38).
+                Lo eterno de la mente no es una sustancia fija, sino una <strong>proporción variable</strong>.
+            </p>
+            <div class="tabla-wrap reveal">
+                <table>
+                    <tr><th></th><th>Ser humano</th><th>Otros modos finitos</th></tr>
+                    <tr><td><strong>Esencia eterna en Dios</strong></td><td>Sí</td><td>Sí</td></tr>
+                    <tr><td><strong>Acceso al tercer género</strong></td><td>Sí (potencialmente)</td><td>No</td></tr>
+                    <tr><td><strong>Conciencia de su eternidad</strong></td><td>Sí</td><td>No</td></tr>
+                    <tr><td><strong>Práctica que aumenta la eternidad</strong></td><td>Sí (filosofía, ciencia intuitiva)</td><td>No</td></tr>
+                </table>
+            </div>
+            <div class="caja roja reveal">
+                <h4>La diferencia no es ontológica, sino epistemológica y práctica</h4>
+                <p>La esencia de todos los seres es eterna en Dios. Pero solo el humano puede <strong>saber</strong> que es eterno y <strong>trabajar</strong> para serlo más.
+                Los otros seres no tienen un <em>conatus</em> cognitivo que los haga conscientes de esa eternidad.</p>
+            </div>
+        </section>
+
+        <!-- ===== 6. GENEALOGÍA ===== -->
+        <section class="pagina" id="genealogia">
+            <h2><span>🏛️</span> 6. Genealogía: de Aristóteles a Spinoza</h2>
+            <p class="reveal">
+                Spinoza no rechaza a Aristóteles ni a Descartes: los atraviesa y los transforma.
+                El resultado es un monismo radical que disuelve los problemas de ambos.
+            </p>
+            <div class="genealogia reveal">
+                <div class="nodo aristo">
+                    <h3>🏛️ Aristóteles <span class="fecha">384–322 a.C.</span></h3>
+                    <p style="font-size:0.88rem; color:var(--text-dim);">
+                        El punto de partida. Spinoza lo leyó de primera mano; tras Descartes, es el autor más citado en su obra.
+                    </p>
+                    <div class="concepto-grid">
+                        <div class="concepto-item"><div class="termino">Sustancia (ousía)</div><div class="definicion">Lo que existe por sí mismo, no en otro. Hay muchas sustancias: este hombre, este caballo, esta piedra.</div></div>
+                        <div class="concepto-item"><div class="termino">Accidente (symbebekós)</div><div class="definicion">Lo que existe en otro. El color, la altura, la posición. Caracterizan a la sustancia pero no la constituyen.</div></div>
+                        <div class="concepto-item"><div class="termino">Causa formal (eîdos)</div><div class="definicion">La esencia o forma que hace que una cosa sea lo que es. Explica el cambio y la identidad.</div></div>
+                        <div class="concepto-item"><div class="termino">Intelecto (noûs)</div><div class="definicion">La parte más divina del alma. El conocimiento teórico de lo necesario es la actividad más alta.</div></div>
+                    </div>
+                </div>
+                <div class="nodo descartes">
+                    <h3>🔷 Descartes <span class="fecha">1596–1650</span></h3>
+                    <p style="font-size:0.88rem; color:var(--text-dim);">
+                        La mediación decisiva. Spinoza publicó una exposición geométrica de los <em>Principios</em> de Descartes en 1663.
+                        Descartes le da a Spinoza las herramientas para demoler el Aristóteles escolástico.
+                    </p>
+                    <div class="concepto-grid">
+                        <div class="concepto-item"><div class="termino">Sustancia (res) — reformulada</div><div class="definicion">Lo que existe de tal modo que no necesita de otra cosa para existir. Estrictamente, solo Dios. Pero hay dos sustancias creadas: pensamiento y extensión.</div></div>
+                        <div class="concepto-item"><div class="termino">Mecanicismo</div><div class="definicion">La naturaleza se explica por materia y movimiento, no por formas o fines. Esto socava la causa formal aristotélica.</div></div>
+                        <div class="concepto-item"><div class="termino">Método geométrico</div><div class="definicion">Deducción a partir de axiomas y definiciones. Spinoza lo adoptará como forma de exposición de la <em>Ética</em>.</div></div>
+                        <div class="concepto-item"><div class="termino">Dualismo mente-cuerpo</div><div class="definicion">Pensamiento y extensión son sustancias distintas. Spinoza convertirá esta distinción en dos atributos de una sola sustancia.</div></div>
+                    </div>
+                </div>
+                <div class="nodo spinoza">
+                    <h3>🌱 Spinoza <span class="fecha">1632–1677</span></h3>
+                    <p style="font-size:0.88rem; color:var(--text-dim);">
+                        La inversión. Spinoza no rechaza a Aristóteles ni a Descartes: los atraviesa y los transforma.
+                    </p>
+                    <div class="inversion"><h4>Inversión 1 · Sustancia: de muchas a una</h4><p>Aristóteles: muchas sustancias finitas. Descartes: tres sustancias (Dios y dos creadas). Spinoza: <strong>una sola sustancia</strong>, Dios o Naturaleza.</p></div>
+                    <div class="inversion"><h4>Inversión 2 · Accidente → Modo</h4><p>En Aristóteles, el accidente caracteriza a la sustancia. En Spinoza, el modo <strong>se sigue necesariamente</strong> de la sustancia; no la caracteriza, sino que la expresa.</p></div>
+                    <div class="inversion"><h4>Inversión 3 · Causa formal → Ontología de la potencia</h4><p>Spinoza considera que la causa formal aristotélica <strong>obstaculiza</strong> la ciencia moderna. La sustituye por una ontología de la potencia.</p></div>
+                    <div class="inversion"><h4>Inversión 4 · Intelecto: de facultad a idea adecuada</h4><p>Spinoza disuelve la compartimentación aristotélica del alma: la mente es un conjunto de ideas, y el intelecto es la <strong>parte eterna</strong> constituida por ideas adecuadas.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 7. FÍSICA Y POLÍTICA ===== -->
+        <section class="pagina" id="fisica">
+            <h2><span>🔬</span> 7. Física, política, arte y filosofía</h2>
+            <p class="reveal">
+                Lo eterno de la mente es el <strong>intelecto</strong>, y su contenido es el conocimiento racional e intuitivo junto con el amor intelectual de Dios (V, 32-33).
+                Desde ahí, cada dominio de la cultura humana se reordena como un modo de participar en la <em>physis</em> total.
+            </p>
+            <div class="dominios">
+                <div class="dominio reveal">
+                    <h4>⚖️ La ética</h4>
+                    <p>Es el cultivo de esa parte eterna. Las pasiones pasivas existen solo mientras el cuerpo dura (V, 34); el amor intelectual de Dios, en cambio, es eterno (V, 33).</p>
+                    <p>La ética spinoziana no es un catálogo de normas, sino una <strong>física de la potencia</strong>: aumentar la proporción de eternidad en la mente mediante el conocimiento adecuado.</p>
+                    <div class="ejemplo"><strong>Ejemplo:</strong> quien comprende que el odio se sigue necesariamente de causas externas deja de odiar; no por mandato moral, sino porque el afecto pasivo pierde su fuerza al ser entendido.</div>
+                </div>
+                <div class="dominio reveal">
+                    <h4>🔬 La ciencia</h4>
+                    <p>La razón (segundo género) es el primer escalón hacia la eternidad. Conoce las nociones comunes, las propiedades que pertenecen a todos los cuerpos. Pero es todavía abstracta: no capta las esencias singulares.</p>
+                    <p>La <strong>ciencia intuitiva</strong> (tercer género) es la que conoce las cosas <em>sub specie aeternitatis</em>, desde la idea de Dios.</p>
+                    <div class="ejemplo"><strong>Ejemplo:</strong> la física que estudia las leyes del movimiento conoce propiedades comunes a todos los cuerpos (segundo género); la que comprende esas leyes como expresiones necesarias de la potencia divina accede al tercero.</div>
+                </div>
+                <div class="dominio reveal">
+                    <h4>🏛️ La política</h4>
+                    <p>No puede fundar la eternidad, pero puede <strong>no obstaculizarla</strong>. Spinoza sabe que la mayoría vive según la imaginación, y que el Estado debe gestionar esa vida pasional sin pretender convertirla en filosofía.</p>
+                    <p>La política es el ámbito de la <em>potentia multitudinis</em>, no del intelecto eterno. Su función es negativa: garantizar la paz y la libertad de pensamiento.</p>
+                    <div class="ejemplo"><strong>Ejemplo:</strong> el <em>Tratado teológico-político</em> defiende la libertad de filosofar no porque la política sea filosofía, sino porque un Estado que la reprime impide el cultivo de la parte eterna de sus ciudadanos.</div>
+                </div>
+                <div class="dominio reveal">
+                    <h4>🎭 El arte</h4>
+                    <p>Ocupa un lugar ambivalente. Puede alimentar la superstición y la división, pero también puede ser un <strong>"ser de razón"</strong> que moviliza afectos y hace más llevadera la práctica de la razón.</p>
+                    <p>Spinoza cita a Medea, a Ovidio, a Séneca. La poesía no conoce esencias, pero puede <strong>disponer el ánimo</strong> para que el entendimiento opere.</p>
+                    <div class="ejemplo"><strong>Ejemplo:</strong> una tragedia bien construida purga afectos pasivos y deja el ánimo más libre para la reflexión; no sustituye a la filosofía, pero la prepara.</div>
+                </div>
+                <div class="dominio reveal" style="grid-column:1/-1;">
+                    <h4>🌌 La filosofía</h4>
+                    <p>Es el nombre del proyecto entero: la <em>physis</em> se conoce a sí misma a través del intelecto humano, y en ese conocerse alcanza su mayor participación en la eternidad.</p>
+                    <p>La filosofía no es una disciplina entre otras; es la <strong>actividad del <em>conatus</em></strong> que, al comprender la necesidad de todas las cosas, goza de la única alegría que no pasa: el amor intelectual de Dios.</p>
+                    <div class="ejemplo"><strong>Ejemplo:</strong> quien comprende que todo se sigue necesariamente de la naturaleza divina deja de experimentar el mundo como contingente y hostil, y experimenta la necesidad como beatitud.</div>
+                </div>
+            </div>
+            <div class="caja verde reveal" style="margin-top:1.5rem;">
+                <h4>El hilo conductor</h4>
+                <p><strong>La política</strong> administra la finitud; <strong>el arte</strong> la dispone; <strong>la ciencia</strong> la eleva; <strong>la ética</strong> la cultiva;
+                <strong>la filosofía</strong> la consuma como amor intelectual de la <em>physis</em> entera.</p>
+            </div>
+        </section>
+
+        <!-- ===== 8. LECTURAS ACTUALES ===== -->
+        <section class="pagina" id="lecturas">
+            <h2><span>📡</span> 8. Lecturas actuales: de los franceses a los físicos y los políticos</h2>
+            <p class="reveal">
+                Spinoza es hoy uno de los autores más leídos y discutidos. Katja Diefenbach lo recuerda: <em>"muy pocos filósofos del siglo XVII han recibido
+                interpretaciones más antitéticas que Baruch de Spinoza. Ha sido considerado ateo y racionalista, panteísta y vitalista, crítico judío de la religión
+                y gran pensador de la tradición marrana"</em>. En el siglo XX, sin embargo, fue concebido como un materialista <em>"sorprendentemente adelantado a su tiempo"</em>,
+                que proporcionó al marxismo conceptos de dialéctica sobredeterminada, temporalidad plural y praxis no teleológica.
+            </p>
+
+            <!-- Contadores animados -->
+            <div class="contador-grid">
+                <div class="contador-card reveal"><div class="contador-num" data-target="9">0</div><div class="contador-label">Lectorxs franceses</div></div>
+                <div class="contador-card reveal"><div class="contador-num" data-target="5">0</div><div class="contador-label">Físicos y filósofos de la ciencia</div></div>
+                <div class="contador-card reveal"><div class="contador-num" data-target="4">0</div><div class="contador-label">Teóricos políticos</div></div>
+                <div class="contador-card reveal"><div class="contador-num" data-target="3">0</div><div class="contador-label">Géneros de conocimiento</div></div>
+            </div>
+
+            <!-- Marquesina de citas -->
+            <div class="cita-marquee reveal">
+                <div class="cita-marquee-inner">
+                    <strong>Diefenbach:</strong> "muy pocos filósofos del siglo XVII han recibido interpretaciones más antitéticas que Baruch de Spinoza" &nbsp;·&nbsp;
+                    <strong>Rovelli:</strong> "Soy, como sostenía Spinoza, mi cuerpo y lo que ocurre en mi cerebro y mi corazón" &nbsp;·&nbsp;
+                    <strong>Lloyd:</strong> "no hay un 'afuera' del mundo" &nbsp;·&nbsp;
+                    <strong>Negri:</strong> la multitud como sujeto político &nbsp;·&nbsp;
+                    <strong>Balibar:</strong> la política de la imaginación &nbsp;·&nbsp;
+                </div>
+            </div>
+
+            <!-- 8.1 Franceses -->
+            <h3 class="reveal"><span class="num">8.1</span> La constelación francesa: inmanencia, materialismo y multitud</h3>
+            <p class="reveal">
+                La recepción francesa de Spinoza, desde los años sesenta, ha sido decisiva. Un curso de Princeton lo resume con precisión:
+                se trata de introducir a los pensadores clave de la teoría francesa <em>a través de la recepción de la filosofía de Spinoza</em>,
+                e incluye a Deleuze, Althusser, Macherey, Balibar, Negri y Badiou. El punto de partida suele ser Althusser y su interés por el concepto
+                de <strong>causalidad inmanente</strong>. Desde ahí, Diefenbach reconstruye las lecturas post-marxistas <em>"desde Negri a Balibar,
+                de Matheron a Tosel, y de Gueroult a Deleuze"</em>.
+            </p>
+
+            <!-- Constelación animada -->
+            <div class="constelacion reveal">
+                <div class="constelacion-orbita o1"></div>
+                <div class="constelacion-orbita o2"></div>
+                <div class="constelacion-orbita o3"></div>
+                <div class="constelacion-centro">Spinoza<br><span style="font-size:0.6rem; font-weight:400;">1632–1677</span></div>
+                <div class="constelacion-nodo" style="--angle:0deg; --radius:125px;">Althusser</div>
+                <div class="constelacion-nodo" style="--angle:120deg; --radius:125px;">Deleuze</div>
+                <div class="constelacion-nodo" style="--angle:240deg; --radius:125px;">Balibar</div>
+                <div class="constelacion-nodo" style="--angle:60deg; --radius:190px;">Macherey</div>
+                <div class="constelacion-nodo" style="--angle:180deg; --radius:190px;">Negri</div>
+                <div class="constelacion-nodo" style="--angle:300deg; --radius:190px;">Matheron</div>
+                <div class="constelacion-nodo" style="--angle:30deg; --radius:250px;">Gueroult</div>
+                <div class="constelacion-nodo" style="--angle:150deg; --radius:250px;">Tosel</div>
+                <div class="constelacion-nodo" style="--angle:270deg; --radius:250px;">Badiou</div>
+            </div>
+            <p class="reveal" style="text-align:center; font-size:0.85rem; color:var(--text-faint); font-style:italic;">
+                Pasa el cursor sobre cada nodo. Las órbitas giran; lxs lectorxs permanecen en su lugar.
+            </p>
+
+            <div class="lectores-grid">
+                <div class="lector-card reveal">
+                    <span class="pais fr">Francia</span>
+                    <h4>Louis Althusser</h4>
+                    <div class="obra">Para leer El capital (1965)</div>
+                    <p>Toma de Spinoza la <strong>causalidad inmanente</strong>: la estructura causa sus efectos sin salir de sí misma. Contra la causalidad expresiva y transitiva.</p>
+                </div>
+                <div class="lector-card reveal">
+                    <span class="pais fr">Francia</span>
+                    <h4>Gilles Deleuze</h4>
+                    <div class="obra">Spinoza y el problema de la expresión (1968)</div>
+                    <p>Lee la <em>Ética</em> como una <strong>ontología de la diferencia</strong> y de los afectos. La potencia se afirma en la alegría; el cuerpo es un mapa de intensidades.</p>
+                </div>
+                <div class="lector-card reveal">
+                    <span class="pais fr">Francia</span>
+                    <h4>Étienne Balibar</h4>
+                    <div class="obra">Spinoza y la política (1985)</div>
+                    <p>Insiste en la <strong>dimensión política y epistemológica</strong>: la multitud, la imaginación, la ideología. Dialoga críticamente con Negri.</p>
+                </div>
+                <div class="lector-card reveal">
+                    <span class="pais fr">Francia</span>
+                    <h4>Pierre Macherey</h4>
+                    <div class="obra">Hegel o Spinoza (1979)</div>
+                    <p>Lectura materialista de la <em>Ética</em>: el orden geométrico como <strong>producción</strong> de verdades, no como reflejo.</p>
+                </div>
+                <div class="lector-card reveal">
+                    <span class="pais it">Italia</span>
+                    <h4>Antonio Negri</h4>
+                    <div class="obra">La anomalía salvaje (1981)</div>
+                    <p>Ve en el "inmanentismo spinoziano" un llamado a una <strong>política de la multitud</strong> organizada en la producción, que desborda los canales formales de la democracia liberal.</p>
+                </div>
+                <div class="lector-card reveal">
+                    <span class="pais fr">Francia</span>
+                    <h4>Alexandre Matheron</h4>
+                    <div class="obra">Individuo y comunidad en Spinoza (1969)</div>
+                    <p>La gran obra sobre el <em>Tratado político</em> y la teoría de la multitud. Individuo y comunidad se co-producen.</p>
+                </div>
+                <div class="lector-card reveal">
+                    <span class="pais fr">Francia</span>
+                    <h4>Martial Gueroult</h4>
+                    <div class="obra">Spinoza I y II (1968–1974)</div>
+                    <p>Lectura estructural rigurosa de la <em>Ética</em>, atenta al orden de las demostraciones y a la arquitectura del sistema.</p>
+                </div>
+                <div class="lector-card reveal">
+                    <span class="pais fr">Francia</span>
+                    <h4>André Tosel</h4>
+                    <div class="obra">Spinoza ou le crépuscule de la servitude (1984)</div>
+                    <p>Vincula a Spinoza con el marxismo y la <strong>filosofía de la praxis</strong>: la libertad como producción de lo común.</p>
+                </div>
+                <div class="lector-card reveal">
+                    <span class="pais fr">Francia</span>
+                    <h4>Alain Badiou</h4>
+                    <div class="obra">La clameur de l'Être (1997)</div>
+                    <p>Lee a Spinoza en clave de <strong>ontología de la multiplicidad</strong> y de la verdad. La sustancia como multiplicidad de multiplicidades.</p>
+                </div>
+            </div>
+
+            <!-- 8.2 Física -->
+            <h3 class="reveal"><span class="num">8.2</span> Spinoza y la física contemporánea</h3>
+            <p class="reveal">
+                Genevieve Lloyd, en <em>Reading Spinoza in the Anthropocene</em> (2024), señala que el tratamiento spinoziano de la mente y el pensamiento
+                está recibiendo una atención creciente <em>"no solo de filósofos, sino también de científicos contemporáneos"</em>.
+                Aspectos de su crítica al modelo "cartesiano" resuenan en los intentos de comunicar cambios radicales en el pensamiento científico.
+            </p>
+            <div class="caja verde reveal">
+                <h4>Rovelli y la ausencia de "afuera"</h4>
+                <p>El físico teórico <strong>Carlo Rovelli</strong>, en <em>El orden del tiempo</em>, sostiene que <em>"hablar del mundo 'visto desde fuera' no tiene sentido,
+                porque no hay un 'afuera' del mundo"</em>. Y en <em>Siete breves lecciones de física</em> invoca explícitamente a Spinoza:
+                <em>"No hay un 'yo' y 'las neuronas de mi cerebro'. Son la misma cosa. Un individuo es un proceso... Yo soy, como sostenía Spinoza,
+                mi cuerpo y lo que ocurre en mi cerebro y mi corazón"</em>.</p>
+            </div>
+            <p class="reveal">
+                Lloyd no dice que Rovelli sea spinoziano, pero sí que hay <strong>paralelismos</strong> entre su lenguaje de "puntos de vista interrelacionados"
+                y el rechazo spinoziano del modelo cartesiano de objetividad. La idea de que no hay un "punto de vista externo" al mundo conecta directamente
+                con el monismo de Spinoza.
+            </p>
+            <div class="lectores-grid">
+                <div class="lector-card reveal">
+                    <span class="pais us">EE.UU.</span>
+                    <h4>Genevieve Lloyd</h4>
+                    <div class="obra">Reading Spinoza in the Anthropocene (2024)</div>
+                    <p>La mente incluida en la naturaleza. Crítica al dualismo cartesiano y modelo para superar la arrogancia humana en el discurso climático.</p>
+                </div>
+                <div class="lector-card reveal">
+                    <span class="pais us">EE.UU.</span>
+                    <h4>Karolina Hübner</h4>
+                    <div class="obra">The Cambridge Spinoza Lexicon (2024, con Steinberg)</div>
+                    <p>El monismo implica que la Extensión es un atributo <strong>infinito e indivisible</strong>: no hay vacío. Orientación mecanicista del siglo XVII.</p>
+                </div>
+                <div class="lector-card reveal">
+                    <span class="pais us">EE.UU.</span>
+                    <h4>Justin Steinberg</h4>
+                    <div class="obra">Spinoza's Political Psychology (2018)</div>
+                    <p>La física de los cuerpos y la psicología política: cómo se componen los individuos y las multitudes.</p>
+                </div>
+                <div class="lector-card reveal">
+                    <span class="pais it">Italia</span>
+                    <h4>Carlo Rovelli</h4>
+                    <div class="obra">Siete breves lecciones de física (2014)</div>
+                    <p>La ausencia de un "afuera" del mundo y la identidad mente-cuerpo como proceso. Invocación explícita de Spinoza.</p>
+                </div>
+                <div class="lector-card reveal">
+                    <span class="pais es">Corea/Italia</span>
+                    <h4>Hyun Young-jong · Andrea Sangiacomo</h4>
+                    <div class="obra">Hyun (2009) · Sangiacomo (2015)</div>
+                    <p>Hyun analiza el "cuerpo simplicísimo" del <em>Tratado breve de física</em> como abstracción intelectual. Sangiacomo muestra que el <em>conatus</em>
+                    y la potencia de actuar se derivan por generalización de la "fuerza de movimiento" y la "fuerza de determinación". Leídos juntos, sugieren
+                    una continuidad problemática entre la física y la ontología del esfuerzo.</p>
+                </div>
+            </div>
+
+            <!-- 8.3 Política -->
+            <h3 class="reveal"><span class="num">8.3</span> La política: multitud, poder constituyente y las tensiones del <em>TTP</em></h3>
+            <p class="reveal">
+                En el ámbito político, las interpretaciones contemporáneas más influyentes —Negri, Hardt, Balibar e Israel— coinciden en considerar a Spinoza
+                como un pensador <em>"radical, subversivo y revolucionario"</em>, que defiende la inviolabilidad sagrada de las libertades individuales,
+                especialmente la libertad de pensamiento, expresión y creencia, y que reconoce a la <strong>multitud</strong> como sujeto genuino de la democracia.
+            </p>
+            <p class="reveal">
+                Negri, en particular, ve en el "inmanentismo spinoziano" un llamado a una <em>"política de la 'multitud' organizada en la producción"</em>,
+                que desborda los canales formales de la democracia liberal. Su colaboración con Hardt en <em>Imperio</em> y <em>Multitud</em> articula una crítica
+                al Imperio y propone una alternativa democrática basada en el <strong>poder constituyente de la multitud</strong> y en lo común.
+                Balibar, por su parte, desarrolla en <em>Spinoza y la política</em> (1985) una lectura que dialoga críticamente con la de Negri,
+                insistiendo en la complejidad de la imaginación y de las instituciones.
+            </p>
+            <div class="caja roja reveal">
+                <h4>Una tensión que no se debe olvidar</h4>
+                <p>El Spinoza "radical" de Negri, Hardt, Balibar e Israel no es el único. Un estudio reciente advierte que estas lecturas
+                <em>"relegan o simplemente ignoran"</em> temas centrales del <em>Tratado teológico-político</em>, como las consideraciones negativas de Spinoza
+                sobre la multitud, su tono resueltamente anti-revolucionario y su visión del Estado como un poder absoluto, principalmente en lo que respecta
+                a la regulación de la opinión pública. Esas ideas contradicen al Spinoza "radical (liberal) democrático" de las interpretaciones contemporáneas,
+                y obligan a matizar cualquier apropiación demasiado entusiasta.</p>
+            </div>
+            <div class="lectores-grid">
+                <div class="lector-card reveal">
+                    <span class="pais us">EE.UU.</span>
+                    <h4>Michael Hardt · Antonio Negri</h4>
+                    <div class="obra">Imperio (2000) · Multitud (2004)</div>
+                    <p>El poder constituyente de la multitud y lo común. Spinoza como fuente de una teoría política de la producción biopolítica.</p>
+                </div>
+                <div class="lector-card reveal">
+                    <span class="pais fr">Francia</span>
+                    <h4>Étienne Balibar</h4>
+                    <div class="obra">Spinoza y la política (1985)</div>
+                    <p>La política de la imaginación y de las instituciones. Una lectura que resiste la reducción de Spinoza a un solo programa político.</p>
+                </div>
+                <div class="lector-card reveal">
+                    <span class="pais us">EE.UU.</span>
+                    <h4>Jonathan I. Israel</h4>
+                    <div class="obra">Radical Enlightenment (2001)</div>
+                    <p>Spinoza como fuente del Iluminismo radical: democracia, libertad de pensamiento, crítica de la religión.</p>
+                </div>
+                <div class="lector-card reveal">
+                    <span class="pais fr">Francia</span>
+                    <h4>Alexandre Matheron</h4>
+                    <div class="obra">Individuo y comunidad en Spinoza (1969)</div>
+                    <p>La co-producción de individuo y comunidad. La multitud como composición de potencias.</p>
+                </div>
+            </div>
+
+            <!-- 8.4 Otras voces -->
+            <h3 class="reveal"><span class="num">8.4</span> Otras voces y contrapuntos</h3>
+            <p class="reveal">
+                La constelación francesa se completa con figuras menos conocidas en el mundo hispanohablante pero decisivas.
+                <strong>Martial Gueroult</strong> produjo una lectura estructural rigurosa de la <em>Ética</em>, atenta al orden de las demostraciones.
+                <strong>Alexandre Matheron</strong> escribió la gran obra sobre el <em>Tratado político</em> y la teoría de la multitud.
+                <strong>André Tosel</strong> vinculó a Spinoza con el marxismo y la filosofía de la praxis.
+                <strong>Alain Badiou</strong> ha leído a Spinoza en clave de ontología de la multiplicidad y de la verdad.
+                Todos ellos confirman que la recepción francesa no es una escuela, sino una <strong>red de lecturas cruzadas</strong>.
+            </p>
+            <div class="caja dorada reveal">
+                <h4>El balance</h4>
+                <p>No hay un "Spinoza" unívoco. Hay un <strong>Spinoza de la inmanencia</strong> (Deleuze), un <strong>Spinoza de la causalidad estructural</strong> (Althusser),
+                un <strong>Spinoza de la multitud</strong> (Negri, Hardt), un <strong>Spinoza de la libertad de pensamiento</strong> (Balibar, Israel),
+                un <strong>Spinoza de la física</strong> (Rovelli, Lloyd, Hübner), un <strong>Spinoza de la biología</strong> (volúmenes recientes).
+                Cada lectura ilumina un aspecto y deja otros en sombra. La grandeza de Spinoza es que <strong>soporta todas esas lecturas sin agotarse</strong>.</p>
+            </div>
+        </section>
+
+        <!-- ===== 9. LOS TEXTOS ===== -->
+        <section class="pagina" id="textos">
+            <h2><span>📚</span> 9. Los textos de Spinoza: esquema general</h2>
+            <p class="reveal">
+                Para orientarse en el corpus, conviene distinguir entre las obras publicadas en vida (con nombre o anónimas) y las póstumas,
+                así como entre los tratados sistemáticos y los escritos de intervención. La siguiente línea de tiempo resume lo esencial.
+            </p>
+
+            <div class="contador-grid">
+                <div class="contador-card reveal"><div class="contador-num" data-target="8">0</div><div class="contador-label">Obras principales</div></div>
+                <div class="contador-card reveal"><div class="contador-num" data-target="2">0</div><div class="contador-label">Publicadas en vida</div></div>
+                <div class="contador-card reveal"><div class="contador-num" data-target="6">0</div><div class="contador-label">Póstumas o inacabadas</div></div>
+                <div class="contador-card reveal"><div class="contador-num" data-target="1">0</div><div class="contador-label">Obra magna: la <em>Ética</em></div></div>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item reveal">
+                    <span class="timeline-fecha">1660–1661 · póstumo (1862)</span>
+                    <h4>Tratado breve <em>(Korte Verhandeling)</em></h4>
+                    <div class="genero">Metafísica · Antropología · Religión</div>
+                    <p>Primer esbozo del sistema: Dios, el hombre y su felicidad. Todavía en diálogo con la escolástica y con Descartes, pero ya con el monismo en germen.</p>
+                </div>
+                <div class="timeline-item reveal">
+                    <span class="timeline-fecha">1661 · póstumo (1677)</span>
+                    <h4>Tratado de la reforma del entendimiento <em>(TIE)</em></h4>
+                    <div class="genero">Método · Epistemología</div>
+                    <p>La búsqueda del conocimiento adecuado y la crítica de las ideas confusas. Inacabado. Es el laboratorio del método que luego cristalizará en la <em>Ética</em>.</p>
+                </div>
+                <div class="timeline-item reveal">
+                    <span class="timeline-fecha">1663 · publicado en vida</span>
+                    <h4>Principios de filosofía de Descartes</h4>
+                    <div class="genero">Exposición geométrica</div>
+                    <p>Spinoza presenta a Descartes <em>more geometrico</em>. No es su propia filosofía, pero le sirve de ensayo metodológico y de tarjeta de presentación ante el público culto.</p>
+                </div>
+                <div class="timeline-item reveal" style="border-color: var(--gold-dim);">
+                    <span class="timeline-fecha">1661–1675 · póstuma (1677)</span>
+                    <h4>Ética demostrada según el orden geométrico <em>(E)</em></h4>
+                    <div class="genero">Metafísica · Física · Ética · Religión</div>
+                    <p>La obra magna: Dios, la mente, los afectos, la servidumbre y la libertad. El monismo, los modos infinitos, la parte eterna y el amor intelectual de Dios se desarrollan aquí. Cinco partes, más de 250 proposiciones.</p>
+                </div>
+                <div class="timeline-item reveal">
+                    <span class="timeline-fecha">1670 · anónimo, en vida</span>
+                    <h4>Tratado teológico-político <em>(TTP)</em></h4>
+                    <div class="genero">Política · Religión · Hermenéutica</div>
+                    <p>Defensa de la libertad de filosofar; crítica de la superstición y del poder eclesiástico. Aquí aparecen la multitud y el Estado, y la famosa distinción entre teología y filosofía.</p>
+                </div>
+                <div class="timeline-item reveal">
+                    <span class="timeline-fecha">1675–1677 · póstumo, inconcluso</span>
+                    <h4>Tratado político <em>(TP)</em></h4>
+                    <div class="genero">Teoría política</div>
+                    <p>La democracia, la monarquía y la aristocracia analizadas desde la potencia y el derecho natural. Inacabado. Es la obra que más ha alimentado las lecturas políticas contemporáneas.</p>
+                </div>
+                <div class="timeline-item reveal">
+                    <span class="timeline-fecha">1661–1676</span>
+                    <h4>Correspondencia <em>(Epistolae)</em></h4>
+                    <div class="genero">Cartas</div>
+                    <p>Discusiones con Boyle, Oldenburg, Jelles, Boxel, etc. Contiene la fórmula <em>determinatio negatio est</em> y claves sobre la física, la política y la exégesis bíblica.</p>
+                </div>
+                <div class="timeline-item reveal">
+                    <span class="timeline-fecha">Inconcluso · póstumo</span>
+                    <h4>Compendio de gramática hebrea</h4>
+                    <div class="genero">Filología</div>
+                    <p>Estudio técnico; muestra su interés por el lenguaje y la interpretación bíblica. No es una obra filosófica, pero revela su método de lectura.</p>
+                </div>
+            </div>
+
+            <div class="caja dorada reveal">
+                <h4>Comentario general</h4>
+                <p>El corpus spinoziano no es un sistema cerrado, sino un <strong>trabajo en proceso</strong>. El <em>Tratado breve</em> y el <em>TIE</em> son tanteos;
+                la <em>Ética</em> es la síntesis metafísica; el <em>TTP</em> y el <em>TP</em> son la aplicación política de esa metafísica.
+                Las lecturas actuales —francesas, físicas, políticas— muestran que cada generación vuelve a Spinoza porque encuentra en él un lenguaje
+                para pensar la inmanencia, la potencia y la multitud. Pero también muestran que <strong>no hay una sola interpretación correcta</strong>:
+                el propio Spinoza escribió para ser leído, discutido y transformado.</p>
+            </div>
+
+            <div class="caja verde reveal">
+                <h4>Una advertencia metodológica</h4>
+                <p>Leer a Spinoza hoy exige resistir dos tentaciones: la del <strong>sistema cerrado</strong> (creer que la <em>Ética</em> lo dice todo y de una vez)
+                y la del <strong>fragmento aislado</strong> (usar una cita para defender cualquier posición). El corpus es una red: cada texto ilumina a los otros.
+                La <em>Ética</em> sin el <em>TTP</em> es abstracta; el <em>TTP</em> sin la <em>Ética</em> es incomprendido. La lectura rigurosa pasa por ese cruce.</p>
+            </div>
+        </section>
+
+        <div class="pie">
+            <em>"Sentimos y experimentamos que somos eternos"</em> · Ética V, 23, esc. ·
+            <em>"Deus sive Natura"</em>
+        </div>
+    </main>
+
+    <!-- ===================== JAVASCRIPT ===================== -->
+    <script>
+        (function() {
+            // ===== 1. NAVEGACIÓN POR PESTAÑAS =====
+            const botones = document.querySelectorAll('.nav button');
+            const paginas = document.querySelectorAll('.pagina');
+
+            function mostrarPagina(targetId) {
+                paginas.forEach(p => p.classList.remove('visible'));
+                const target = document.getElementById(targetId);
+                if (target) target.classList.add('visible');
+                botones.forEach(b => b.classList.remove('activo'));
+                const botonActivo = document.querySelector(`.nav button[data-target="${targetId}"]`);
+                if (botonActivo) botonActivo.classList.add('activo');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                // Re-observar reveals de la nueva página
+                setTimeout(() => observarReveals(), 100);
+                // Re-animar contadores y barras de la nueva página
+                setTimeout(() => animarContadores(), 150);
+                setTimeout(() => animarBarras(), 150);
+            }
+
+            botones.forEach(boton => {
+                boton.addEventListener('click', () => {
+                    mostrarPagina(boton.getAttribute('data-target'));
+                });
+            });
+
+            // ===== 2. REVEAL ON SCROLL =====
+            let observer = null;
+            function observarReveals() {
+                if (observer) observer.disconnect();
+                observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.12 });
+                document.querySelectorAll('.pagina.visible .reveal:not(.visible)').forEach(el => observer.observe(el));
+            }
+
+            // ===== 3. CONTADORES ANIMADOS =====
+            function animarContadores() {
+                document.querySelectorAll('.pagina.visible .contador-num').forEach(el => {
+                    if (el.dataset.animado === 'si') return;
+                    const target = parseInt(el.dataset.target, 10);
+                    if (isNaN(target)) return;
+                    el.dataset.animado = 'si';
+                    let actual = 0;
+                    const duracion = 1400;
+                    const inicio = performance.now();
+                    function paso(ahora) {
+                        const progreso = Math.min((ahora - inicio) / duracion, 1);
+                        const valor = Math.floor(progreso * target);
+                        el.textContent = valor;
+                        if (progreso < 1) requestAnimationFrame(paso);
+                        else el.textContent = target;
+                    }
+                    requestAnimationFrame(paso);
+                });
+            }
+
+            // ===== 4. BARRAS DE PROGRESO =====
+            function animarBarras() {
+                document.querySelectorAll('.pagina.visible .barra-progreso-fill').forEach(el => {
+                    if (el.dataset.animado === 'si') return;
+                    el.dataset.animado = 'si';
+                    const ancho = el.dataset.ancho || '100%';
+                    setTimeout(() => { el.style.width = ancho; }, 200);
+                });
+            }
+
+            // ===== 5. INICIALIZACIÓN =====
+            mostrarPagina('physis');
+
+            // Re-observar al hacer scroll (por si acaso)
+            window.addEventListener('scroll', () => {
+                // Solo re-observar si hay reveals no visibles en la página activa
+                const pendientes = document.querySelectorAll('.pagina.visible .reveal:not(.visible)');
+                if (pendientes.length && observer) {
+                    pendientes.forEach(el => observer.observe(el));
+                }
+            }, { passive: true });
+
+            // Pequeño hack: animar contadores al cargar la primera vez
+            setTimeout(() => { animarContadores(); animarBarras(); }, 400);
+        })();
+    </script>
+</body>
+</html>
