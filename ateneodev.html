@@ -392,7 +392,7 @@ display:flex;align-items:flex-start;gap:10px;pointer-events:auto;animation:toast
       <div class="dash-brand">
         <div class="dash-logo">💻</div>
         <div>
-          <div class="dash-brand-name">CodeQuest</div>
+          <div class="dash-brand-name">Ateneodev</div>
           <div class="dash-brand-sub">Aprende a programar</div>
         </div>
       </div>
@@ -448,7 +448,7 @@ display:flex;align-items:flex-start;gap:10px;pointer-events:auto;animation:toast
     <div id="certBannerArea"></div>
 
     <div class="dash-footer">
-      © 2026 CodeQuest · Tu progreso se guarda automáticamente
+      © 2026 ateneodev · Tu progreso se guarda automáticamente
       <br><button class="link-btn" id="resetBtn">Reiniciar mi progreso</button>
     </div>
   </div>
@@ -522,14 +522,14 @@ display:flex;align-items:flex-start;gap:10px;pointer-events:auto;animation:toast
         <div class="cert-seal">💻</div>
         <div class="cert-header">
           <div class="cert-logo">💻</div>
-          <div class="cert-brand">CodeQuest</div>
+          <div class="cert-brand">ateneodev</div>
         </div>
         <h1>Certificado de Finalización</h1>
         <p class="cert-sub">Curso de Programación desde Cero</p>
         <div class="cert-body">
           <p>Se otorga el presente certificado a:</p>
           <input id="certName" class="cert-name-input" placeholder="Escribe tu nombre" maxlength="40">
-          <p>Por haber completado con éxito el <strong>Curso de Programación CodeQuest</strong></p>
+          <p>Por haber completado con éxito el <strong>Curso de Programación ateneodev</strong></p>
           <div class="cert-score">
             <span class="cert-score-label">Nota final</span>
             <span class="cert-score-value" id="certScore">0%</span>
@@ -1038,7 +1038,7 @@ const RANKS = [
 ];
 
 /* ============ PROGRESS PERSISTENCE ============ */
-function progressKey(email){ return 'codequest_progress_' + (email||'anon'); }
+function progressKey(email){ return 'ateneodev_progress_' + (email||'anon'); }
 function loadProgress(email){
   const def = { lessonsDone:{}, passed:{}, bestScores:{}, name:'', joinedAt: Date.now() };
   return safeParse(localStorage.getItem(progressKey(email)), def);
@@ -1052,7 +1052,7 @@ function saveProgress(){
 async function initFirebase(){
   const isPlaceholder = !FIREBASE_CONFIG.apiKey || FIREBASE_CONFIG.apiKey === 'TU_API_KEY';
   if(isPlaceholder){
-    console.log('[CodeQuest] Firebase no configurado → usando auth local');
+    console.log('[ateneodev] Firebase no configurado → usando auth local');
     $('demoNote').innerHTML = '⚠️ <strong>Modo local</strong> (sin Firebase). Registro guardado en este navegador.<br>Configura <code>FIREBASE_CONFIG</code> en el código para usar Firebase Auth.';
     return false;
   }
@@ -1075,15 +1075,15 @@ async function initFirebase(){
     });
     return true;
   }catch(e){
-    console.error('[CodeQuest] Error Firebase:', e);
+    console.error('[ateneodev] Error Firebase:', e);
     $('demoNote').innerHTML = '⚠️ Error al inicializar Firebase. Modo local activado.';
     return false;
   }
 }
 
 /* ============ LOCAL AUTH (fallback) ============ */
-const LOCAL_USERS_KEY = 'codequest_local_users';
-const LOCAL_SESSION_KEY = 'codequest_session';
+const LOCAL_USERS_KEY = 'ateneoev_local_users';
+const LOCAL_SESSION_KEY = 'ateneodev_session';
 
 function localGetUsers(){ return safeParse(localStorage.getItem(LOCAL_USERS_KEY), {}); }
 function localSaveUsers(u){ try{ localStorage.setItem(LOCAL_USERS_KEY, JSON.stringify(u)); }catch(e){} }
