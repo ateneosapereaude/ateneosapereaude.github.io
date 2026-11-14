@@ -1053,7 +1053,7 @@ async function initFirebase(){
   const isPlaceholder = !FIREBASE_CONFIG.apiKey || FIREBASE_CONFIG.apiKey === 'TU_API_KEY';
   if(isPlaceholder){
     console.log('[ateneodev] Firebase no configurado → usando auth local');
-    $('demoNote').innerHTML = '⚠️ <strong>Modo local</strong> (sin Firebase). Registro guardado en este navegador.<br>Configura <code>FIREBASE_CONFIG</code> en el código para usar Firebase Auth.';
+    $('demoNote').innerHTML = '';
     return false;
   }
   try{
