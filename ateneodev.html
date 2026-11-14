@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+<title>CodeQuest · Aprende a Programar</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%}
+body{font-family:'Segoe UI',Roboto,system-ui,sans-serif;color:#e8f0ff;line-height:1.6;min-height:100vh;
+background:radial-gradient(ellipse 1200px 800px at 50% 0%,#152a4a 0%,#0a1628 45%,#050810 100%);
+overflow-x:hidden;padding:12px;display:flex;justify-content:center;transition:background .6s}
+body.theme-module{background:radial-gradient(ellipse 1200px 800px at 50% 0%,#1a0f3a 0%,#0d0820 45%,#050210 100%)}
+.bg-blob{position:fixed;border-radius:50%;filter:blur(90px);opacity:.28;pointer-events:none;z-index:0;animation:blobFloat 20s ease-in-out infinite}
+.bg-blob.b1{width:380px;height:380px;background:#38bdf8;top:-140px;left:-120px}
+.bg-blob.b2{width:420px;height:420px;background:#a855f7;bottom:-160px;right:-130px;animation-delay:-7s}
+.bg-blob.b3{width:320px;height:320px;background:#facc15;top:45%;left:55%;animation-delay:-13s}
+@keyframes blobFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-30px) scale(1.1)}66%{transform:translate(-30px,40px) scale(.95)}}
+.container{max-width:1040px;width:100%;margin:0 auto;position:relative;z-index:1}
+.view{display:none;animation:fadeSlide .35s ease}
+.view.active{display:block}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+
+/* AUTH */
+#view-auth{min-height:calc(100vh - 24px);display:none;align-items:center;justify-content:center}
+#view-auth.active{display:flex}
+.auth-card{width:100%;max-width:440px;background:rgba(255,255,255,.05);backdrop-filter:blur(20px);
+border:1px solid rgba(56,189,248,.25);border-radius:28px;padding:36px 28px;box-shadow:0 30px 80px rgba(0,0,0,.6);position:relative;overflow:hidden}
+.auth-card::before{content:'';position:absolute;top:-120px;right:-120px;width:300px;height:300px;
+background:radial-gradient(circle,rgba(56,189,248,.25),transparent 70%);pointer-events:none}
+.auth-brand{display:flex;align-items:center;gap:14px;justify-content:center;margin-bottom:8px;position:relative;z-index:1}
+.auth-logo{width:60px;height:60px;border-radius:18px;display:flex;align-items:center;justify-content:center;
+font-size:2rem;background:linear-gradient(135deg,#38bdf8,#a855f7);box-shadow:0 0 24px rgba(56,189,248,.5)}
+.auth-title{font-size:1.8rem;font-weight:800;background:linear-gradient(135deg,#fff,#38bdf8);
+-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:.5px}
+.auth-sub{text-align:center;color:#8ba3c7;font-size:.9rem;margin-bottom:26px;position:relative;z-index:1}
+.auth-tabs{display:flex;background:rgba(0,0,0,.35);border-radius:16px;padding:5px;margin-bottom:22px;position:relative;z-index:1}
+.auth-tab{flex:1;padding:11px;border:none;background:transparent;color:#8ba3c7;font-weight:700;
+font-size:.88rem;border-radius:12px;cursor:pointer;transition:all .2s;font-family:inherit}
+.auth-tab.active{background:linear-gradient(135deg,#38bdf8,#0284c7);color:#001428;box-shadow:0 4px 14px rgba(56,189,248,.4)}
+.auth-form{display:flex;flex-direction:column;gap:12px;position:relative;z-index:1}
+.auth-field{display:flex;flex-direction:column;gap:5px}
+.auth-field label{font-size:.72rem;color:#8ba3c7;text-transform:uppercase;letter-spacing:1px;font-weight:600}
+.auth-input{background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.12);border-radius:12px;
+padding:13px 15px;color:#fff;font-size:.95rem;outline:none;transition:border .2s;font-family:inherit}
+.auth-input:focus{border-color:#38bdf8;box-shadow:0 0 0 3px rgba(56,189,248,.15)}
+.auth-btn{padding:14px;border:none;border-radius:14px;font-size:.95rem;font-weight:800;cursor:pointer;
+background:linear-gradient(135deg,#38bdf8,#a855f7);color:#001428;margin-top:6px;
+box-shadow:0 8px 25px rgba(56,189,248,.35);transition:all .2s;font-family:inherit;letter-spacing:.5px}
+.auth-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(56,189,248,.5)}
+.auth-error{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.4);color:#fca5a5;
+padding:11px 14px;border-radius:10px;font-size:.82rem;display:none}
+.auth-error.show{display:block;animation:fadeSlide .25s}
+.auth-demo{text-align:center;font-size:.72rem;color:#5a6f8f;margin-top:18px;position:relative;z-index:1;line-height:1.5}
+.auth-demo code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;color:#facc15}
+
+/* DASHBOARD */
+.dash-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;
+background:rgba(255,255,255,.05);backdrop-filter:blur(14px);border:1px solid rgba(56,189,248,.18);
+border-radius:22px;margin-bottom:20px;gap:12px;flex-wrap:wrap}
+.dash-brand{display:flex;align-items:center;gap:12px}
+.dash-logo{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+font-size:1.6rem;background:linear-gradient(135deg,#38bdf8,#a855f7);box-shadow:0 0 18px rgba(56,189,248,.4);flex-shrink:0}
+.dash-brand-name{font-weight:800;font-size:1.1rem}
+.dash-brand-sub{font-size:.68rem;color:#8ba3c7;text-transform:uppercase;letter-spacing:1.4px;margin-top:1px}
+.dash-user{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.user-chip{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:40px;
+background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.3);font-size:.76rem;font-weight:600;color:#7dd3fc;max-width:220px}
+.user-chip .dot{width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e;flex-shrink:0}
+.user-chip span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.icon-btn{width:38px;height:38px;border-radius:12px;background:rgba(255,255,255,.06);
+border:1px solid rgba(255,255,255,.12);color:#cbd5e1;font-size:1rem;cursor:pointer;
+display:inline-flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
+.icon-btn:hover{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.4);color:#fca5a5}
+.hero{background:linear-gradient(150deg,rgba(56,189,248,.1),rgba(168,85,247,.08) 55%,rgba(250,204,21,.06));
+backdrop-filter:blur(16px);border:1px solid rgba(56,189,248,.22);border-radius:28px;padding:28px 26px;
+margin-bottom:22px;display:flex;align-items:center;gap:26px;flex-wrap:wrap;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-100px;right:-100px;width:280px;height:280px;
+background:radial-gradient(circle,rgba(56,189,248,.25),transparent 70%);pointer-events:none}
+.hero-left{flex:1;min-width:240px;position:relative;z-index:1}
+.hero-greeting{font-size:.74rem;text-transform:uppercase;letter-spacing:2px;color:#7dd3fc;font-weight:700;margin-bottom:4px}
+.hero-name{font-size:1.9rem;font-weight:800;line-height:1.15;margin-bottom:12px;
+background:linear-gradient(135deg,#fff,#7dd3fc);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:.88rem;color:#8ba3c7}
+.hero-sub strong{color:#facc15}
+.hero-rank{display:inline-flex;align-items:center;gap:10px;padding:9px 16px;border-radius:40px;
+background:rgba(0,0,0,.3);border:1px solid rgba(250,204,21,.5);box-shadow:0 0 22px rgba(250,204,21,.2);margin-bottom:12px}
+.hero-rank .icon{font-size:1.4rem}
+.hero-rank .info{display:flex;flex-direction:column}
+.hero-rank .lbl{font-size:.62rem;color:#facc15;text-transform:uppercase;letter-spacing:1px;font-weight:700}
+.hero-rank .val{font-size:1rem;font-weight:800;color:#e8f0ff}
+.progress-ring-wrap{position:relative;width:170px;height:170px;flex-shrink:0}
+.progress-ring{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:rgba(255,255,255,.08);stroke-width:14}
+.ring-fill{fill:none;stroke:url(#ringGrad);stroke-width:14;stroke-linecap:round;
+stroke-dasharray:471.24;stroke-dashoffset:471.24;transition:stroke-dashoffset 1.6s cubic-bezier(.34,1.56,.64,1);
+filter:drop-shadow(0 0 8px rgba(56,189,248,.6))}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+.ring-percent{font-size:2.3rem;font-weight:800;line-height:1;
+background:linear-gradient(135deg,#fff,#7dd3fc);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.ring-label{font-size:.66rem;color:#8ba3c7;text-transform:uppercase;letter-spacing:1.4px;margin-top:4px}
+.section-title{display:flex;align-items:center;gap:8px;font-size:.76rem;text-transform:uppercase;
+letter-spacing:2px;color:#7dd3fc;font-weight:700;margin:0 4px 14px}
+.section-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(56,189,248,.3),transparent)}
+.modules-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:24px}
+.module-card{position:relative;background:rgba(255,255,255,.05);backdrop-filter:blur(14px);
+border:1px solid rgba(255,255,255,.09);border-radius:22px;padding:22px 20px;display:flex;flex-direction:column;
+gap:14px;transition:all .3s cubic-bezier(.34,1.56,.64,1);overflow:hidden;cursor:pointer;text-align:left;font-family:inherit;color:inherit}
+.module-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 100% 0%,var(--mod-color,#38bdf8) 0%,transparent 60%);opacity:.12;transition:opacity .3s;pointer-events:none}
+.module-card:hover{transform:translateY(-6px);border-color:var(--mod-color,#38bdf8);box-shadow:0 20px 50px rgba(0,0,0,.5),0 0 0 1px var(--mod-color,#38bdf8)}
+.module-card.locked{opacity:.55;cursor:not-allowed}
+.module-card.locked:hover{transform:none;box-shadow:none}
+.module-card.complete{border-color:rgba(34,197,94,.5);background:rgba(34,197,94,.06)}
+.module-head{display:flex;align-items:center;gap:12px;position:relative;z-index:1}
+.module-icon{width:54px;height:54px;border-radius:16px;display:flex;align-items:center;justify-content:center;
+font-size:1.8rem;background:rgba(0,0,0,.35);border:1px solid var(--mod-color,#38bdf8);box-shadow:0 0 20px var(--mod-color,#38bdf8);flex-shrink:0}
+.module-titles{min-width:0}
+.module-num{font-size:.62rem;color:var(--mod-color,#38bdf8);text-transform:uppercase;letter-spacing:1.2px;font-weight:700}
+.module-name{font-size:1rem;font-weight:800;line-height:1.25}
+.module-body{position:relative;z-index:1}
+.module-desc{font-size:.76rem;color:#8ba3c7;margin-bottom:10px;line-height:1.4}
+.module-bar{height:7px;background:rgba(0,0,0,.4);border-radius:10px;overflow:hidden;margin-bottom:6px}
+.module-bar-fill{height:100%;background:linear-gradient(90deg,var(--mod-color,#38bdf8),#a855f7);border-radius:10px;width:0;transition:width 1.2s cubic-bezier(.34,1.56,.64,1)}
+.module-meta{display:flex;justify-content:space-between;font-size:.72rem;color:#8ba3c7}
+.module-meta b{color:var(--mod-color,#38bdf8);font-weight:800}
+.module-status{position:absolute;top:14px;right:14px;font-size:.68rem;padding:4px 10px;border-radius:20px;font-weight:700;z-index:2}
+.module-status.locked{background:rgba(0,0,0,.5);color:#8ba3c7}
+.module-status.progress{background:rgba(56,189,248,.2);color:#7dd3fc;border:1px solid rgba(56,189,248,.4)}
+.module-status.done{background:rgba(34,197,94,.2);color:#86efac;border:1px solid rgba(34,197,94,.5)}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:24px}
+.stat-card{background:rgba(255,255,255,.05);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.09);
+border-radius:18px;padding:16px 14px;text-align:center;transition:all .2s}
+.stat-icon{font-size:1.6rem;line-height:1;margin-bottom:6px}
+.stat-value{font-size:1.5rem;font-weight:800;color:#facc15;line-height:1}
+.stat-label{font-size:.66rem;text-transform:uppercase;letter-spacing:1px;color:#8ba3c7;margin-top:4px}
+.cert-banner{background:linear-gradient(135deg,rgba(250,204,21,.15),rgba(168,85,247,.1));
+border:1px solid rgba(250,204,21,.4);border-radius:22px;padding:22px;display:flex;align-items:center;
+gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.cert-banner .cb-icon{font-size:2.6rem;flex-shrink:0}
+.cert-banner .cb-info{flex:1;min-width:200px}
+.cert-banner h3{font-size:1.1rem;color:#facc15;margin-bottom:3px}
+.cert-banner p{font-size:.82rem;color:#8ba3c7}
+.cert-banner .cb-btn{padding:11px 22px;border-radius:40px;border:none;background:linear-gradient(135deg,#facc15,#f59e0b);color:#001428;font-weight:800;font-size:.85rem;cursor:pointer;font-family:inherit;box-shadow:0 6px 20px rgba(250,204,21,.35)}
+.dash-footer{text-align:center;font-size:.72rem;color:rgba(255,255,255,.3);padding:12px 0 4px;line-height:1.8}
+.link-btn{background:none;border:none;color:rgba(255,255,255,.4);font-size:.72rem;text-decoration:underline;cursor:pointer;font-family:inherit;padding:2px 6px}
+
+/* MODULE VIEW */
+.module-header{display:flex;align-items:center;gap:12px;padding:14px 20px;margin-bottom:20px;
+background:rgba(0,0,0,.35);border-radius:60px;border:1px solid rgba(56,189,248,.18);flex-wrap:wrap;justify-content:space-between}
+.mh-left{display:flex;align-items:center;gap:12px;min-width:0}
+.mh-icon{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+font-size:1.5rem;background:rgba(0,0,0,.3);border:1px solid var(--mod-color,#38bdf8);box-shadow:0 0 14px var(--mod-color,#38bdf8);flex-shrink:0}
+.mh-title{font-size:1rem;font-weight:800}
+.mh-sub{font-size:.7rem;color:#8ba3c7}
+.back-btn{padding:9px 16px;border-radius:40px;background:rgba(255,255,255,.08);
+border:1px solid rgba(255,255,255,.14);color:#e8f0ff;font-size:.78rem;font-weight:700;
+cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap}
+.back-btn:hover{background:rgba(255,255,255,.15)}
+.lesson-list{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.lesson-item{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:16px;
+padding:16px 18px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .2s;text-align:left;font-family:inherit;color:inherit;width:100%}
+.lesson-item:hover{border-color:var(--mod-color,#38bdf8);background:rgba(56,189,248,.08);transform:translateX(4px)}
+.lesson-item.done{border-color:rgba(34,197,94,.4);background:rgba(34,197,94,.06)}
+.li-num{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+background:rgba(0,0,0,.4);font-weight:800;font-size:.88rem;color:var(--mod-color,#38bdf8);flex-shrink:0;
+border:1px solid rgba(56,189,248,.25)}
+.lesson-item.done .li-num{background:rgba(34,197,94,.2);color:#86efac;border-color:rgba(34,197,94,.5)}
+.li-info{flex:1;min-width:0}
+.li-title{font-size:.95rem;font-weight:700}
+.li-desc{font-size:.75rem;color:#8ba3c7;margin-top:2px}
+.li-check{color:#22c55e;font-size:1.2rem;flex-shrink:0;display:none}
+.lesson-item.done .li-check{display:block}
+.exercise-start{background:linear-gradient(135deg,rgba(168,85,247,.15),rgba(56,189,248,.1));
+border:1px solid rgba(168,85,247,.35);border-radius:20px;padding:22px;text-align:center;margin-bottom:16px}
+.exercise-start h3{font-size:1.1rem;color:#c4b5fd;margin-bottom:6px}
+.exercise-start p{font-size:.82rem;color:#8ba3c7;margin-bottom:16px}
+.start-btn{padding:13px 32px;border-radius:40px;border:none;
+background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;font-weight:800;font-size:.9rem;
+cursor:pointer;font-family:inherit;box-shadow:0 8px 24px rgba(168,85,247,.4);transition:all .2s}
+.start-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(168,85,247,.55)}
+.start-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.best-score{font-size:.78rem;color:#facc15;margin-top:8px}
+
+/* LESSON OVERLAY */
+.lesson-overlay{position:fixed;inset:0;background:radial-gradient(ellipse 1200px 800px at 50% 0%,#152a4a 0%,#0a1628 45%,#050810 100%);
+z-index:1000;display:none;flex-direction:column;overflow:hidden}
+.lesson-overlay.active{display:flex}
+.lo-header{background:rgba(0,0,0,.55);backdrop-filter:blur(20px);padding:14px 20px;display:flex;
+align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(56,189,248,.22);flex-shrink:0}
+.lo-close{background:linear-gradient(135deg,#38bdf8,#0284c7);color:#001428;border:none;padding:10px 18px;
+border-radius:40px;font-weight:700;font-size:.82rem;cursor:pointer;font-family:inherit}
+.lo-title{flex:1;text-align:center;font-weight:800;color:#7dd3fc;font-size:.95rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 8px}
+.lo-spacer{width:70px;flex-shrink:0}
+.lo-content-wrap{flex:1;overflow-y:auto;padding:24px 16px 40px}
+.lo-content{max-width:720px;margin:0 auto;animation:fadeSlide .4s ease}
+.lo-h1{font-size:1.55rem;font-weight:800;margin-bottom:8px;
+background:linear-gradient(135deg,#fff,#7dd3fc);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.lo-badge{display:inline-block;font-size:.66rem;padding:4px 12px;border-radius:20px;
+background:rgba(56,189,248,.15);color:#7dd3fc;border:1px solid rgba(56,189,248,.35);
+text-transform:uppercase;letter-spacing:1.2px;font-weight:700;margin-bottom:16px}
+.lo-body{background:rgba(255,255,255,.04);backdrop-filter:blur(14px);border:1px solid rgba(56,189,248,.18);
+border-radius:20px;padding:24px;margin-bottom:18px;line-height:1.7}
+.lo-body p{color:#cbd5e1;font-size:.95rem;margin-bottom:12px}
+.lo-body p:last-child{margin-bottom:0}
+.lo-body strong{color:#facc15}
+.lo-body code{background:rgba(0,0,0,.4);color:#7dd3fc;padding:2px 7px;border-radius:5px;font-family:monospace;font-size:.88em}
+.lo-body h3{color:#7dd3fc;font-size:1.05rem;margin:16px 0 8px;font-weight:800}
+.lo-body h3:first-child{margin-top:0}
+.lo-body ul,.lo-body ol{margin:8px 0 12px 22px;color:#cbd5e1}
+.lo-body li{margin-bottom:6px;font-size:.93rem}
+.code-block{background:#0a0f1a;border:1px solid rgba(56,189,248,.2);border-radius:12px;
+padding:16px;margin:12px 0;overflow-x:auto;font-family:'Consolas','Monaco',monospace;font-size:.85rem;line-height:1.6;color:#e8f0ff}
+.code-block .kw{color:#c4b5fd}
+.code-block .str{color:#86efac}
+.code-block .num{color:#fbbf24}
+.code-block .com{color:#64748b;font-style:italic}
+.code-block .fn{color:#7dd3fc}
+.lo-next{display:flex;justify-content:center;gap:10px;margin-top:20px}
+.lo-next-btn{padding:13px 32px;border-radius:40px;border:none;background:linear-gradient(135deg,#38bdf8,#0284c7);
+color:#001428;font-weight:800;font-size:.9rem;cursor:pointer;font-family:inherit;box-shadow:0 8px 24px rgba(56,189,248,.35)}
+.lo-next-btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* EXERCISE */
+#view-exercise{padding:0}
+.ex-header{display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:#8ba3c7;margin-bottom:8px}
+.ex-score{color:#facc15;font-weight:700}
+.progress-track{height:7px;background:rgba(255,255,255,.1);border-radius:10px;overflow:hidden;margin-bottom:20px}
+.progress-fill{height:100%;background:linear-gradient(90deg,#38bdf8,#a855f7);border-radius:10px;transition:width .3s}
+.ex-card{background:rgba(255,255,255,.05);backdrop-filter:blur(14px);border:1px solid rgba(56,189,248,.22);
+border-radius:22px;padding:26px 24px;margin-bottom:16px}
+.ex-num{font-size:.7rem;color:#7dd3fc;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
+.ex-q{font-size:1.08rem;color:#fff;font-weight:700;line-height:1.5;margin-bottom:18px}
+.ex-opts{display:flex;flex-direction:column;gap:10px}
+.ex-opt{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+border-radius:13px;padding:14px 18px;color:#cbd5e1;font-size:.93rem;cursor:pointer;
+transition:all .15s;text-align:left;font-family:inherit;line-height:1.4}
+.ex-opt:hover:not(:disabled){background:rgba(56,189,248,.08);border-color:rgba(56,189,248,.4)}
+.ex-opt.correct{background:rgba(34,197,94,.15);border-color:#22c55e;color:#86efac;font-weight:700}
+.ex-opt.incorrect{background:rgba(239,68,68,.15);border-color:#ef4444;color:#fca5a5}
+.ex-opt:disabled{cursor:default}
+.ex-feedback{border-radius:12px;padding:14px;margin-top:14px;font-size:.88rem;line-height:1.5;display:none}
+.ex-feedback.show{display:block;animation:fadeSlide .25s}
+.ex-feedback.ok{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.4);color:#86efac}
+.ex-feedback.bad{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.4);color:#fca5a5}
+.ex-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.quit-btn{background:transparent;border:1px solid rgba(255,255,255,.15);color:#8ba3c7;
+padding:10px 20px;border-radius:40px;cursor:pointer;font-size:.82rem;font-family:inherit}
+.next-btn{background:linear-gradient(135deg,#38bdf8,#0284c7);color:#001428;font-weight:800;
+padding:12px 28px;border-radius:40px;border:none;cursor:pointer;font-size:.88rem;
+font-family:inherit;display:none;box-shadow:0 6px 18px rgba(56,189,248,.35)}
+.next-btn.show{display:inline-block;animation:fadeSlide .25s}
+
+/* RESULTS */
+.result-box{text-align:center;padding:40px 20px;background:rgba(255,255,255,.04);
+backdrop-filter:blur(14px);border:1px solid rgba(56,189,248,.2);border-radius:24px}
+.result-box .emoji{font-size:5rem;margin-bottom:12px;line-height:1}
+.result-box .score{font-size:3.5rem;font-weight:800;color:#facc15;line-height:1;margin:14px 0}
+.result-box .detail{color:#8ba3c7;margin-bottom:8px;font-size:.9rem}
+.result-box .status{font-size:1.1rem;font-weight:800;margin:12px 0 20px}
+.result-box .status.passed{color:#86efac}
+.result-box .status.failed{color:#fca5a5}
+.stars{display:flex;justify-content:center;gap:10px;margin-bottom:8px}
+.star{font-size:2.6rem;color:#334155;transition:color .4s}
+.star.lit{color:#facc15;text-shadow:0 0 22px rgba(250,204,21,.6)}
+.btn-group{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.btn-primary{background:linear-gradient(135deg,#38bdf8,#0284c7);color:#001428;font-weight:800;
+padding:13px 30px;border-radius:40px;border:none;cursor:pointer;font-size:.9rem;font-family:inherit;
+box-shadow:0 6px 18px rgba(56,189,248,.35)}
+.btn-secondary{background:transparent;border:1px solid rgba(255,255,255,.2);color:#cbd5e1;
+padding:13px 30px;border-radius:40px;cursor:pointer;font-size:.9rem;font-family:inherit}
+
+/* CERTIFICATE */
+.cert-wrap{padding:12px;display:flex;justify-content:center;flex-direction:column;align-items:center}
+.certificate{position:relative;width:100%;max-width:720px;background:linear-gradient(145deg,#0a1628,#0d1f38);
+border-radius:18px;padding:38px 30px;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(56,189,248,.4),
+inset 0 0 0 6px #0a1628,inset 0 0 0 8px #38bdf8;color:#e8f0ff;text-align:center;margin-bottom:20px}
+.cert-header{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:18px}
+.cert-logo{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#38bdf8,#a855f7);
+display:flex;align-items:center;justify-content:center;font-size:1.6rem;border:2px solid #38bdf8}
+.cert-brand{font-size:1.3rem;font-weight:800;color:#7dd3fc;letter-spacing:2px;text-transform:uppercase}
+.certificate h1{font-size:1.6rem;font-weight:800;color:#facc15;margin-bottom:4px;text-transform:uppercase;letter-spacing:2px}
+.cert-sub{font-size:.8rem;color:#8ba3c7;text-transform:uppercase;letter-spacing:3px;margin-bottom:22px}
+.cert-body p{font-size:.9rem;color:#cbd5e1;margin-bottom:10px;line-height:1.5}
+.cert-name-input{width:100%;max-width:420px;margin:8px auto 14px;display:block;background:transparent;
+border:none;border-bottom:2px solid #38bdf8;padding:6px 10px;font-size:1.4rem;font-weight:700;
+color:#facc15;text-align:center;font-family:Georgia,serif;outline:none}
+.cert-score{display:inline-flex;flex-direction:column;align-items:center;
+background:rgba(56,189,248,.1);border:1px solid #38bdf8;border-radius:12px;padding:10px 26px;margin:14px 0}
+.cert-score-label{font-size:.66rem;color:#8ba3c7;text-transform:uppercase;letter-spacing:1px}
+.cert-score-value{font-size:1.6rem;font-weight:800;color:#facc15}
+.cert-seal{position:absolute;top:18px;right:18px;width:64px;height:64px;border-radius:50%;
+background:radial-gradient(circle at 30% 30%,#facc15,#b45309);display:flex;align-items:center;
+justify-content:center;font-size:1.7rem;border:3px solid #b45309;transform:rotate(-15deg)}
+.cert-date{font-size:.78rem;color:#64748b;margin-top:10px}
+.cert-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:720px;width:100%}
+
+/* TOAST */
+.toast-container{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:4000;
+display:flex;flex-direction:column;gap:10px;width:calc(100% - 32px);max-width:440px;pointer-events:none}
+.toast{background:rgba(10,22,40,.98);border:1px solid rgba(56,189,248,.5);border-radius:16px;
+padding:13px 16px;color:#e8f0ff;font-size:.88rem;box-shadow:0 10px 35px rgba(0,0,0,.65);
+display:flex;align-items:flex-start;gap:10px;pointer-events:auto;animation:toastIn .3s ease}
+.toast.warn{border-color:rgba(239,68,68,.6)}
+.toast.success{border-color:rgba(34,197,94,.6)}
+.toast .toast-icon{font-size:1.2rem;flex-shrink:0}
+.toast .toast-text{flex:1;line-height:1.35}
+.toast.out{animation:toastOut .3s ease forwards}
+@keyframes toastIn{0%{opacity:0;transform:translateY(-14px) scale(.96)}100%{opacity:1;transform:none}}
+@keyframes toastOut{0%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-10px) scale(.97)}}
+
+/* RESPONSIVE */
+@media(max-width:640px){
+  body{padding:8px}
+  .hero{padding:20px 16px;gap:16px;flex-direction:column;text-align:center}
+  .hero-name{font-size:1.5rem}
+  .progress-ring-wrap{width:150px;height:150px}
+  .modules-grid{grid-template-columns:1fr;gap:12px}
+  .stats-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .dash-header{padding:10px 12px}
+  .dash-logo{width:44px;height:44px}
+  .auth-card{padding:28px 20px}
+  .auth-title{font-size:1.5rem}
+  .lo-content-wrap{padding:16px 10px 40px}
+  .lo-body{padding:18px}
+  .lo-h1{font-size:1.25rem}
+  .certificate{padding:24px 16px}
+  .cert-seal{width:52px;height:52px;font-size:1.3rem;top:12px;right:12px}
+  .ex-card{padding:20px 16px}
+  .result-box{padding:28px 12px}
+  .btn-group{flex-direction:column}
+  .btn-group button{width:100%}
+  .mh-title{font-size:.9rem}
+}
+</style>
+</head>
+<body>
+<div class="bg-blob b1"></div><div class="bg-blob b2"></div><div class="bg-blob b3"></div>
+
+<div class="container">
+
+  <!-- ============ AUTH ============ -->
+  <div id="view-auth" class="view active">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <div class="auth-logo">💻</div>
+        <div class="auth-title">CodeQuest</div>
+      </div>
+      <p class="auth-sub">Aprende a programar desde cero</p>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="login">Iniciar sesión</button>
+        <button class="auth-tab" data-tab="register">Registrarse</button>
+      </div>
+
+      <form class="auth-form" id="loginForm">
+        <div class="auth-error" id="loginError"></div>
+        <div class="auth-field">
+          <label>Correo electrónico</label>
+          <input type="email" class="auth-input" id="loginEmail" placeholder="tu@email.com" required autocomplete="email">
+        </div>
+        <div class="auth-field">
+          <label>Contraseña</label>
+          <input type="password" class="auth-input" id="loginPassword" placeholder="••••••••" required autocomplete="current-password" minlength="6">
+        </div>
+        <button type="submit" class="auth-btn" id="loginBtn">Entrar →</button>
+      </form>
+
+      <form class="auth-form" id="registerForm" style="display:none">
+        <div class="auth-error" id="registerError"></div>
+        <div class="auth-field">
+          <label>Tu nombre</label>
+          <input type="text" class="auth-input" id="registerName" placeholder="¿Cómo te llamas?" required maxlength="30" autocomplete="name">
+        </div>
+        <div class="auth-field">
+          <label>Correo electrónico</label>
+          <input type="email" class="auth-input" id="registerEmail" placeholder="tu@email.com" required autocomplete="email">
+        </div>
+        <div class="auth-field">
+          <label>Contraseña (mín. 6 caracteres)</label>
+          <input type="password" class="auth-input" id="registerPassword" placeholder="••••••••" required autocomplete="new-password" minlength="6">
+        </div>
+        <button type="submit" class="auth-btn" id="registerBtn">Crear cuenta →</button>
+      </form>
+
+      <p class="auth-demo" id="demoNote">⚡ Tu progreso se guarda automáticamente</p>
+    </div>
+  </div>
+
+  <!-- ============ DASHBOARD ============ -->
+  <div id="view-dashboard" class="view">
+    <div class="dash-header">
+      <div class="dash-brand">
+        <div class="dash-logo">💻</div>
+        <div>
+          <div class="dash-brand-name">CodeQuest</div>
+          <div class="dash-brand-sub">Aprende a programar</div>
+        </div>
+      </div>
+      <div class="dash-user">
+        <div class="user-chip"><span class="dot"></span><span id="userEmail">usuario@demo.com</span></div>
+        <button class="icon-btn" id="logoutBtn" title="Cerrar sesión">⏻</button>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="hero-left">
+        <div class="hero-greeting">Tu viaje como programador</div>
+        <h1 class="hero-name" id="heroName">¡Hola! 👋</h1>
+        <div class="hero-rank" id="heroRank">
+          <span class="icon" id="rankIcon">🐣</span>
+          <div class="info">
+            <span class="lbl" id="rankLbl">Rango</span>
+            <span class="val" id="rankVal">Principiante</span>
+          </div>
+        </div>
+        <p class="hero-sub" id="heroSub">Completa lecciones y ejercicios para subir de rango</p>
+      </div>
+      <div class="progress-ring-wrap">
+        <svg class="progress-ring" viewBox="0 0 160 160">
+          <defs>
+            <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#38bdf8"/>
+              <stop offset="50%" stop-color="#a855f7"/>
+              <stop offset="100%" stop-color="#facc15"/>
+            </linearGradient>
+          </defs>
+          <circle class="ring-bg" cx="80" cy="80" r="75"/>
+          <circle class="ring-fill" id="ringFill" cx="80" cy="80" r="75"/>
+        </svg>
+        <div class="ring-center">
+          <div class="ring-percent" id="ringPercent">0%</div>
+          <div class="ring-label">Progreso</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">📚 Módulos de aprendizaje</div>
+    <div class="modules-grid" id="modulesGrid"></div>
+
+    <div class="section-title">📊 Tus estadísticas</div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-icon">📖</div><div class="stat-value" id="statLessons">0</div><div class="stat-label">Lecciones</div></div>
+      <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-value" id="statModules">0</div><div class="stat-label">Módulos</div></div>
+      <div class="stat-card"><div class="stat-icon">🏆</div><div class="stat-value" id="statScore">0</div><div class="stat-label">Nota media</div></div>
+      <div class="stat-card"><div class="stat-icon">🔥</div><div class="stat-value" id="statStreak">0</div><div class="stat-label">Racha</div></div>
+    </div>
+
+    <div id="certBannerArea"></div>
+
+    <div class="dash-footer">
+      © 2026 CodeQuest · Tu progreso se guarda automáticamente
+      <br><button class="link-btn" id="resetBtn">Reiniciar mi progreso</button>
+    </div>
+  </div>
+
+  <!-- ============ MODULE VIEW ============ -->
+  <div id="view-module" class="view">
+    <div class="module-header" id="moduleHeader"></div>
+    <div class="section-title">📖 Lecciones</div>
+    <div class="lesson-list" id="lessonList"></div>
+    <div class="exercise-start" id="exerciseStart">
+      <h3>🎯 Ejercicio del módulo</h3>
+      <p id="exerciseDesc">Responde las preguntas para validar lo aprendido.</p>
+      <button class="start-btn" id="startExerciseBtn">Empezar ejercicio</button>
+      <div class="best-score" id="bestScore"></div>
+    </div>
+  </div>
+
+  <!-- ============ LESSON OVERLAY ============ -->
+  <div class="lesson-overlay" id="lessonOverlay">
+    <div class="lo-header">
+      <button class="lo-close" id="closeLesson">← Salir</button>
+      <div class="lo-title" id="lessonTitle">Lección</div>
+      <div class="lo-spacer"></div>
+    </div>
+    <div class="lo-content-wrap"><div class="lo-content" id="lessonContent"></div></div>
+  </div>
+
+  <!-- ============ EXERCISE ============ -->
+  <div id="view-exercise" class="view">
+    <div class="ex-header">
+      <span id="exProgressLabel">Pregunta 1 / 5</span>
+      <span class="ex-score" id="exScore">✓ 0</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="exProgressBar" style="width:0%"></div></div>
+    <div class="ex-card">
+      <div class="ex-num" id="exNum">Pregunta 1</div>
+      <div class="ex-q" id="exQ"></div>
+      <div class="ex-opts" id="exOpts"></div>
+      <div class="ex-feedback" id="exFeedback"></div>
+    </div>
+    <div class="ex-footer">
+      <button class="quit-btn" id="quitExercise">Salir</button>
+      <button class="next-btn" id="nextBtn">Siguiente →</button>
+    </div>
+  </div>
+
+  <!-- ============ RESULTS ============ -->
+  <div id="view-results" class="view">
+    <div class="result-box">
+      <div class="emoji" id="resEmoji">🎉</div>
+      <div class="stars" id="resStars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <h2 id="resTitle" style="font-size:1.5rem;margin-bottom:6px">¡Ejercicio completado!</h2>
+      <p class="detail" id="resSubtitle"></p>
+      <p class="score" id="resScore">0%</p>
+      <p class="detail" id="resDetail"></p>
+      <p class="status" id="resStatus"></p>
+      <div class="btn-group">
+        <button class="btn-primary" id="retryBtn">🔁 Repetir</button>
+        <button class="btn-secondary" id="backToModuleBtn">Volver al módulo</button>
+        <button class="btn-secondary" id="backToDashBtn">🏠 Inicio</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CERTIFICATE ============ -->
+  <div id="view-certificate" class="view">
+    <div class="cert-wrap">
+      <div class="certificate">
+        <div class="cert-seal">💻</div>
+        <div class="cert-header">
+          <div class="cert-logo">💻</div>
+          <div class="cert-brand">CodeQuest</div>
+        </div>
+        <h1>Certificado de Finalización</h1>
+        <p class="cert-sub">Curso de Programación desde Cero</p>
+        <div class="cert-body">
+          <p>Se otorga el presente certificado a:</p>
+          <input id="certName" class="cert-name-input" placeholder="Escribe tu nombre" maxlength="40">
+          <p>Por haber completado con éxito el <strong>Curso de Programación CodeQuest</strong></p>
+          <div class="cert-score">
+            <span class="cert-score-label">Nota final</span>
+            <span class="cert-score-value" id="certScore">0%</span>
+          </div>
+          <p class="cert-date" id="certDate"></p>
+        </div>
+      </div>
+      <div class="cert-actions">
+        <button class="btn-secondary" onclick="window.print()">🖨️ Imprimir / PDF</button>
+        <button class="btn-primary" id="certBackBtn">🏠 Volver al inicio</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- =================================================================== -->
+<!-- ============================ SCRIPT ============================== -->
+<!-- =================================================================== -->
+<script>
+/* =========================================================
+   CONFIGURACIÓN DE FIREBASE
+   ---------------------------------------------------------
+   Sustituye los valores de abajo con los de tu proyecto
+   de Firebase (Consola > Configuración del proyecto > Tus apps).
+   Si dejas los placeholders, la app usará un modo "local"
+   (registro/login guardado en el navegador) para que puedas
+   probarla inmediatamente.
+   ========================================================= */
+const FIREBASE_CONFIG = {
+  apiKey: "TU_API_KEY",
+  authDomain: "TU_PROYECTO.firebaseapp.com",
+  projectId: "TU_PROYECTO",
+  storageBucket: "TU_PROYECTO.appspot.com",
+  messagingSenderId: "000000000000",
+  appId: "1:000000000000:web:xxxxxxxxxxxxxxxx"
+};
+
+/* ============ UTILS ============ */
+const $ = id => document.getElementById(id);
+const escHtml = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const safeParse = (raw, fb) => { try { return raw ? JSON.parse(raw) : fb; } catch(e){ return fb; } };
+
+function toast(msg, type='info'){
+  const c = $('toastContainer');
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  const icons = {info:'ℹ️', success:'✅', warn:'⚠️'};
+  t.innerHTML = `<span class="toast-icon">${icons[type]||'ℹ️'}</span><div class="toast-text">${escHtml(msg)}</div>`;
+  c.appendChild(t);
+  setTimeout(()=>{ t.classList.add('out'); setTimeout(()=>t.remove(),320); }, 3600);
+}
+
+/* ============ DATA: MÓDULOS ============ */
+const MODULES = [
+{
+  id:1, title:"Fundamentos y Lógica", icon:"🧠", color:"#38bdf8",
+  desc:"Qué es programar, algoritmos y pensamiento computacional",
+  lessons:[
+    { id:"1.1", title:"¿Qué es programar?",
+      body:`<p><strong>Programar</strong> es dar instrucciones a una computadora para que realice una tarea. Esas instrucciones se escriben en un <strong>lenguaje de programación</strong> y deben ser precisas, ordenadas y sin ambigüedades.</p>
+<h3>Un programa es una receta</h3>
+<p>Piensa en una receta de cocina: tiene ingredientes (datos) y pasos (instrucciones). Si sigues los pasos en orden, obtienes el resultado esperado. Un programa funciona igual.</p>
+<h3>¿Por qué Python?</h3>
+<p>Usaremos <strong>Python</strong> porque su sintaxis es sencilla y legible. Es uno de los lenguajes más usados en el mundo para ciencia de datos, web, automatización e inteligencia artificial.</p>
+<div class="code-block"><span class="com"># Mi primer programa</span>
+<span class="fn">print</span>(<span class="str">"¡Hola, mundo!"</span>)</div>
+<p>El código anterior muestra un mensaje en pantalla. <code>print</code> es una función que imprime lo que le pasas entre paréntesis.</p>`
+    },
+    { id:"1.2", title:"Algoritmos",
+      body:`<p>Un <strong>algoritmo</strong> es una secuencia finita de pasos bien definidos que resuelve un problema. Los algoritmos son la base de toda la programación.</p>
+<h3>Características de un buen algoritmo</h3>
+<ul>
+  <li><strong>Finito:</strong> debe terminar en algún momento.</li>
+  <li><strong>Preciso:</strong> cada paso debe ser claro e inequívoco.</li>
+  <li><strong>Definido:</strong> con la misma entrada produce siempre la misma salida.</li>
+</ul>
+<h3>Ejemplo: calcular el promedio</h3>
+<div class="code-block"><span class="num">1.</span> Pedir tres números al usuario
+<span class="num">2.</span> Sumar los tres números
+<span class="num">3.</span> Dividir el resultado entre <span class="num">3</span>
+<span class="num">4.</span> Mostrar el resultado</div>
+<p>Este es un algoritmo en lenguaje natural. Cuando lo traducimos a Python, se convierte en un programa.</p>`
+    },
+    { id:"1.3", title:"Pensamiento computacional",
+      body:`<p>El <strong>pensamiento computacional</strong> es la habilidad de resolver problemas de forma que una computadora pueda ejecutar la solución. Se compone de cuatro pilares:</p>
+<ul>
+  <li><strong>Descomposición:</strong> dividir un problema grande en partes pequeñas.</li>
+  <li><strong>Reconocimiento de patrones:</strong> identificar similitudes con problemas ya resueltos.</li>
+  <li><strong>Abstracción:</strong> quedarse con lo importante y descartar detalles irrelevantes.</li>
+  <li><strong>Algoritmos:</strong> diseñar los pasos para resolver cada parte.</li>
+</ul>
+<h3>Ejemplo práctico</h3>
+<p>Si quieres construir una app de notas, la descompones en: (1) agregar nota, (2) listar notas, (3) editar nota, (4) eliminar nota. Cada parte es un problema pequeño y manejable.</p>`
+    }
+  ],
+  questions:[
+    { q:"¿Qué es un algoritmo?", opts:["Un lenguaje de programación","Una secuencia de pasos para resolver un problema","Un tipo de computadora","Un error de código"], correct:1, explain:"Un algoritmo es una secuencia ordenada y finita de pasos para resolver un problema." },
+    { q:"¿Cuál de estas NO es una característica de un buen algoritmo?", opts:["Debe ser finito","Debe ser preciso","Debe ser infinito","Debe producir siempre el mismo resultado con la misma entrada"], correct:2, explain:"Un algoritmo debe ser finito: tiene que terminar en algún momento." },
+    { q:"¿Qué pilar del pensamiento computacional consiste en dividir un problema grande en partes pequeñas?", opts:["Abstracción","Descomposición","Patrones","Algoritmo"], correct:1, explain:"La descomposición divide un problema complejo en subproblemas más simples." },
+    { q:"¿Qué función de Python imprime en pantalla?", opts:["echo()","write()","print()","display()"], correct:2, explain:"print() es la función estándar para mostrar texto en la consola de Python." },
+    { q:"¿Qué lenguaje usaremos en este curso?", opts:["JavaScript","Java","Python","C++"], correct:2, explain:"Usamos Python por su sintaxis simple y legible para principiantes." }
+  ]
+},
+{
+  id:2, title:"Primeros pasos con Python", icon:"🐍", color:"#22c55e",
+  desc:"Variables, tipos de datos y operadores",
+  lessons:[
+    { id:"2.1", title:"Variables y tipos de datos",
+      body:`<p>Una <strong>variable</strong> es un espacio en memoria donde guardamos un valor. En Python se crea asignando con <code>=</code>.</p>
+<div class="code-block">nombre = <span class="str">"Ana"</span>
+edad = <span class="num">25</span>
+altura = <span class="num">1.68</span>
+es_estudiante = <span class="kw">True</span></div>
+<h3>Tipos de datos básicos</h3>
+<ul>
+  <li><strong>str</strong> (texto): <code>"Hola"</code>, <code>'mundo'</code></li>
+  <li><strong>int</strong> (entero): <code>42</code>, <code>-7</code></li>
+  <li><strong>float</strong> (decimal): <code>3.14</code>, <code>0.5</code></li>
+  <li><strong>bool</strong> (booleano): <code>True</code>, <code>False</code></li>
+</ul>
+<p>Puedes comprobar el tipo de una variable con <code>type()</code>.</p>
+<div class="code-block"><span class="fn">print</span>(<span class="fn">type</span>(<span class="num">42</span>))     <span class="com"># &lt;class 'int'&gt;</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="str">"hola"</span>))  <span class="com"># &lt;class 'str'&gt;</span></div>`
+    },
+    { id:"2.2", title:"Operadores",
+      body:`<p>Python incluye operadores para hacer cálculos y comparaciones.</p>
+<h3>Operadores aritméticos</h3>
+<div class="code-block"><span class="num">10</span> + <span class="num">3</span>   <span class="com"># 13 (suma)</span>
+<span class="num">10</span> - <span class="num">3</span>   <span class="com"># 7  (resta)</span>
+<span class="num">10</span> * <span class="num">3</span>   <span class="com"># 30 (multiplicación)</span>
+<span class="num">10</span> / <span class="num">3</span>   <span class="com"># 3.33 (división)</span>
+<span class="num">10</span> // <span class="num">3</span>  <span class="com"># 3   (división entera)</span>
+<span class="num">10</span> % <span class="num">3</span>   <span class="com"># 1   (módulo/resto)</span>
+<span class="num">2</span> ** <span class="num">3</span>   <span class="com"># 8   (potencia)</span></div>
+<h3>Operadores de comparación</h3>
+<div class="code-block"><span class="num">5</span> == <span class="num">5</span>   <span class="com"># True (igual)</span>
+<span class="num">5</span> != <span class="num">3</span>   <span class="com"># True (distinto)</span>
+<span class="num">5</span> &gt; <span class="num">3</span>    <span class="com"># True (mayor)</span>
+<span class="num">5</span> &lt; <span class="num">3</span>    <span class="com"># False (menor)</span>
+<span class="num">5</span> &gt;= <span class="num">5</span>   <span class="com"># True (mayor o igual)</span></div>`
+    }
+  ],
+  questions:[
+    { q:"¿Cuál es el tipo de dato de 3.14 en Python?", opts:["int","str","float","bool"], correct:2, explain:"3.14 tiene decimales, por lo que es un float." },
+    { q:"¿Qué resultado da 10 % 3 en Python?", opts:["3","1","0","3.33"], correct:1, explain:"El operador % devuelve el resto de la división: 10 entre 3 es 3 y sobra 1." },
+    { q:"¿Cómo se declara una variable en Python?", opts:["var x = 5","int x = 5","x = 5","let x = 5"], correct:2, explain:"En Python basta con asignar con =, sin declarar el tipo." },
+    { q:"¿Qué devuelve type('hola')?", opts:["<class 'int'>","<class 'str'>","<class 'bool'>","<class 'float'>"], correct:1, explain:"'hola' es un string (str)." },
+    { q:"¿Cuál es el resultado de 2 ** 3?", opts:["6","8","9","5"], correct:1, explain:"** es el operador de potencia: 2 elevado a 3 = 8." }
+  ]
+},
+{
+  id:3, title:"Control de Flujo", icon:"🔀", color:"#f59e0b",
+  desc:"Condicionales, bucles y control",
+  lessons:[
+    { id:"3.1", title:"Condicionales (if / elif / else)",
+      body:`<p>Los <strong>condicionales</strong> permiten que el programa tome decisiones según una condición.</p>
+<div class="code-block">edad = <span class="num">18</span>
+
+<span class="kw">if</span> edad &gt;= <span class="num">18</span>:
+    <span class="fn">print</span>(<span class="str">"Eres mayor de edad"</span>)
+<span class="kw">elif</span> edad &gt;= <span class="num">13</span>:
+    <span class="fn">print</span>(<span class="str">"Eres adolescente"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"Eres un niño"</span>)</div>
+<p>Python usa <strong>indentación</strong> (4 espacios) para definir qué código pertenece a cada bloque. ¡Es obligatorio!</p>`
+    },
+    { id:"3.2", title:"Bucles for y while",
+      body:`<h3>Bucle for</h3>
+<p>Recorre una secuencia (lista, rango, texto).</p>
+<div class="code-block"><span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">5</span>):
+    <span class="fn">print</span>(i)
+<span class="com"># Imprime: 0, 1, 2, 3, 4</span></div>
+<h3>Bucle while</h3>
+<p>Se repite mientras se cumpla una condición.</p>
+<div class="code-block">contador = <span class="num">0</span>
+<span class="kw">while</span> contador &lt; <span class="num">3</span>:
+    <span class="fn">print</span>(contador)
+    contador += <span class="num">1</span></div>
+<p><strong>Cuidado:</strong> si la condición nunca se vuelve falsa, el bucle será infinito.</p>`
+    },
+    { id:"3.3", title:"break y continue",
+      body:`<p>Dentro de un bucle puedes usar:</p>
+<ul>
+  <li><strong>break</strong>: sale del bucle inmediatamente.</li>
+  <li><strong>continue</strong>: salta a la siguiente iteración sin ejecutar el resto del bloque.</li>
+</ul>
+<div class="code-block"><span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">10</span>):
+    <span class="kw">if</span> i == <span class="num">5</span>:
+        <span class="kw">break</span>
+    <span class="kw">if</span> i % <span class="num">2</span> == <span class="num">0</span>:
+        <span class="kw">continue</span>
+    <span class="fn">print</span>(i)  <span class="com"># Solo imprime impares hasta 4</span></div>`
+    }
+  ],
+  questions:[
+    { q:"¿Qué palabra clave se usa para una condición alternativa en Python?", opts:["elseif","elif","else if","otherwise"], correct:1, explain:"Python usa 'elif' (contracción de else if)." },
+    { q:"¿Qué imprime range(3)?", opts:["1,2,3","0,1,2","0,1,2,3","1,2"], correct:1, explain:"range(3) genera 0, 1, 2 (no incluye el 3)." },
+    { q:"¿Qué hace la instrucción break?", opts:["Salta a la siguiente iteración","Sale inmediatamente del bucle","Termina el programa","Reinicia el bucle"], correct:1, explain:"break detiene la ejecución del bucle por completo." },
+    { q:"¿Qué instrucción salta a la siguiente iteración?", opts:["break","pass","continue","skip"], correct:2, explain:"continue salta al siguiente ciclo del bucle." },
+    { q:"¿Qué es esencial en Python para definir bloques de código?", opts:["Llaves {}","Paréntesis ()","Indentación","Punto y coma ;"], correct:2, explain:"Python usa indentación (espacios) en lugar de llaves." }
+  ]
+},
+{
+  id:4, title:"Estructuras de Datos", icon:"📦", color:"#a855f7",
+  desc:"Listas, tuplas, diccionarios y sets",
+  lessons:[
+    { id:"4.1", title:"Listas y tuplas",
+      body:`<h3>Listas</h3>
+<p>Una <strong>lista</strong> es una colección ordenada y <strong>mutable</strong> (puede modificarse).</p>
+<div class="code-block">frutas = [<span class="str">"manzana"</span>, <span class="str">"pera"</span>, <span class="str">"uva"</span>]
+frutas.append(<span class="str">"kiwi"</span>)   <span class="com"># añadir al final</span>
+frutas[<span class="num">0</span>]              <span class="com"># "manzana"</span>
+<span class="fn">len</span>(frutas)            <span class="com"># 4</span></div>
+<h3>Tuplas</h3>
+<p>Una <strong>tupla</strong> es como una lista pero <strong>inmutable</strong> (no puede modificarse).</p>
+<div class="code-block">coordenadas = (<span class="num">10</span>, <span class="num">20</span>)
+x, y = coordenadas  <span class="com"># desempaquetado</span></div>`
+    },
+    { id:"4.2", title:"Diccionarios y sets",
+      body:`<h3>Diccionarios</h3>
+<p>Almacenan pares <strong>clave: valor</strong>. Son ideales para datos estructurados.</p>
+<div class="code-block">persona = {
+    <span class="str">"nombre"</span>: <span class="str">"Ana"</span>,
+    <span class="str">"edad"</span>: <span class="num">25</span>
+}
+persona[<span class="str">"nombre"</span>]      <span class="com"># "Ana"</span>
+persona[<span class="str">"ciudad"</span>] = <span class="str">"Madrid"</span>  <span class="com"># añadir clave</span></div>
+<h3>Sets (conjuntos)</h3>
+<p>Colecciones <strong>sin duplicados</strong> y sin orden.</p>
+<div class="code-block">numeros = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">3</span>, <span class="num">3</span>}
+<span class="fn">print</span>(numeros)  <span class="com"># {1, 2, 3}</span></div>`
+    }
+  ],
+  questions:[
+    { q:"¿Qué estructura de datos es inmutable?", opts:["Lista","Diccionario","Tupla","Set"], correct:2, explain:"Las tuplas son inmutables: no se pueden modificar después de crearlas." },
+    { q:"¿Cómo se añade un elemento al final de una lista?", opts:["lista.add(x)","lista.push(x)","lista.append(x)","lista.insert(x)"], correct:2, explain:"El método append() agrega un elemento al final de la lista." },
+    { q:"¿Qué estructura almacena pares clave:valor?", opts:["Lista","Tupla","Diccionario","Set"], correct:2, explain:"Los diccionarios almacenan pares clave:valor." },
+    { q:"¿Qué hace un set con los duplicados?", opts:["Los conserva","Los elimina automáticamente","Lanza un error","Los convierte en tuplas"], correct:1, explain:"Los sets no permiten elementos duplicados; los eliminan automáticamente." },
+    { q:"¿Cómo se accede al valor de la clave 'nombre' en un diccionario d?", opts:["d.nombre","d->nombre","d['nombre']","d(nombre)"], correct:2, explain:"Se accede usando corchetes con la clave entre comillas: d['nombre']." }
+  ]
+},
+{
+  id:5, title:"Funciones y Modularidad", icon:"🧩", color:"#ec4899",
+  desc:"Definir funciones, parámetros, return y módulos",
+  lessons:[
+    { id:"5.1", title:"Definir funciones",
+      body:`<p>Una <strong>función</strong> es un bloque de código reutilizable que realiza una tarea. Se define con <code>def</code>.</p>
+<div class="code-block"><span class="kw">def</span> <span class="fn">saludar</span>(nombre):
+    <span class="fn">print</span>(<span class="str">"Hola,"</span>, nombre)
+
+saludar(<span class="str">"Ana"</span>)  <span class="com"># Hola, Ana</span></div>
+<h3>Retornar valores</h3>
+<div class="code-block"><span class="kw">def</span> <span class="fn">sumar</span>(a, b):
+    <span class="kw">return</span> a + b
+
+resultado = sumar(<span class="num">3</span>, <span class="num">4</span>)  <span class="com"># 7</span></div>
+<p><code>return</code> devuelve un valor y termina la ejecución de la función.</p>`
+    },
+    { id:"5.2", title:"Parámetros y scope",
+      body:`<h3>Parámetros por defecto</h3>
+<div class="code-block"><span class="kw">def</span> <span class="fn">saludar</span>(nombre=<span class="str">"mundo"</span>):
+    <span class="fn">print</span>(<span class="str">"Hola,"</span>, nombre)
+
+saludar()        <span class="com"># Hola, mundo</span>
+saludar(<span class="str">"Ana"</span>)  <span class="com"># Hola, Ana</span></div>
+<h3>Scope (ámbito)</h3>
+<p>Las variables creadas dentro de una función son <strong>locales</strong>: no existen fuera.</p>
+<div class="code-block">x = <span class="num">10</span>  <span class="com"># global</span>
+<span class="kw">def</span> <span class="fn">f</span>():
+    x = <span class="num">5</span>  <span class="com"># local</span>
+    <span class="fn">print</span>(x)
+f()       <span class="com"># 5</span>
+<span class="fn">print</span>(x) <span class="com"># 10</span></div>`
+    },
+    { id:"5.3", title:"Módulos",
+      body:`<p>Un <strong>módulo</strong> es un archivo con funciones y variables que puedes importar en otros archivos.</p>
+<div class="code-block"><span class="com"># archivo mates.py</span>
+<span class="kw">def</span> <span class="fn">sumar</span>(a, b):
+    <span class="kw">return</span> a + b
+
+<span class="com"># archivo principal.py</span>
+<span class="kw">import</span> mates
+mates.sumar(<span class="num">2</span>, <span class="num">3</span>)  <span class="com"># 5</span>
+
+<span class="com"># También:</span>
+<span class="kw">from</span> mates <span class="kw">import</span> sumar
+sumar(<span class="num">2</span>, <span class="num">3</span>)  <span class="com"># 5</span></div>
+<p>Python trae módulos incluidos como <code>math</code>, <code>random</code> y <code>datetime</code>.</p>`
+    }
+  ],
+  questions:[
+    { q:"¿Qué palabra clave se usa para definir una función en Python?", opts:["function","fun","def","define"], correct:2, explain:"Se usa 'def' para definir funciones." },
+    { q:"¿Qué hace la instrucción return?", opts:["Imprime un valor","Devuelve un valor y termina la función","Reinicia la función","Crea una variable"], correct:1, explain:"return devuelve un valor y finaliza la ejecución de la función." },
+    { q:"¿Qué es una variable local?", opts:["Una definida fuera de la función","Una definida dentro de una función","Una variable global","Una constante"], correct:1, explain:"Las variables locales se crean dentro de una función y solo existen dentro de ella." },
+    { q:"¿Cómo se importa un módulo llamado 'math'?", opts:["include math","import math","require math","using math"], correct:1, explain:"La sintaxis correcta es: import math" },
+    { q:"¿Qué pasa si llamas a una función sin argumentos cuando tiene valores por defecto?", opts:["Error","Se usan los valores por defecto","Se pasa None","Se salta la función"], correct:1, explain:"Si los parámetros tienen valores por defecto, la función los usará al llamarla sin argumentos." }
+  ]
+},
+{
+  id:6, title:"Errores y Archivos", icon:"⚠️", color:"#ef4444",
+  desc:"Manejo de excepciones y archivos",
+  lessons:[
+    { id:"6.1", title:"try / except",
+      body:`<p>Los errores (excepciones) ocurren. Podemos manejarlos con <code>try</code> / <code>except</code> para que el programa no se detenga.</p>
+<div class="code-block"><span class="kw">try</span>:
+    resultado = <span class="num">10</span> / <span class="num">0</span>
+<span class="kw">except</span> ZeroDivisionError:
+    <span class="fn">print</span>(<span class="str">"No puedes dividir entre cero"</span>)
+<span class="kw">except</span> Exception <span class="kw">as</span> e:
+    <span class="fn">print</span>(<span class="str">"Error:"</span>, e)
+<span class="kw">finally</span>:
+    <span class="fn">print</span>(<span class="str">"Siempre se ejecuta"</span>)</div>`
+    },
+    { id:"6.2", title:"Lectura y escritura de archivos",
+      body:`<p>Python permite leer y escribir archivos fácilmente.</p>
+<h3>Leer</h3>
+<div class="code-block"><span class="kw">with</span> <span class="fn">open</span>(<span class="str">"notas.txt"</span>, <span class="str">"r"</span>) <span class="kw">as</span> f:
+    contenido = f.read()
+    <span class="fn">print</span>(contenido)</div>
+<h3>Escribir</h3>
+<div class="code-block"><span class="kw">with</span> <span class="fn">open</span>(<span class="str">"notas.txt"</span>, <span class="str">"w"</span>) <span class="kw">as</span> f:
+    f.write(<span class="str">"Hola, mundo\\n"</span>)</div>
+<p>El bloque <code>with</code> cierra el archivo automáticamente, incluso si ocurre un error.</p>`
+    }
+  ],
+  questions:[
+    { q:"¿Qué palabra clave se usa para capturar un error en Python?", opts:["catch","except","error","rescue"], correct:1, explain:"Python usa try/except; 'except' captura la excepción." },
+    { q:"¿Qué bloque se ejecuta SIEMPRE, haya error o no?", opts:["try","except","finally","else"], correct:2, explain:"finally se ejecuta siempre, independientemente de si hubo error o no." },
+    { q:"¿Qué modo de open() sirve para escribir en un archivo?", opts:["'r'","'w'","'a+'","'x'"], correct:1, explain:"El modo 'w' abre el archivo para escritura (sobrescribe)." },
+    { q:"¿Para qué sirve el bloque 'with' al abrir archivos?", opts:["Para nada","Cierra el archivo automáticamente","Encripta el archivo","Lo copia"], correct:1, explain:"with cierra el archivo automáticamente al terminar el bloque." }
+  ]
+},
+{
+  id:7, title:"Programación Orientada a Objetos", icon:"🏗️", color:"#06b6d4",
+  desc:"Clases, objetos, herencia",
+  lessons:[
+    { id:"7.1", title:"Clases y objetos",
+      body:`<p>La <strong>POO</strong> organiza el código en <strong>clases</strong> (plantillas) y <strong>objetos</strong> (instancias).</p>
+<div class="code-block"><span class="kw">class</span> <span class="fn">Persona</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, nombre, edad):
+        self.nombre = nombre
+        self.edad = edad
+
+    <span class="kw">def</span> <span class="fn">saludar</span>(self):
+        <span class="kw">return</span> <span class="str">f"Hola, soy {self.nombre}"</span>
+
+ana = Persona(<span class="str">"Ana"</span>, <span class="num">25</span>)
+<span class="fn">print</span>(ana.saludar())  <span class="com"># Hola, soy Ana</span></div>
+<p><code>__init__</code> es el constructor: se ejecuta al crear el objeto. <code>self</code> es la referencia al propio objeto.</p>`
+    },
+    { id:"7.2", title:"Herencia",
+      body:`<p>Una clase puede <strong>heredar</strong> de otra, reutilizando sus atributos y métodos.</p>
+<div class="code-block"><span class="kw">class</span> <span class="fn">Animal</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, nombre):
+        self.nombre = nombre
+    <span class="kw">def</span> <span class="fn">hablar</span>(self):
+        <span class="kw">return</span> <span class="str">"..."</span>
+
+<span class="kw">class</span> <span class="fn">Perro</span>(Animal):
+    <span class="kw">def</span> <span class="fn">hablar</span>(self):
+        <span class="kw">return</span> <span class="str">"¡Guau!"</span>
+
+p = Perro(<span class="str">"Max"</span>)
+<span class="fn">print</span>(p.hablar())  <span class="com"># ¡Guau!</span></div>
+<p><code>Perro</code> hereda de <code>Animal</code> y puede sobrescribir métodos.</p>`
+    }
+  ],
+  questions:[
+    { q:"¿Cómo se define una clase en Python?", opts:["def MiClase:","class MiClase:","object MiClase:","new MiClase:"], correct:1, explain:"Se usa 'class MiClase:' para definir una clase." },
+    { q:"¿Qué método actúa como constructor en Python?", opts:["__new__","__init__","__start__","__create__"], correct:1, explain:"__init__ es el constructor: se llama al crear una instancia." },
+    { q:"¿Qué representa 'self'?", opts:["Una variable global","La referencia al propio objeto","Una función","Un módulo"], correct:1, explain:"self hace referencia al objeto actual dentro de la clase." },
+    { q:"¿Qué permite la herencia?", opts:["Crear variables globales","Reutilizar atributos y métodos de otra clase","Eliminar clases","Nada especial"], correct:1, explain:"La herencia permite que una clase reutilice código de otra." },
+    { q:"¿Qué es un objeto?", opts:["Una clase","Una instancia de una clase","Un módulo","Un método"], correct:1, explain:"Un objeto es una instancia concreta de una clase." }
+  ]
+},
+{
+  id:8, title:"Testing y Buenas Prácticas", icon:"✅", color:"#10b981",
+  desc:"Pruebas unitarias y código limpio",
+  lessons:[
+    { id:"8.1", title:"Testing con pytest",
+      body:`<p>Las <strong>pruebas</strong> verifican que tu código funcione como esperas. <code>pytest</code> es la librería más popular.</p>
+<div class="code-block"><span class="com"># test_mates.py</span>
+<span class="kw">from</span> mates <span class="kw">import</span> sumar
+
+<span class="kw">def</span> <span class="fn">test_sumar</span>():
+    <span class="kw">assert</span> sumar(<span class="num">2</span>, <span class="num">3</span>) == <span class="num">5</span>
+
+<span class="kw">def</span> <span class="fn">test_sumar_negativos</span>():
+    <span class="kw">assert</span> sumar(-<span class="num">2</span>, -<span class="num">3</span>) == -<span class="num">5</span></div>
+<p>Se ejecuta con <code>pytest</code> en la terminal. Cada función que empieza con <code>test_</code> se ejecuta como prueba.</p>
+<h3>Buenas prácticas</h3>
+<ul>
+  <li>Sigue <strong>PEP 8</strong> (estilo oficial de Python).</li>
+  <li>Usa nombres descriptivos: <code>calcular_promedio</code> mejor que <code>cp</code>.</li>
+  <li>Funciones cortas y con una sola responsabilidad.</li>
+  <li>Documenta con docstrings.</li>
+</ul>`
+    }
+  ],
+  questions:[
+    { q:"¿Qué librería se usa popularmente para testing en Python?", opts:["jest","pytest","mocha","chai"], correct:1, explain:"pytest es la librería de testing más usada en Python." },
+    { q:"¿Qué palabra clave de Python comprueba una condición en un test?", opts:["check","assert","verify","expect"], correct:1, explain:"assert evalúa una condición y falla si es False." },
+    { q:"¿Qué es PEP 8?", opts:["Un framework web","La guía de estilo oficial de Python","Un módulo de testing","Una librería de datos"], correct:1, explain:"PEP 8 es la guía de estilo para escribir código Python limpio." },
+    { q:"¿Por qué es buena idea escribir tests?", opts:["Para que el código pese más","Para detectar errores y evitar romper funcionalidad al cambiar código","No sirve de nada","Para encriptar código"], correct:1, explain:"Los tests detectan errores y protegen la funcionalidad al hacer cambios." }
+  ]
+},
+{
+  id:9, title:"Proyecto Integrador", icon:"🚀", color:"#facc15",
+  desc:"Construye un gestor de tareas aplicando todo lo aprendido",
+  lessons:[
+    { id:"9.1", title:"Gestor de tareas (guía)",
+      body:`<p>Vamos a integrar todo lo aprendido construyendo un <strong>gestor de tareas</strong> de consola. Requisitos:</p>
+<ul>
+  <li>Agregar tareas.</li>
+  <li>Listar tareas.</li>
+  <li>Marcar tareas como completadas.</li>
+  <li>Guardar en archivo (persistencia).</li>
+</ul>
+<h3>Estructura sugerida</h3>
+<div class="code-block"><span class="kw">class</span> <span class="fn">Tarea</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, titulo):
+        self.titulo = titulo
+        self.completada = <span class="kw">False</span>
+
+<span class="kw">class</span> <span class="fn">GestorTareas</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self):
+        self.tareas = []
+
+    <span class="kw">def</span> <span class="fn">agregar</span>(self, titulo):
+        self.tareas.append(Tarea(titulo))
+
+    <span class="kw">def</span> <span class="fn">listar</span>(self):
+        <span class="kw">for</span> i, t <span class="kw">in</span> <span class="fn">enumerate</span>(self.tareas, <span class="num">1</span>):
+            estado = <span class="str">"✅"</span> <span class="kw">if</span> t.completada <span class="kw">else</span> <span class="str">"⏳"</span>
+            <span class="fn">print</span>(<span class="str">f"{i}. {estado} {t.titulo}"</span>)
+
+    <span class="kw">def</span> <span class="fn">completar</span>(self, idx):
+        self.tareas[idx].completada = <span class="kw">True</span></div>
+<h3>Retos</h3>
+<ol>
+  <li>Guardar las tareas en un archivo JSON con <code>json.dump</code>.</li>
+  <li>Cargarlas al iniciar con <code>json.load</code>.</li>
+  <li>Manejar errores con try/except.</li>
+  <li>Escribir al menos 3 tests con pytest.</li>
+</ol>`
+    }
+  ],
+  questions:[
+    { q:"¿Qué módulo de Python sirve para guardar datos en formato JSON?", opts:["csv","json","pickle","yaml"], correct:1, explain:"El módulo json permite serializar y deserializar datos JSON." },
+    { q:"¿Qué estructura es ideal para guardar una lista de tareas con estado?", opts:["Una tupla","Una lista de diccionarios u objetos","Una variable suelta","Un set"], correct:1, explain:"Una lista de diccionarios u objetos es ideal para almacenar tareas con estado." },
+    { q:"¿Qué función de json convierte un objeto Python en texto JSON?", opts:["json.parse","json.dumps","json.read","json.encode"], correct:1, explain:"json.dumps() convierte un objeto Python en un string JSON." }
+  ]
+},
+{
+  id:10, title:"Introducción al Desarrollo Web", icon:"🌐", color:"#8b5cf6",
+  desc:"HTML, CSS y JavaScript básico",
+  lessons:[
+    { id:"10.1", title:"HTML, CSS y JavaScript",
+      body:`<h3>HTML: estructura</h3>
+<div class="code-block"><span class="kw">&lt;h1&gt;</span>Hola mundo<span class="kw">&lt;/h1&gt;</span>
+<span class="kw">&lt;p&gt;</span>Mi primer párrafo<span class="kw">&lt;/p&gt;</span>
+<span class="kw">&lt;button&gt;</span>Haz clic<span class="kw">&lt;/button&gt;</span></div>
+<h3>CSS: estilo</h3>
+<div class="code-block">h1 {
+  color: #38bdf8;
+  font-size: 2rem;
+}</div>
+<h3>JavaScript: interactividad</h3>
+<div class="code-block"><span class="fn">document</span>.querySelector(<span class="str">"button"</span>)
+  .addEventListener(<span class="str">"click"</span>, () =&gt; {
+    <span class="fn">alert</span>(<span class="str">"¡Hola desde JS!"</span>);
+  });</div>
+<p>Con estos tres lenguajes puedes construir páginas web completas: HTML estructura, CSS estiliza y JS da vida.</p>`
+    }
+  ],
+  questions:[
+    { q:"¿Qué lenguaje define la estructura de una página web?", opts:["CSS","HTML","JavaScript","Python"], correct:1, explain:"HTML define la estructura (títulos, párrafos, botones...)." },
+    { q:"¿Qué lenguaje se usa para los estilos visuales?", opts:["HTML","CSS","JavaScript","SQL"], correct:1, explain:"CSS (Cascading Style Sheets) controla la apariencia visual." },
+    { q:"¿Qué lenguaje aporta interactividad en el navegador?", opts:["HTML","CSS","JavaScript","Java"], correct:2, explain:"JavaScript se ejecuta en el navegador y añade interactividad." },
+    { q:"¿Qué etiqueta HTML representa un título de máximo nivel?", opts:["<title>","<h1>","<header>","<p>"], correct:1, explain:"<h1> es el encabezado principal de la página." }
+  ]
+}
+];
+
+/* ============ STATE ============ */
+const App = {
+  user: null,          // { email, name }
+  firebaseReady: false,
+  firebaseAuth: null,
+  fbFunctions: null,
+  progress: null,      // per-user progress
+  currentModule: null,
+  currentLesson: null,
+  exercise: { questions: [], idx: 0, score: 0, moduleId: null, answered: false }
+};
+
+const RANKS = [
+  { min:0,  icon:"🐣", name:"Principiante" },
+  { min:10, icon:"🦉", name:"Aprendiz" },
+  { min:30, icon:"🐍", name:"Codificador" },
+  { min:60, icon:"⚡", name:"Desarrollador" },
+  { min:90, icon:"🏆", name:"Maestro del Código" }
+];
+
+/* ============ PROGRESS PERSISTENCE ============ */
+function progressKey(email){ return 'codequest_progress_' + (email||'anon'); }
+function loadProgress(email){
+  const def = { lessonsDone:{}, passed:{}, bestScores:{}, name:'', joinedAt: Date.now() };
+  return safeParse(localStorage.getItem(progressKey(email)), def);
+}
+function saveProgress(){
+  if(!App.user) return;
+  try{ localStorage.setItem(progressKey(App.user.email), JSON.stringify(App.progress)); }catch(e){}
+}
+
+/* ============ FIREBASE INIT (con fallback local) ============ */
+async function initFirebase(){
+  const isPlaceholder = !FIREBASE_CONFIG.apiKey || FIREBASE_CONFIG.apiKey === 'TU_API_KEY';
+  if(isPlaceholder){
+    console.log('[CodeQuest] Firebase no configurado → usando auth local');
+    $('demoNote').innerHTML = '⚠️ <strong>Modo local</strong> (sin Firebase). Registro guardado en este navegador.<br>Configura <code>FIREBASE_CONFIG</code> en el código para usar Firebase Auth.';
+    return false;
+  }
+  try{
+    const appMod  = await import('https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js');
+    const authMod = await import('https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js');
+    const app = appMod.initializeApp(FIREBASE_CONFIG);
+    App.firebaseAuth = authMod.getAuth(app);
+    App.fbFunctions = authMod;
+    App.firebaseReady = true;
+    authMod.onAuthStateChanged(App.firebaseAuth, user => {
+      if(user){
+        const name = (user.displayName) || user.email.split('@')[0];
+        App.user = { email:user.email, name };
+        enterApp();
+      } else {
+        App.user = null;
+        showView('auth');
+      }
+    });
+    return true;
+  }catch(e){
+    console.error('[CodeQuest] Error Firebase:', e);
+    $('demoNote').innerHTML = '⚠️ Error al inicializar Firebase. Modo local activado.';
+    return false;
+  }
+}
+
+/* ============ LOCAL AUTH (fallback) ============ */
+const LOCAL_USERS_KEY = 'codequest_local_users';
+const LOCAL_SESSION_KEY = 'codequest_session';
+
+function localGetUsers(){ return safeParse(localStorage.getItem(LOCAL_USERS_KEY), {}); }
+function localSaveUsers(u){ try{ localStorage.setItem(LOCAL_USERS_KEY, JSON.stringify(u)); }catch(e){} }
+function localSetSession(email){ try{ localStorage.setItem(LOCAL_SESSION_KEY, email); }catch(e){} }
+function localClearSession(){ try{ localStorage.removeItem(LOCAL_SESSION_KEY); }catch(e){} }
+function localGetSession(){ try{ return localStorage.getItem(LOCAL_SESSION_KEY); }catch(e){ return null; } }
+
+/* ============ AUTH UI ============ */
+function setupAuthTabs(){
+  document.querySelectorAll('.auth-tab').forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      document.querySelectorAll('.auth-tab').forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+      const which = tab.dataset.tab;
+      $('loginForm').style.display = which==='login' ? 'flex' : 'none';
+      $('registerForm').style.display = which==='register' ? 'flex' : 'none';
+    });
+  });
+}
+
+function showAuthError(id, msg){
+  const el = $(id);
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'), 5000);
+}
+
+$('loginForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const email = $('loginEmail').value.trim().toLowerCase();
+  const pass  = $('loginPassword').value;
+  const btn = $('loginBtn');
+  btn.disabled = true; btn.textContent = 'Entrando...';
+  try{
+    if(App.firebaseReady){
+      await App.fbFunctions.signInWithEmailAndPassword(App.firebaseAuth, email, pass);
+    } else {
+      const users = localGetUsers();
+      if(!users[email]) throw new Error('No existe una cuenta con ese correo.');
+      if(users[email].password !== pass) throw new Error('Contraseña incorrecta.');
+      App.user = { email, name: users[email].name };
+      localSetSession(email);
+      enterApp();
+    }
+  }catch(err){
+    showAuthError('loginError', translateAuthError(err));
+  }finally{
+    btn.disabled = false; btn.textContent = 'Entrar →';
+  }
+});
+
+$('registerForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const name  = $('registerName').value.trim();
+  const email = $('registerEmail').value.trim().toLowerCase();
+  const pass  = $('registerPassword').value;
+  const btn = $('registerBtn');
+  btn.disabled = true; btn.textContent = 'Creando...';
+  try{
+    if(pass.length < 6) throw new Error('La contraseña debe tener al menos 6 caracteres.');
+    if(App.firebaseReady){
+      const cred = await App.fbFunctions.createUserWithEmailAndPassword(App.firebaseAuth, email, pass);
+      try{ await App.fbFunctions.updateProfile(cred.user, { displayName: name }); }catch(_){}
+    } else {
+      const users = localGetUsers();
+      if(users[email]) throw new Error('Ya existe una cuenta con ese correo.');
+      users[email] = { name, password: pass };
+      localSaveUsers(users);
+      App.user = { email, name };
+      localSetSession(email);
+      enterApp();
+    }
+  }catch(err){
+    showAuthError('registerError', translateAuthError(err));
+  }finally{
+    btn.disabled = false; btn.textContent = 'Crear cuenta →';
+  }
+});
+
+function translateAuthError(err){
+  const code = (err && err.code) || '';
+  const map = {
+    'auth/email-already-in-use': 'Ese correo ya está registrado.',
+    'auth/invalid-email': 'El correo no es válido.',
+    'auth/weak-password': 'La contraseña es demasiado débil (mín. 6 caracteres).',
+    'auth/user-not-found': 'No existe una cuenta con ese correo.',
+    'auth/wrong-password': 'Contraseña incorrecta.',
+    'auth/invalid-credential': 'Correo o contraseña incorrectos.',
+    'auth/too-many-requests': 'Demasiados intentos. Espera un momento.',
+    'auth/network-request-failed': 'Error de red. Comprueba tu conexión.'
+  };
+  return map[code] || err.message || 'Error desconocido.';
+}
+
+/* ============ ENTER APP ============ */
+function enterApp(){
+  App.progress = loadProgress(App.user.email);
+  if(!App.progress.name) App.progress.name = App.user.name;
+  saveProgress();
+  $('userEmail').textContent = App.user.email;
+  $('heroName').textContent = `¡Hola, ${App.user.name}! 👋`;
+  renderDashboard();
+  showView('dashboard');
+  toast('Bienvenido/a, ' + App.user.name, 'success');
+}
+
+$('logoutBtn').addEventListener('click', async ()=>{
+  try{
+    if(App.firebaseReady){ await App.fbFunctions.signOut(App.firebaseAuth); }
+    else { localClearSession(); App.user = null; }
+    showView('auth');
+    $('loginForm').reset(); $('registerForm').reset();
+  }catch(e){ toast('Error al cerrar sesión','warn'); }
+});
+
+/* ============ VIEW NAV ============ */
+function showView(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const el = $('view-'+name);
+  if(el) el.classList.add('active');
+  document.body.classList.toggle('theme-module', name==='module' || name==='exercise' || name==='results');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ============ DASHBOARD ============ */
+function renderDashboard(){
+  if(!App.user) return;
+  const p = App.progress;
+  const total = MODULES.length;
+  const passed = Object.keys(p.passed).filter(k=>p.passed[k]).length;
+  const pct = Math.round((passed/total)*100);
+  $('ringPercent').textContent = pct + '%';
+  const circ = 471.24;
+  $('ringFill').style.strokeDashoffset = String(circ - (circ*pct/100));
+
+  // Rank
+  let rank = RANKS[0];
+  for(const r of RANKS){ if(pct >= r.min) rank = r; }
+  $('rankIcon').textContent = rank.icon;
+  $('rankLbl').textContent = 'Rango';
+  $('rankVal').textContent = rank.name;
+
+  // Modules grid
+  const grid = $('modulesGrid');
+  grid.innerHTML = '';
+  MODULES.forEach((m, idx)=>{
+    const prevPassed = idx === 0 || !!p.passed[MODULES[idx-1].id];
+    const isPassed = !!p.passed[m.id];
+    const lessonsDone = m.lessons.filter(l=>p.lessonsDone[l.id]).length;
+    const totalLessons = m.lessons.length;
+    const mPct = Math.round((lessonsDone/totalLessons)*100);
+    const locked = !prevPassed && !isPassed;
+    const card = document.createElement('div');
+    card.className = 'module-card' + (locked?' locked':'') + (isPassed?' complete':'');
+    card.style.setProperty('--mod-color', m.color);
+    card.innerHTML = `
+      <div class="module-status ${locked?'locked':isPassed?'done':'progress'}">
+        ${locked?'🔒 Bloqueado':isPassed?'✅ Completado':'⏳ En curso'}
+      </div>
+      <div class="module-head">
+        <div class="module-icon">${m.icon}</div>
+        <div class="module-titles">
+          <div class="module-num">Módulo ${m.id}</div>
+          <div class="module-name">${escHtml(m.title)}</div>
+        </div>
+      </div>
+      <div class="module-body">
+        <div class="module-desc">${escHtml(m.desc)}</div>
+        <div class="module-bar"><div class="module-bar-fill" style="width:${mPct}%"></div></div>
+        <div class="module-meta">
+          <span>Lecciones: <b>${lessonsDone}/${totalLessons}</b></span>
+          <span>Nota: <b>${p.bestScores[m.id]??'—'}${p.bestScores[m.id]!=null?'%':''}</b></span>
+        </div>
+      </div>`;
+    if(!locked){
+      card.addEventListener('click', ()=>openModule(m.id));
+    } else {
+      card.addEventListener('click', ()=>toast('Completa el módulo anterior para desbloquear este.','warn'));
+    }
+    grid.appendChild(card);
+  });
+
+  // Stats
+  const totalLessonsDone = Object.keys(p.lessonsDone).filter(k=>p.lessonsDone[k]).length;
+  $('statLessons').textContent = totalLessonsDone;
+  $('statModules').textContent = passed;
+  const scores = Object.values(p.bestScores).filter(v=>typeof v==='number');
+  $('statScore').textContent = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) + '%' : '0%';
+  $('statStreak').textContent = passed;  // simple metric
+
+  // Certificate banner
+  const certArea = $('certBannerArea');
+  certArea.innerHTML = '';
+  if(passed === total){
+    const avg = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : 0;
+    const banner = document.createElement('div');
+    banner.className = 'cert-banner';
+    banner.innerHTML = `
+      <div class="cb-icon">🎓</div>
+      <div class="cb-info">
+        <h3>¡Has completado el curso!</h3>
+        <p>Puedes generar tu certificado con nota media del ${avg}%.</p>
+      </div>
+      <button class="cb-btn" id="getCertBtn">Ver certificado</button>`;
+    certArea.appendChild(banner);
+    $('getCertBtn').addEventListener('click', ()=>openCertificate(avg));
+  }
+}
+
+/* ============ MODULE VIEW ============ */
+function openModule(moduleId){
+  const m = MODULES.find(x=>x.id === moduleId);
+  if(!m) return;
+  App.currentModule = m;
+  const p = App.progress;
+
+  // Header
+  $('moduleHeader').style.setProperty('--mod-color', m.color);
+  $('moduleHeader').innerHTML = `
+    <div class="mh-left">
+      <div class="mh-icon">${m.icon}</div>
+      <div>
+        <div class="mh-title">Módulo ${m.id} · ${escHtml(m.title)}</div>
+        <div class="mh-sub">${escHtml(m.desc)}</div>
+      </div>
+    </div>
+    <button class="back-btn" onclick="showView('dashboard'); renderDashboard();">🏠 Inicio</button>`;
+
+  // Lessons
+  const list = $('lessonList');
+  list.innerHTML = '';
+  m.lessons.forEach((l, i)=>{
+    const done = !!p.lessonsDone[l.id];
+    const btn = document.createElement('button');
+    btn.className = 'lesson-item' + (done?' done':'');
+    btn.innerHTML = `
+      <div class="li-num">${done?'✓':i+1}</div>
+      <div class="li-info">
+        <div class="li-title">${escHtml(l.title)}</div>
+        <div class="li-desc">Lección ${l.id}</div>
+      </div>
+      <span class="li-check">✓</span>`;
+    btn.addEventListener('click', ()=>openLesson(m, l));
+    list.appendChild(btn);
+  });
+
+  // Exercise area
+  const allLessonsDone = m.lessons.every(l=>p.lessonsDone[l.id]);
+  const startBtn = $('startExerciseBtn');
+  const best = p.bestScores[m.id];
+  $('bestScore').textContent = best != null ? `Mejor nota: ${best}%` : '';
+  $('exerciseDesc').textContent = allLessonsDone
+    ? `Responde ${m.questions.length} preguntas para validar el módulo. Necesitas ≥70% para aprobarlo.`
+    : `Completa primero las lecciones. Puedes intentarlo igualmente, pero te recomendamos leer todo antes.`;
+  startBtn.disabled = false;
+  startBtn.onclick = ()=>startExercise(m);
+
+  showView('module');
+}
+
+/* ============ LESSON OVERLAY ============ */
+function openLesson(m, lesson){
+  App.currentLesson = lesson;
+  $('lessonTitle').textContent = `M${m.id} · ${lesson.title}`;
+  const content = $('lessonContent');
+  content.innerHTML = `
+    <div class="lo-badge">Lección ${lesson.id} · ${escHtml(m.title)}</div>
+    <h1 class="lo-h1">${escHtml(lesson.title)}</h1>
+    <div class="lo-body">${lesson.body}</div>
+    <div class="lo-next">
+      <button class="lo-next-btn" id="markDoneBtn">Marcar como completada ✓</button>
+    </div>`;
+  $('lessonOverlay').classList.add('active');
+  $('markDoneBtn').addEventListener('click', ()=>{
+    App.progress.lessonsDone[lesson.id] = true;
+    saveProgress();
+    toast('Lección completada','success');
+    closeLesson();
+    // Refresh module view
+    if(App.currentModule) openModule(App.currentModule.id);
+    renderDashboard();
+  });
+}
+
+function closeLesson(){
+  $('lessonOverlay').classList.remove('active');
+}
+$('closeLesson').addEventListener('click', closeLesson);
+
+/* ============ EXERCISE FLOW ============ */
+function startExercise(m){
+  App.exercise = {
+    questions: m.questions.slice(),
+    idx: 0,
+    score: 0,
+    moduleId: m.id,
+    answered: false
+  };
+  showView('exercise');
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const ex = App.exercise;
+  const q = ex.questions[ex.idx];
+  if(!q) return;
+  const total = ex.questions.length;
+  $('exProgressLabel').textContent = `Pregunta ${ex.idx+1} / ${total}`;
+  $('exScore').textContent = `✓ ${ex.score}`;
+  $('exProgressBar').style.width = `${(ex.idx/total)*100}%`;
+  $('exNum').textContent = `Pregunta ${ex.idx+1}`;
+  $('exQ').textContent = q.q;
+  $('exFeedback').className = 'ex-feedback';
+  $('exFeedback').textContent = '';
+  $('nextBtn').classList.remove('show');
+  ex.answered = false;
+
+  const opts = $('exOpts');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i)=>{
+    const b = document.createElement('button');
+    b.className = 'ex-opt';
+    b.textContent = opt;
+    b.addEventListener('click', ()=>answerQuestion(i));
+    opts.appendChild(b);
+  });
+}
+
+function answerQuestion(selected){
+  const ex = App.exercise;
+  if(ex.answered) return;
+  ex.answered = true;
+  const q = ex.questions[ex.idx];
+  const correct = q.correct;
+  const buttons = document.querySelectorAll('#exOpts .ex-opt');
+  buttons.forEach((b,i)=>{
+    b.disabled = true;
+    if(i === correct) b.classList.add('correct');
+    else if(i === selected) b.classList.add('incorrect');
+  });
+  const fb = $('exFeedback');
+  if(selected === correct){
+    ex.score++;
+    fb.className = 'ex-feedback ok show';
+    fb.innerHTML = `✅ <strong>¡Correcto!</strong> ${q.explain||''}`;
+  } else {
+    fb.className = 'ex-feedback bad show';
+    fb.innerHTML = `❌ <strong>Incorrecto.</strong> La respuesta correcta es: <em>${escHtml(q.opts[correct])}</em>. ${q.explain||''}`;
+  }
+  $('exScore').textContent = `✓ ${ex.score}`;
+  $('nextBtn').classList.add('show');
+  $('nextBtn').textContent = (ex.idx === ex.questions.length-1) ? 'Ver resultados →' : 'Siguiente →';
+}
+
+$('nextBtn').addEventListener('click', ()=>{
+  const ex = App.exercise;
+  if(ex.idx < ex.questions.length-1){
+    ex.idx++;
+    renderQuestion();
+  } else {
+    finishExercise();
+  }
+});
+
+$('quitExercise').addEventListener('click', ()=>{
+  if(App.currentModule) openModule(App.currentModule.id);
+});
+
+function finishExercise(){
+  const ex = App.exercise;
+  const total = ex.questions.length;
+  const pct = Math.round((ex.score/total)*100);
+  const modId = ex.moduleId;
+  const passed = pct >= 70;
+
+  // Save progress
+  const prevBest = App.progress.bestScores[modId];
+  if(prevBest == null || pct > prevBest) App.progress.bestScores[modId] = pct;
+  if(passed) App.progress.passed[modId] = true;
+  saveProgress();
+
+  // Render results
+  $('resEmoji').textContent = passed ? '🎉' : '😅';
+  $('resTitle').textContent = passed ? '¡Módulo superado!' : 'Casi lo tienes';
+  $('resSubtitle').textContent = `Módulo ${modId}: ${ex.questions.length} preguntas`;
+  $('resScore').textContent = pct + '%';
+  $('resDetail').textContent = `Aciertos: ${ex.score} de ${total}`;
+  $('resStatus').textContent = passed ? '✅ MÓDULO APROBADO' : '❌ Necesitas al menos 70% para aprobar';
+  $('resStatus').className = 'status ' + (passed?'passed':'failed');
+
+  // Stars
+  const stars = document.querySelectorAll('#resStars .star');
+  const lit = pct >= 90 ? 3 : pct >= 70 ? 2 : pct >= 40 ? 1 : 0;
+  stars.forEach((s,i)=>{ s.classList.toggle('lit', i < lit); });
+
+  showView('results');
+}
+
+$('retryBtn').addEventListener('click', ()=>{
+  if(App.currentModule) startExercise(App.currentModule);
+});
+$('backToModuleBtn').addEventListener('click', ()=>{
+  if(App.currentModule) openModule(App.currentModule.id);
+});
+$('backToDashBtn').addEventListener('click', ()=>{ renderDashboard(); showView('dashboard'); });
+
+/* ============ CERTIFICATE ============ */
+function openCertificate(avgScore){
+  $('certName').value = App.progress.name || App.user.name;
+  $('certScore').textContent = avgScore + '%';
+  const d = new Date();
+  const months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  $('certDate').textContent = `Emitido el ${d.getDate()} de ${months[d.getMonth()]} de ${d.getFullYear()}`;
+  showView('certificate');
+}
+$('certBackBtn').addEventListener('click', ()=>{ renderDashboard(); showView('dashboard'); });
+
+/* ============ RESET ============ */
+$('resetBtn').addEventListener('click', ()=>{
+  if(!App.user) return;
+  if(confirm('¿Seguro que quieres borrar todo tu progreso? Esta acción no se puede deshacer.')){
+    App.progress = { lessonsDone:{}, passed:{}, bestScores:{}, name: App.user.name, joinedAt: Date.now() };
+    saveProgress();
+    renderDashboard();
+    toast('Progreso reiniciado','success');
+  }
+});
+
+/* ============ BOOT ============ */
+(async function boot(){
+  setupAuthTabs();
+  const ok = await initFirebase();
+  if(!ok){
+    // Local mode: check session
+    const email = localGetSession();
+    if(email){
+      const users = localGetUsers();
+      if(users[email]){
+        App.user = { email, name: users[email].name };
+        enterApp();
+        return;
+      }
+    }
+    showView('auth');
+  }
+})();
+
+/* Expose nav helpers */
+window.showView = showView;
+window.renderDashboard = renderDashboard;
+</script>
+</body>
+</html>
