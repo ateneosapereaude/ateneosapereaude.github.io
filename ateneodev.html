@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-<title>Ateneodevr</title>
+<title>Ateneodev</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{min-height:100%}
@@ -21,6 +21,14 @@ body.theme-module{background:radial-gradient(ellipse 1200px 800px at 50% 0%,#1a0
 .view.active{display:block}
 @keyframes fadeSlide{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
 
+/* LOADING */
+#view-loading{min-height:calc(100vh - 24px);display:none;align-items:center;justify-content:center;flex-direction:column;gap:18px}
+#view-loading.active{display:flex}
+.spinner{width:54px;height:54px;border-radius:50%;border:4px solid rgba(56,189,248,.15);
+border-top-color:#38bdf8;animation:spin .9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{color:#8ba3c7;font-size:.9rem;letter-spacing:1px}
+
 /* AUTH */
 #view-auth{min-height:calc(100vh - 24px);display:none;align-items:center;justify-content:center}
 #view-auth.active{display:flex}
@@ -30,7 +38,7 @@ border:1px solid rgba(56,189,248,.25);border-radius:28px;padding:36px 28px;box-s
 background:radial-gradient(circle,rgba(56,189,248,.25),transparent 70%);pointer-events:none}
 .auth-brand{display:flex;align-items:center;gap:14px;justify-content:center;margin-bottom:8px;position:relative;z-index:1}
 .auth-logo{width:60px;height:60px;border-radius:18px;display:flex;align-items:center;justify-content:center;
-font-size:2rem;background:linear-gradient(135deg,#38bdf8,#a855f7);box-shadow:0 0 24px rgba(56,189,248,.5)}
+background:#0a1628;border:2px solid #facc15;box-shadow:0 0 24px rgba(250,204,21,.35);padding:6px;overflow:hidden;flex-shrink:0}
 .auth-title{font-size:1.8rem;font-weight:800;background:linear-gradient(135deg,#fff,#38bdf8);
 -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:.5px}
 .auth-sub{text-align:center;color:#8ba3c7;font-size:.9rem;margin-bottom:26px;position:relative;z-index:1}
@@ -60,7 +68,7 @@ background:rgba(255,255,255,.05);backdrop-filter:blur(14px);border:1px solid rgb
 border-radius:22px;margin-bottom:20px;gap:12px;flex-wrap:wrap}
 .dash-brand{display:flex;align-items:center;gap:12px}
 .dash-logo{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;
-font-size:1.6rem;background:linear-gradient(135deg,#38bdf8,#a855f7);box-shadow:0 0 18px rgba(56,189,248,.4);flex-shrink:0}
+background:#0a1628;border:2px solid #facc15;box-shadow:0 0 18px rgba(250,204,21,.3);flex-shrink:0;padding:5px;overflow:hidden}
 .dash-brand-name{font-weight:800;font-size:1.1rem}
 .dash-brand-sub{font-size:.68rem;color:#8ba3c7;text-transform:uppercase;letter-spacing:1.4px;margin-top:1px}
 .dash-user{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
@@ -275,8 +283,8 @@ padding:13px 30px;border-radius:40px;cursor:pointer;font-size:.9rem;font-family:
 border-radius:18px;padding:38px 30px;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(56,189,248,.4),
 inset 0 0 0 6px #0a1628,inset 0 0 0 8px #38bdf8;color:#e8f0ff;text-align:center;margin-bottom:20px}
 .cert-header{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:18px}
-.cert-logo{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#38bdf8,#a855f7);
-display:flex;align-items:center;justify-content:center;font-size:1.6rem;border:2px solid #38bdf8}
+.cert-logo{width:52px;height:52px;border-radius:14px;background:#0a1628;
+display:flex;align-items:center;justify-content:center;border:2px solid #facc15;padding:5px;overflow:hidden;flex-shrink:0}
 .cert-brand{font-size:1.3rem;font-weight:800;color:#7dd3fc;letter-spacing:2px;text-transform:uppercase}
 .certificate h1{font-size:1.6rem;font-weight:800;color:#facc15;margin-bottom:4px;text-transform:uppercase;letter-spacing:2px}
 .cert-sub{font-size:.8rem;color:#8ba3c7;text-transform:uppercase;letter-spacing:3px;margin-bottom:22px}
@@ -290,7 +298,7 @@ background:rgba(56,189,248,.1);border:1px solid #38bdf8;border-radius:12px;paddi
 .cert-score-value{font-size:1.6rem;font-weight:800;color:#facc15}
 .cert-seal{position:absolute;top:18px;right:18px;width:64px;height:64px;border-radius:50%;
 background:radial-gradient(circle at 30% 30%,#facc15,#b45309);display:flex;align-items:center;
-justify-content:center;font-size:1.7rem;border:3px solid #b45309;transform:rotate(-15deg)}
+justify-content:center;border:3px solid #b45309;transform:rotate(-15deg);padding:8px;overflow:hidden}
 .cert-date{font-size:.78rem;color:#64748b;margin-top:10px}
 .cert-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:720px;width:100%}
 
@@ -324,7 +332,7 @@ display:flex;align-items:flex-start;gap:10px;pointer-events:auto;animation:toast
   .lo-body{padding:18px}
   .lo-h1{font-size:1.25rem}
   .certificate{padding:24px 16px}
-  .cert-seal{width:52px;height:52px;font-size:1.3rem;top:12px;right:12px}
+  .cert-seal{width:52px;height:52px;top:12px;right:12px;padding:6px}
   .ex-card{padding:20px 16px}
   .result-box{padding:28px 12px}
   .btn-group{flex-direction:column}
@@ -338,11 +346,37 @@ display:flex;align-items:flex-start;gap:10px;pointer-events:auto;animation:toast
 
 <div class="container">
 
+  <!-- ============ LOADING ============ -->
+  <div id="view-loading" class="view active">
+    <div class="spinner"></div>
+    <p class="loading-text">Cargando Ateneodev...</p>
+  </div>
+
   <!-- ============ AUTH ============ -->
-  <div id="view-auth" class="view active">
+  <div id="view-auth" class="view">
     <div class="auth-card">
       <div class="auth-brand">
-        <div class="auth-logo">💻</div>
+        <div class="auth-logo">
+          <svg viewBox="0 0 64 64" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g fill="#facc15">
+              <rect x="8" y="50" width="48" height="3" rx="0.8"/>
+              <rect x="11" y="47" width="42" height="3" rx="0.8"/>
+              <rect x="14" y="25" width="3.5" height="22"/>
+              <rect x="22" y="25" width="3.5" height="22"/>
+              <rect x="30" y="25" width="3.5" height="22"/>
+              <rect x="38" y="25" width="3.5" height="22"/>
+              <rect x="46" y="25" width="3.5" height="22"/>
+              <rect x="12" y="22" width="7.5" height="2.5"/>
+              <rect x="20" y="22" width="7.5" height="2.5"/>
+              <rect x="28" y="22" width="7.5" height="2.5"/>
+              <rect x="36" y="22" width="7.5" height="2.5"/>
+              <rect x="44" y="22" width="7.5" height="2.5"/>
+              <rect x="10" y="18" width="44" height="3"/>
+            </g>
+            <polygon points="10,18 32,5 54,18" fill="none" stroke="#facc15" stroke-width="2" stroke-linejoin="round"/>
+            <polygon points="17,15.5 32,8 47,15.5" fill="none" stroke="#facc15" stroke-width="0.8" opacity="0.5"/>
+          </svg>
+        </div>
         <div class="auth-title">Ateneodev</div>
       </div>
       <p class="auth-sub">Aprende a programar desde cero</p>
@@ -390,7 +424,27 @@ display:flex;align-items:flex-start;gap:10px;pointer-events:auto;animation:toast
   <div id="view-dashboard" class="view">
     <div class="dash-header">
       <div class="dash-brand">
-        <div class="dash-logo">💻</div>
+        <div class="dash-logo">
+          <svg viewBox="0 0 64 64" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g fill="#facc15">
+              <rect x="8" y="50" width="48" height="3" rx="0.8"/>
+              <rect x="11" y="47" width="42" height="3" rx="0.8"/>
+              <rect x="14" y="25" width="3.5" height="22"/>
+              <rect x="22" y="25" width="3.5" height="22"/>
+              <rect x="30" y="25" width="3.5" height="22"/>
+              <rect x="38" y="25" width="3.5" height="22"/>
+              <rect x="46" y="25" width="3.5" height="22"/>
+              <rect x="12" y="22" width="7.5" height="2.5"/>
+              <rect x="20" y="22" width="7.5" height="2.5"/>
+              <rect x="28" y="22" width="7.5" height="2.5"/>
+              <rect x="36" y="22" width="7.5" height="2.5"/>
+              <rect x="44" y="22" width="7.5" height="2.5"/>
+              <rect x="10" y="18" width="44" height="3"/>
+            </g>
+            <polygon points="10,18 32,5 54,18" fill="none" stroke="#facc15" stroke-width="2" stroke-linejoin="round"/>
+            <polygon points="17,15.5 32,8 47,15.5" fill="none" stroke="#facc15" stroke-width="0.8" opacity="0.5"/>
+          </svg>
+        </div>
         <div>
           <div class="dash-brand-name">Ateneodev</div>
           <div class="dash-brand-sub">Aprende a programar</div>
@@ -519,9 +573,48 @@ display:flex;align-items:flex-start;gap:10px;pointer-events:auto;animation:toast
   <div id="view-certificate" class="view">
     <div class="cert-wrap">
       <div class="certificate">
-        <div class="cert-seal">💻</div>
+        <div class="cert-seal">
+          <svg viewBox="0 0 64 64" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g fill="#0a1628">
+              <rect x="8" y="50" width="48" height="3" rx="0.8"/>
+              <rect x="11" y="47" width="42" height="3" rx="0.8"/>
+              <rect x="14" y="25" width="3.5" height="22"/>
+              <rect x="22" y="25" width="3.5" height="22"/>
+              <rect x="30" y="25" width="3.5" height="22"/>
+              <rect x="38" y="25" width="3.5" height="22"/>
+              <rect x="46" y="25" width="3.5" height="22"/>
+              <rect x="12" y="22" width="7.5" height="2.5"/>
+              <rect x="20" y="22" width="7.5" height="2.5"/>
+              <rect x="28" y="22" width="7.5" height="2.5"/>
+              <rect x="36" y="22" width="7.5" height="2.5"/>
+              <rect x="44" y="22" width="7.5" height="2.5"/>
+              <rect x="10" y="18" width="44" height="3"/>
+            </g>
+            <polygon points="10,18 32,5 54,18" fill="none" stroke="#0a1628" stroke-width="2.2" stroke-linejoin="round"/>
+          </svg>
+        </div>
         <div class="cert-header">
-          <div class="cert-logo">💻</div>
+          <div class="cert-logo">
+            <svg viewBox="0 0 64 64" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <g fill="#facc15">
+                <rect x="8" y="50" width="48" height="3" rx="0.8"/>
+                <rect x="11" y="47" width="42" height="3" rx="0.8"/>
+                <rect x="14" y="25" width="3.5" height="22"/>
+                <rect x="22" y="25" width="3.5" height="22"/>
+                <rect x="30" y="25" width="3.5" height="22"/>
+                <rect x="38" y="25" width="3.5" height="22"/>
+                <rect x="46" y="25" width="3.5" height="22"/>
+                <rect x="12" y="22" width="7.5" height="2.5"/>
+                <rect x="20" y="22" width="7.5" height="2.5"/>
+                <rect x="28" y="22" width="7.5" height="2.5"/>
+                <rect x="36" y="22" width="7.5" height="2.5"/>
+                <rect x="44" y="22" width="7.5" height="2.5"/>
+                <rect x="10" y="18" width="44" height="3"/>
+              </g>
+              <polygon points="10,18 32,5 54,18" fill="none" stroke="#facc15" stroke-width="2" stroke-linejoin="round"/>
+              <polygon points="17,15.5 32,8 47,15.5" fill="none" stroke="#facc15" stroke-width="0.8" opacity="0.5"/>
+            </svg>
+          </div>
           <div class="cert-brand">ateneodev</div>
         </div>
         <h1>Certificado de Finalización</h1>
@@ -554,12 +647,6 @@ display:flex;align-items:flex-start;gap:10px;pointer-events:auto;animation:toast
 <script>
 /* =========================================================
    CONFIGURACIÓN DE FIREBASE
-   ---------------------------------------------------------
-   Sustituye los valores de abajo con los de tu proyecto
-   de Firebase (Consola > Configuración del proyecto > Tus apps).
-   Si dejas los placeholders, la app usará un modo "local"
-   (registro/login guardado en el navegador) para que puedas
-   probarla inmediatamente.
    ========================================================= */
 const FIREBASE_CONFIG = {
   apiKey: "TU_API_KEY",
@@ -1019,11 +1106,11 @@ p = Perro(<span class="str">"Max"</span>)
 
 /* ============ STATE ============ */
 const App = {
-  user: null,          // { email, name }
+  user: null,
   firebaseReady: false,
   firebaseAuth: null,
   fbFunctions: null,
-  progress: null,      // per-user progress
+  progress: null,
   currentModule: null,
   currentLesson: null,
   exercise: { questions: [], idx: 0, score: 0, moduleId: null, answered: false }
@@ -1048,7 +1135,26 @@ function saveProgress(){
   try{ localStorage.setItem(progressKey(App.user.email), JSON.stringify(App.progress)); }catch(e){}
 }
 
-/* ============ FIREBASE INIT (con fallback local) ============ */
+/* ============ SESSION HELPERS ============ */
+const LOCAL_USERS_KEY = 'ateneoev_local_users';
+const LOCAL_SESSION_KEY = 'ateneodev_session';
+
+function localGetUsers(){ return safeParse(localStorage.getItem(LOCAL_USERS_KEY), {}); }
+function localSaveUsers(u){ try{ localStorage.setItem(LOCAL_USERS_KEY, JSON.stringify(u)); }catch(e){} }
+function localSetSession(email){ try{ localStorage.setItem(LOCAL_SESSION_KEY, email); }catch(e){} }
+function localClearSession(){ try{ localStorage.removeItem(LOCAL_SESSION_KEY); }catch(e){} }
+function localGetSession(){ try{ return localStorage.getItem(LOCAL_SESSION_KEY); }catch(e){ return null; } }
+
+/* ============ AUTH STATE ============ */
+let authDetermined = false;
+let fallbackTimer = null;
+
+function markAuthDetermined(){
+  authDetermined = true;
+  if(fallbackTimer){ clearTimeout(fallbackTimer); fallbackTimer = null; }
+}
+
+/* ============ FIREBASE INIT ============ */
 async function initFirebase(){
   const isPlaceholder = !FIREBASE_CONFIG.apiKey || FIREBASE_CONFIG.apiKey === 'TU_API_KEY';
   if(isPlaceholder){
@@ -1064,6 +1170,7 @@ async function initFirebase(){
     App.fbFunctions = authMod;
     App.firebaseReady = true;
     authMod.onAuthStateChanged(App.firebaseAuth, user => {
+      markAuthDetermined();
       if(user){
         const name = (user.displayName) || user.email.split('@')[0];
         App.user = { email:user.email, name };
@@ -1080,16 +1187,6 @@ async function initFirebase(){
     return false;
   }
 }
-
-/* ============ LOCAL AUTH (fallback) ============ */
-const LOCAL_USERS_KEY = 'ateneoev_local_users';
-const LOCAL_SESSION_KEY = 'ateneodev_session';
-
-function localGetUsers(){ return safeParse(localStorage.getItem(LOCAL_USERS_KEY), {}); }
-function localSaveUsers(u){ try{ localStorage.setItem(LOCAL_USERS_KEY, JSON.stringify(u)); }catch(e){} }
-function localSetSession(email){ try{ localStorage.setItem(LOCAL_SESSION_KEY, email); }catch(e){} }
-function localClearSession(){ try{ localStorage.removeItem(LOCAL_SESSION_KEY); }catch(e){} }
-function localGetSession(){ try{ return localStorage.getItem(LOCAL_SESSION_KEY); }catch(e){ return null; } }
 
 /* ============ AUTH UI ============ */
 function setupAuthTabs(){
@@ -1219,14 +1316,12 @@ function renderDashboard(){
   const circ = 471.24;
   $('ringFill').style.strokeDashoffset = String(circ - (circ*pct/100));
 
-  // Rank
   let rank = RANKS[0];
   for(const r of RANKS){ if(pct >= r.min) rank = r; }
   $('rankIcon').textContent = rank.icon;
   $('rankLbl').textContent = 'Rango';
   $('rankVal').textContent = rank.name;
 
-  // Modules grid
   const grid = $('modulesGrid');
   grid.innerHTML = '';
   MODULES.forEach((m, idx)=>{
@@ -1266,15 +1361,13 @@ function renderDashboard(){
     grid.appendChild(card);
   });
 
-  // Stats
   const totalLessonsDone = Object.keys(p.lessonsDone).filter(k=>p.lessonsDone[k]).length;
   $('statLessons').textContent = totalLessonsDone;
   $('statModules').textContent = passed;
   const scores = Object.values(p.bestScores).filter(v=>typeof v==='number');
   $('statScore').textContent = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) + '%' : '0%';
-  $('statStreak').textContent = passed;  // simple metric
+  $('statStreak').textContent = passed;
 
-  // Certificate banner
   const certArea = $('certBannerArea');
   certArea.innerHTML = '';
   if(passed === total){
@@ -1300,7 +1393,6 @@ function openModule(moduleId){
   App.currentModule = m;
   const p = App.progress;
 
-  // Header
   $('moduleHeader').style.setProperty('--mod-color', m.color);
   $('moduleHeader').innerHTML = `
     <div class="mh-left">
@@ -1312,7 +1404,6 @@ function openModule(moduleId){
     </div>
     <button class="back-btn" onclick="showView('dashboard'); renderDashboard();">🏠 Inicio</button>`;
 
-  // Lessons
   const list = $('lessonList');
   list.innerHTML = '';
   m.lessons.forEach((l, i)=>{
@@ -1330,7 +1421,6 @@ function openModule(moduleId){
     list.appendChild(btn);
   });
 
-  // Exercise area
   const allLessonsDone = m.lessons.every(l=>p.lessonsDone[l.id]);
   const startBtn = $('startExerciseBtn');
   const best = p.bestScores[m.id];
@@ -1362,7 +1452,6 @@ function openLesson(m, lesson){
     saveProgress();
     toast('Lección completada','success');
     closeLesson();
-    // Refresh module view
     if(App.currentModule) openModule(App.currentModule.id);
     renderDashboard();
   });
@@ -1459,13 +1548,11 @@ function finishExercise(){
   const modId = ex.moduleId;
   const passed = pct >= 70;
 
-  // Save progress
   const prevBest = App.progress.bestScores[modId];
   if(prevBest == null || pct > prevBest) App.progress.bestScores[modId] = pct;
   if(passed) App.progress.passed[modId] = true;
   saveProgress();
 
-  // Render results
   $('resEmoji').textContent = passed ? '🎉' : '😅';
   $('resTitle').textContent = passed ? '¡Módulo superado!' : 'Casi lo tienes';
   $('resSubtitle').textContent = `Módulo ${modId}: ${ex.questions.length} preguntas`;
@@ -1474,7 +1561,6 @@ function finishExercise(){
   $('resStatus').textContent = passed ? '✅ MÓDULO APROBADO' : '❌ Necesitas al menos 70% para aprobar';
   $('resStatus').className = 'status ' + (passed?'passed':'failed');
 
-  // Stars
   const stars = document.querySelectorAll('#resStars .star');
   const lit = pct >= 90 ? 3 : pct >= 70 ? 2 : pct >= 40 ? 1 : 0;
   stars.forEach((s,i)=>{ s.classList.toggle('lit', i < lit); });
@@ -1515,9 +1601,19 @@ $('resetBtn').addEventListener('click', ()=>{
 /* ============ BOOT ============ */
 (async function boot(){
   setupAuthTabs();
+  showView('loading');
+
+  fallbackTimer = setTimeout(() => {
+    if(!authDetermined){
+      console.warn('[ateneodev] Auth timeout, mostrando login');
+      showView('auth');
+    }
+  }, 8000);
+
   const ok = await initFirebase();
+
   if(!ok){
-    // Local mode: check session
+    markAuthDetermined();
     const email = localGetSession();
     if(email){
       const users = localGetUsers();
@@ -1525,6 +1621,8 @@ $('resetBtn').addEventListener('click', ()=>{
         App.user = { email, name: users[email].name };
         enterApp();
         return;
+      } else {
+        localClearSession();
       }
     }
     showView('auth');
