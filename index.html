@@ -73,12 +73,16 @@
             </a>
 
             <!-- Navegación escritorio -->
-            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-300">
                 <a href="#/inicio" data-nav class="hover:text-amber-400 transition">Inicio</a>
                 <a href="#/centros" data-nav class="hover:text-amber-400 transition">Centros</a>
                 <a href="#/editorial" data-nav class="hover:text-amber-400 transition">Editorial</a>
                 <a href="#/proyectos" data-nav class="hover:text-amber-400 transition">Proyectos</a>
                 <a href="#/contacto" data-nav class="hover:text-amber-400 transition">Contacto</a>
+                <!-- Botón especial -->
+                <a href="#/secretaria" data-nav class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-amber-400/50 text-amber-400 font-semibold whitespace-nowrap hover:bg-amber-400 hover:text-[#0b1d3a] transition">
+                    Secretaría en Línea
+                </a>
             </nav>
 
             <!-- Botón móvil -->
@@ -96,6 +100,7 @@
             <a href="#/editorial" data-nav class="block hover:text-amber-400 transition">Editorial</a>
             <a href="#/proyectos" data-nav class="block hover:text-amber-400 transition">Proyectos</a>
             <a href="#/contacto" data-nav class="block hover:text-amber-400 transition">Contacto</a>
+            <a href="#/secretaria" data-nav class="block text-amber-400 font-semibold hover:text-amber-300 transition">Secretaría en Línea →</a>
         </div>
     </header>
 
@@ -104,7 +109,7 @@
 
         <!-- ---------- VISTA: INICIO ---------- -->
         <section data-view="inicio">
-            <div class="max-w-4xl mx-auto text-center space-y-12">
+            <div class="max-w-5xl mx-auto text-center space-y-12">
                 <div class="space-y-4">
                     <span class="inline-block text-amber-400 uppercase tracking-widest text-xs font-semibold px-3 py-1 bg-amber-400/10 rounded-full border border-amber-400/20"></span>
                     <h1 class="text-4xl md:text-6xl font-serif font-bold tracking-tight">Ateneo Sapere Aude</h1>
@@ -113,7 +118,7 @@
                     </p>
                 </div>
 
-                <div class="grid md:grid-cols-3 gap-6 text-left pt-6">
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left pt-6">
                     <a href="#/centros" class="group bg-[#11264d]/60 border border-white/10 p-6 rounded-xl hover:border-amber-400/40 transition">
                         <div class="w-10 h-10 rounded-lg bg-amber-400/10 flex items-center justify-center text-amber-400 mb-4 font-bold text-lg">01</div>
                         <h3 class="text-lg font-semibold mb-2">Investigación</h3>
@@ -130,6 +135,12 @@
                         <div class="w-10 h-10 rounded-lg bg-amber-400/10 flex items-center justify-center text-amber-400 mb-4 font-bold text-lg">03</div>
                         <h3 class="text-lg font-semibold mb-2">Editorial</h3>
                         <p class="text-slate-400 text-sm leading-relaxed">Publicación y divulgación de obras académicas, ensayos y revistas científicas arbitradas.</p>
+                    </a>
+
+                    <a href="#/secretaria" class="group bg-amber-400/5 border border-amber-400/40 p-6 rounded-xl hover:border-amber-400/70 hover:bg-amber-400/10 transition">
+                        <div class="w-10 h-10 rounded-lg bg-amber-400/20 flex items-center justify-center text-amber-400 mb-4 font-bold text-lg">04</div>
+                        <h3 class="text-lg font-semibold mb-2 text-amber-400">Secretaría en Línea</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Inscripciones, campus y atención al estudiante en un solo lugar.</p>
                     </a>
                 </div>
 
@@ -503,6 +514,113 @@
             </div>
         </section>
 
+        <!-- ---------- VISTA: SECRETARÍA EN LÍNEA ---------- -->
+        <section data-view="secretaria" class="hidden">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-12 space-y-3">
+                    <span class="inline-block text-amber-400 uppercase tracking-widest text-xs font-semibold px-3 py-1 bg-amber-400/10 rounded-full border border-amber-400/20">Atención al estudiante</span>
+                    <h1 class="text-3xl md:text-5xl font-serif font-bold">Secretaría en Línea</h1>
+                    <p class="text-slate-300 max-w-2xl mx-auto font-light leading-relaxed">
+                        Realiza tu inscripción, entra al campus del Ateneo o ponte en contacto con nosotros. Todo en un mismo lugar.
+                    </p>
+                </div>
+
+                <div class="grid gap-6 md:grid-cols-3">
+
+                    <!-- Inscripción (abre formulario interno) -->
+                    <a href="#/inscripcion"
+                       class="group bg-[#11264d]/60 border border-white/10 p-7 rounded-xl hover:border-amber-400/50 transition flex flex-col text-left">
+                        <div class="w-12 h-12 rounded-lg bg-amber-400/10 flex items-center justify-center text-amber-400 mb-5">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6M9 8h6M7 3h10a2 2 0 012 2v14a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z" />
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-serif font-semibold mb-2">Inscripción</h2>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6">Completa el formulario de inscripción a los diplomados, seminarios y cursos de idiomas del Ateneo.</p>
+                        <span class="mt-auto inline-flex items-center justify-center gap-2 bg-amber-400 text-[#0b1d3a] font-semibold text-sm px-5 py-3 rounded-lg group-hover:bg-amber-300 transition">
+                            Ir al formulario <span aria-hidden="true">→</span>
+                        </span>
+                    </a>
+
+                    <!-- Campus Ateneo (enlace externo) -->
+                    <a href="https://ateneosapereaude.github.io/campus" target="_blank" rel="noopener noreferrer"
+                       class="group bg-[#11264d]/60 border border-white/10 p-7 rounded-xl hover:border-amber-400/50 transition flex flex-col text-left">
+                        <div class="w-12 h-12 rounded-lg bg-amber-400/10 flex items-center justify-center text-amber-400 mb-5">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l6.16-3.42A12 12 0 0112 21a12 12 0 01-6.16-10.42L12 14z" />
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-serif font-semibold mb-2">Campus Ateneo</h2>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6">Accede al campus interior del Ateneo: aulas, materiales de estudio y recursos de cada centro.</p>
+                        <span class="mt-auto inline-flex items-center justify-center gap-2 border border-amber-400/50 text-amber-400 font-semibold text-sm px-5 py-3 rounded-lg group-hover:bg-amber-400 group-hover:text-[#0b1d3a] transition">
+                            Entrar al campus <span aria-hidden="true">→</span>
+                        </span>
+                    </a>
+
+                    <!-- Contactar -->
+                    <div class="bg-[#11264d]/60 border border-white/10 p-7 rounded-xl hover:border-amber-400/50 transition flex flex-col text-left">
+                        <div class="w-12 h-12 rounded-lg bg-amber-400/10 flex items-center justify-center text-amber-400 mb-5">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h8m-8 4h5M21 12a9 9 0 11-4.5-7.79L21 3l-1.21 4.5A8.96 8.96 0 0121 12z" />
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-serif font-semibold mb-2">Contactar</h2>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6">Escríbenos por correo electrónico o por Instagram para resolver cualquier duda.</p>
+                        <div class="mt-auto space-y-3">
+                            <a href="mailto:ateneosapereaude@gmail.com?subject=Consulta%20-%20Secretar%C3%ADa%20Ateneo"
+                               class="flex items-center justify-center gap-2 bg-amber-400 text-[#0b1d3a] font-semibold text-sm px-5 py-3 rounded-lg hover:bg-amber-300 transition">
+                                Enviar un correo <span aria-hidden="true">→</span>
+                            </a>
+                            <a href="https://instagram.com/ateneosapereaude" target="_blank" rel="noopener noreferrer"
+                               class="flex items-center justify-center gap-2 border border-amber-400/50 text-amber-400 font-semibold text-sm px-5 py-3 rounded-lg hover:bg-amber-400 hover:text-[#0b1d3a] transition">
+                                Escribir por Instagram <span aria-hidden="true">→</span>
+                            </a>
+                            <p class="text-center text-xs text-slate-500 break-all">ateneosapereaude@gmail.com · @ateneosapereaude</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ---------- VISTA: INSCRIPCIÓN (formulario interno) ---------- -->
+        <section data-view="inscripcion" class="hidden">
+            <div class="max-w-4xl mx-auto">
+                <a href="#/secretaria" class="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-amber-400 transition mb-8">← Volver a Secretaría</a>
+
+                <div class="text-center mb-8 space-y-3">
+                    <span class="inline-block text-amber-400 uppercase tracking-widest text-xs font-semibold px-3 py-1 bg-amber-400/10 rounded-full border border-amber-400/20">Formulario</span>
+                    <h1 class="text-3xl md:text-4xl font-serif font-bold">Inscripción</h1>
+                    <p class="text-slate-300 font-light leading-relaxed">
+                        Completa el formulario a continuación para inscribirte en los programas del Ateneo.
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg border border-white/10">
+                    <iframe
+                        src="https://docs.google.com/forms/d/e/1FAIpQLSfro9Joa8rc4RjlUaFkrdAVFBe_CuNTgkPTim9NAV75TTJd7Q/viewform?embedded=true"
+                        width="100%"
+                        height="900"
+                        frameborder="0"
+                        marginheight="0"
+                        marginwidth="0"
+                        class="w-full block"
+                        title="Formulario de inscripción - Ateneo Sapere Aude">
+                        Cargando formulario…
+                    </iframe>
+                </div>
+
+                <p class="text-center text-xs text-slate-500 mt-4">
+                    Si el formulario no carga, puedes
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfro9Joa8rc4RjlUaFkrdAVFBe_CuNTgkPTim9NAV75TTJd7Q/viewform"
+                       target="_blank" rel="noopener noreferrer" class="text-amber-400 hover:underline">
+                        abrirlo en una pestaña nueva
+                    </a>.
+                </p>
+            </div>
+        </section>
+
         <!-- ---------- VISTA: CONTACTO ---------- -->
         <section data-view="contacto" class="hidden">
             <div class="max-w-3xl mx-auto text-center space-y-8">
@@ -557,6 +675,7 @@
             <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-slate-400">
                 <a href="mailto:ateneosapereaude@gmail.com" class="hover:text-amber-400 transition">ateneosapereaude@gmail.com</a>
                 <a href="https://instagram.com/ateneosapereaude" target="_blank" rel="noopener noreferrer" class="hover:text-amber-400 transition">@ateneosapereaude</a>
+                <a href="#/secretaria" class="text-amber-400 hover:text-amber-300 transition font-semibold">Secretaría en Línea</a>
             </div>
             <p>&copy; 2026 Ateneo Sapere Aude. Todos los derechos reservados.</p>
         </div>
@@ -573,7 +692,9 @@
             'centros/letras': 'letras',
             'editorial': 'editorial',
             'proyectos': 'proyectos',
-            'contacto': 'contacto'
+            'contacto': 'contacto',
+            'secretaria': 'secretaria',
+            'inscripcion': 'inscripcion'
         };
 
         const views = document.querySelectorAll('[data-view]');
