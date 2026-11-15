@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Documentos - Ateneo Sapere Aude</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        body { font-family: 'Georgia', 'Cambria', 'Times New Roman', serif; }
+        .pdf-page {
+            width: 210mm;
+            min-height: 296mm;
+            margin: 0 auto;
+            padding: 14mm 12mm;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+            position: relative;
+        }
+        .pdf-page * { box-sizing: border-box; }
+        .pdf-page tr { page-break-inside: avoid; }
+        @media print { .no-print { display: none; } }
+
+        .sello-pagado {
+            position: absolute;
+            top: 160mm;
+            right: 16mm;
+            transform: rotate(-16deg);
+            border: 5px double #157a35;
+            color: #157a35;
+            padding: 8px 22px;
+            border-radius: 10px;
+            text-align: center;
+            opacity: 0.88;
+            z-index: 20;
+            background: rgba(255,255,255,0.55);
+        }
+    </style>
+</head>
+<body class="bg-slate-100 p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto no-print">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-slate-800">Generador de Documentos</h1>
+            <p class="text-slate-500">Ateneo Sapere Aude · RIF J505404156</p>
+        </div>
+
+        <div class="flex justify-center mb-6 space-x-4">
+            <button id="tabCarta" class="px-6 py-2 bg-amber-600 text-white rounded-lg shadow hover:bg-amber-700 transition">Carta de Bienvenida</button>
+            <button id="tabFactura" class="px-6 py-2 bg-slate-300 text-slate-700 rounded-lg shadow hover:bg-slate-400 transition">Factura</button>
+        </div>
+
+        <!-- ============ FORMULARIO CARTA ============ -->
+        <div id="formCarta" class="bg-white p-6 rounded-xl shadow-lg">
+            <h2 class="text-xl font-semibold mb-4 text-slate-700 border-b pb-2">Datos del Estudiante</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-600 mb-1">Nombre completo</label>
+                    <input type="text" id="cartaNombre" placeholder="Ej: Juan Pérez" class="w-full border border-slate-300 rounded-lg p-2 focus:ring-2 focus:ring-amber-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-600 mb-1">Cédula de Identidad</label>
+                    <input type="text" id="cartaCedula" placeholder="Ej: V-12345678" class="w-full border border-slate-300 rounded-lg p-2 focus:ring-2 focus:ring-amber-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-600 mb-1">Tipo de Curso</label>
+                    <input type="text" id="cartaCurso" placeholder="Ej: Diplomado en Filosofía" class="w-full border border-slate-300 rounded-lg p-2 focus:ring-2 focus:ring-amber-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-600 mb-1">Rol / Cargo</label>
+                    <input type="text" id="cartaRol" placeholder="Ej: Estudiante Regular" class="w-full border border-slate-300 rounded-lg p-2 focus:ring-2 focus:ring-amber-500 outline-none">
+                </div>
+            </div>
+            <p class="text-xs text-slate-400 mt-2">* El "Nombre" y la "Cédula" se copian automáticamente a la factura.</p>
+            <div class="mt-6 text-right">
+                <button id="btnGenerarCarta" class="bg-amber-600 text-white px-6 py-2 rounded-lg shadow hover:bg-amber-700 transition flex items-center gap-2 ml-auto">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    Generar Carta PDF
+                </button>
+            </div>
+        </div>
+
+        <!-- ============ FORMULARIO FACTURA ============ -->
+        <div id="formFactura" class="bg-white p-6 rounded-xl shadow-lg hidden">
+            <h2 class="text-xl font-semibold mb-4 text-slate-700 border-b pb-2">Datos de la Factura</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-600 mb-1">Nombre del Cliente</label>
+                    <input type="text" id="factNombre" placeholder="Ej: María Rodríguez" class="w-full border border-slate-300 rounded-lg p-2 focus:ring-2 focus:ring-amber-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-600 mb-1">Cédula / RIF del Cliente</label>
+                    <input type="text" id="factCedula" placeholder="Ej: V-98765432" class="w-full border border-slate-300 rounded-lg p-2 focus:ring-2 focus:ring-amber-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-600 mb-1">RIF de Ateneo</label>
+                    <input type="text" id="factRifAteneo" value="J505404156" readonly class="w-full border border-slate-300 rounded-lg p-2 bg-slate-100 text-slate-500 cursor-not-allowed">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-600 mb-1">N° de Factura</label>
+                    <input type="text" id="factNumeroUI" readonly class="w-full border border-slate-300 rounded-lg p-2 bg-slate-100 text-slate-500 cursor-not-allowed">
+                </div>
+            </div>
+
+            <h3 class="text-lg font-semibold text-slate-700 mt-6 mb-2 border-b pb-2">Productos / Cursos</h3>
+            <div id="factProductos" class="space-y-2"></div>
+
+            <div class="flex flex-wrap items-center justify-between gap-3 mt-4">
+                <button id="btnAddProducto" class="px-4 py-2 rounded-lg bg-slate-700 text-white text-sm hover:bg-slate-800 transition">+ Añadir producto</button>
+                <div class="text-lg font-semibold text-slate-800">Total: Bs. <span id="factTotalUI">0,00</span></div>
+            </div>
+
+            <div class="mt-8 border-t pt-4">
+                <p class="text-xs text-slate-500 mb-3">Descarga la factura <strong>sin sello</strong> para enviarla antes del pago, o la factura <strong>con sello PAGADO</strong> una vez confirmado el depósito.</p>
+                <div class="flex flex-col sm:flex-row gap-3 justify-end">
+                    <button id="btnFacturaSinSello" class="bg-amber-600 text-white px-6 py-2 rounded-lg shadow hover:bg-amber-700 transition flex items-center justify-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                        Descargar Factura (sin sello)
+                    </button>
+                    <button id="btnFacturaPagada" class="bg-green-700 text-white px-6 py-2 rounded-lg shadow hover:bg-green-800 transition flex items-center justify-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                        Descargar Factura PAGADA
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="pdfContainer" class="hidden"></div>
+
+    <!-- ================= CARTA DE BIENVENIDA ================= -->
+    <template id="templateCarta">
+        <div class="pdf-page" style="font-family: Georgia, serif;">
+            <!-- Cabecera con logo -->
+            <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #d4af37; padding-bottom: 12px; margin-bottom: 18px;">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="width: 110px; height: 110px; display: flex; align-items: center; justify-content: center;">
+                        <img class="logo-img" alt="Logo" style="display:none; max-width: 110px; max-height: 110px; width: auto; height: auto;">
+                        <div class="logo-fallback" style="display:flex; width: 100px; height: 100px; border: 2px solid #d4af37; border-radius: 50%; background: #0b1d3a; color: #d4af37; flex-direction: column; align-items: center; justify-content: center; font-family: Georgia, serif;">
+                            <div style="font-size: 8pt; font-weight: bold; letter-spacing: 1px;">GLOBAL</div>
+                            <div style="font-size: 10pt; font-weight: bold; letter-spacing: 1px;">ATENEO</div>
+                            <div style="font-size: 5.5pt; letter-spacing: 1.5px; margin-top: 2px;">SAPERE AUDE</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="font-size: 14pt; font-weight: bold; color: #0b1d3a;">GLOBAL ATENEO SAPERE AUDE.CA</div>
+                        <div style="font-size: 11pt; color: #555;">RIF: J505404156</div>
+                    </div>
+                </div>
+                <div style="text-align: right; font-size: 10pt; color: #555;">
+                    <div>Fecha: <span id="cartaFecha"></span></div>
+                    <div>Ref: Carta de Bienvenida</div>
+                </div>
+            </div>
+
+            <!-- Cuerpo -->
+            <div style="margin-top: 22px; line-height: 1.7; font-size: 12pt; color: #222;">
+                <p style="text-align: right; margin: 0 0 22px 0;"><span id="cartaLugarFecha"></span></p>
+
+                <p style="margin: 0 0 4px 0; font-size: 12pt;"><strong>Estimado(a) <span id="cartaNombreMostrar"></span>:</strong></p>
+                <p style="margin: 0 0 18px 0; font-size: 10.5pt; color: #555;">C.I.: <span id="cartaCedulaMostrar"></span></p>
+
+                <p style="margin: 0 0 16px 0; text-align: justify;"><strong>Asunto:</strong> Carta de Bienvenida</p>
+
+                <p style="margin: 0 0 12px 0; text-align: justify;">
+                    Es un gusto para el <strong>Global Ateneo Sapere Aude</strong> darle la más cordial bienvenida como <strong><span id="cartaRolMostrar"></span></strong> en el curso <strong>«<span id="cartaCursoMostrar"></span>»</strong>.
+                </p>
+                <p style="margin: 0 0 12px 0; text-align: justify;">
+                    Le deseamos mucho éxito en esta etapa de formación y quedamos a su disposición para acompañarle en cada paso de su aprendizaje.
+                </p>
+
+                <p style="margin: 22px 0 0 0;">Cordialmente,</p>
+            </div>
+
+            <!-- Firma institucional (sin sello) -->
+            <div style="margin-top: 40px; display: flex; justify-content: center;">
+                <div style="text-align: center;">
+                    <div style="font-family: Georgia, 'Times New Roman', serif; font-size: 12pt; font-weight: bold; color: #0b1d3a; margin-bottom: 2px;">Global Ateneo Sapere Aude</div>
+                    <div style="width: 220px; border-top: 1px solid #333; margin: 6px auto 0; padding-top: 5px;">
+                        <div style="font-size: 9pt; color: #333; letter-spacing: 0.5px;">RIF J505404156</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="position: absolute; bottom: 12mm; left: 0; right: 0; text-align: center; font-size: 8pt; color: #888; border-top: 1px solid #ddd; padding-top: 5px;">
+                Global Ateneo Sapere Aude.CA · RIF J505404156 · Asociación dedicada a la investigación y educación
+            </div>
+        </div>
+    </template>
+
+    <!-- ================= FACTURA ================= -->
+    <template id="templateFactura">
+        <div class="pdf-page" style="font-family: Georgia, serif;">
+
+            <div id="selloPagado" class="sello-pagado" style="display:none;">
+                <div style="font-size: 26pt; font-weight: bold; letter-spacing: 8px; line-height: 1;">PAGADO</div>
+                <div style="font-size: 9pt; letter-spacing: 2px; margin-top: 6px;">RIF J505404156</div>
+                <div style="font-size: 8pt; letter-spacing: 1px; margin-top: 2px;"><span id="selloFecha"></span></div>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #d4af37; padding-bottom: 10px; margin-bottom: 14px;">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="width: 110px; height: 110px; display: flex; align-items: center; justify-content: center;">
+                        <img class="logo-img" alt="Logo" style="display:none; max-width: 110px; max-height: 110px; width: auto; height: auto;">
+                        <div class="logo-fallback" style="display:flex; width: 100px; height: 100px; border: 2px solid #d4af37; border-radius: 50%; background: #0b1d3a; color: #d4af37; flex-direction: column; align-items: center; justify-content: center; font-family: Georgia, serif;">
+                            <div style="font-size: 8pt; font-weight: bold; letter-spacing: 1px;">GLOBAL</div>
+                            <div style="font-size: 10pt; font-weight: bold; letter-spacing: 1px;">ATENEO</div>
+                            <div style="font-size: 5.5pt; letter-spacing: 1.5px; margin-top: 2px;">SAPERE AUDE</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="font-size: 14pt; font-weight: bold; color: #0b1d3a;">GLOBAL ATENEO SAPERE AUDE.CA</div>
+                        <div style="font-size: 11pt; color: #555;">RIF: J505404156</div>
+                    </div>
+                </div>
+                <div style="text-align: right; font-size: 10pt; color: #555;">
+                    <div>Fecha: <span id="factFecha"></span></div>
+                    <div>Factura N°: <span id="factNumero"></span></div>
+                </div>
+            </div>
+
+            <div style="margin-top: 14px; background: #f9f9f9; padding: 10px 14px; border-left: 4px solid #d4af37;">
+                <h3 style="margin: 0 0 6px 0; font-size: 12pt; color: #0b1d3a;">Datos del Cliente</h3>
+                <p style="margin: 3px 0; font-size: 11pt;"><strong>Nombre:</strong> <span id="factNombreMostrar"></span></p>
+                <p style="margin: 3px 0; font-size: 11pt;"><strong>Cédula / RIF:</strong> <span id="factCedulaMostrar"></span></p>
+            </div>
+
+            <div style="margin-top: 16px;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 11pt;">
+                    <thead>
+                        <tr style="background: #0b1d3a; color: white;">
+                            <th style="padding: 8px; text-align: left; border: 1px solid #ddd;">Descripción</th>
+                            <th style="padding: 8px; text-align: right; border: 1px solid #ddd; width: 110px;">Monto (Bs.)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="factProductosBody"></tbody>
+                    <tbody>
+                        <tr style="font-weight: bold; background: #f2f2f2;">
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: right;">Total</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; text-align: right;"><span id="factTotalMostrar"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin-top: 16px; font-size: 10pt; color: #555;">
+                <p><strong>Nota:</strong> Esta factura es un documento del Global Ateneo Sapere Aude. El RIF del ateneo es J505404156.</p>
+            </div>
+
+            <div style="margin-top: 22px; text-align: center;">
+                <div style="width: 220px; border-top: 1px solid #333; margin: 0 auto; padding-top: 5px;">
+                    <div style="font-weight: bold;">Global Ateneo Sapere Aude</div>
+                    <div style="font-size: 10pt;">RIF: J505404156</div>
+                </div>
+            </div>
+
+            <div style="position: absolute; bottom: 12mm; left: 0; right: 0; text-align: center; font-size: 8pt; color: #888; border-top: 1px solid #ddd; padding-top: 5px;">
+                Global Ateneo Sapere Aude.CA · RIF J505404156 · Asociación dedicada a la investigación y educación
+            </div>
+        </div>
+    </template>
+
+    <!-- ================= JAVASCRIPT ================= -->
+    <script>
+        const tabCarta = document.getElementById('tabCarta');
+        const tabFactura = document.getElementById('tabFactura');
+        const formCarta = document.getElementById('formCarta');
+        const formFactura = document.getElementById('formFactura');
+        const btnGenerarCarta = document.getElementById('btnGenerarCarta');
+        const btnFacturaSinSello = document.getElementById('btnFacturaSinSello');
+        const btnFacturaPagada = document.getElementById('btnFacturaPagada');
+        const btnAddProducto = document.getElementById('btnAddProducto');
+        const contenedorProductos = document.getElementById('factProductos');
+        const factTotalUI = document.getElementById('factTotalUI');
+        const factNumeroUI = document.getElementById('factNumeroUI');
+        const pdfContainer = document.getElementById('pdfContainer');
+
+        const fmt = n => (Number(n) || 0).toLocaleString('es-VE', {
+            minimumFractionDigits: 2, maximumFractionDigits: 2
+        });
+        const fechaActual = () => new Date().toLocaleDateString('es-ES', {
+            year: 'numeric', month: 'long', day: 'numeric'
+        });
+        const generarNumeroFactura = () => 'FAC-' + Date.now().toString().slice(-6);
+        let numeroFactura = generarNumeroFactura();
+
+        /* ============ LOGO → data URL (funciona también desde file://) ============ */
+        const LOGO_URL = 'https://ateneosapereaude.github.io/image_fbfa0ee3-removebg-preview.png';
+        let LOGO_DATA_URL = null;
+
+        function cargarLogoComoDataURL(url) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
+                const timer = setTimeout(() => reject(new Error('timeout logo')), 8000);
+                img.onload = () => {
+                    clearTimeout(timer);
+                    try {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = img.naturalWidth;
+                        canvas.height = img.naturalHeight;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0);
+                        resolve(canvas.toDataURL('image/png'));
+                    } catch (e) {
+                        reject(e);
+                    }
+                };
+                img.onerror = () => { clearTimeout(timer); reject(new Error('no se pudo cargar el logo')); };
+                img.src = url + (url.includes('?') ? '&' : '?') + 't=' + Date.now();
+            });
+        }
+
+        const logoPromise = cargarLogoComoDataURL(LOGO_URL)
+            .then(d => { LOGO_DATA_URL = d; console.log('[Logo] cargado correctamente'); })
+            .catch(e => { console.warn('[Logo] se usará respaldo CSS:', e.message || e); });
+
+        function aplicarLogo(root) {
+            const img = root.querySelector('.logo-img');
+            const fb = root.querySelector('.logo-fallback');
+            if (!img) return;
+            if (LOGO_DATA_URL) {
+                img.src = LOGO_DATA_URL;
+                img.style.display = 'block';
+                if (fb) fb.style.display = 'none';
+            } else {
+                img.style.display = 'none';
+                if (fb) fb.style.display = 'flex';
+            }
+        }
+
+        function esperarImagenes(root) {
+            if (!root) return Promise.resolve();
+            const imgs = Array.from(root.querySelectorAll('img'));
+            return Promise.all(imgs.map(img => {
+                if (!img.getAttribute('src') || img.style.display === 'none' || img.complete) {
+                    return Promise.resolve();
+                }
+                return new Promise(resolve => {
+                    img.onload = resolve;
+                    img.onerror = resolve;
+                    setTimeout(resolve, 2000);
+                });
+            }));
+        }
+
+        /* ============ Pestañas ============ */
+        tabCarta.addEventListener('click', () => {
+            formCarta.classList.remove('hidden');
+            formFactura.classList.add('hidden');
+            tabCarta.classList.add('bg-amber-600', 'text-white');
+            tabCarta.classList.remove('bg-slate-300', 'text-slate-700');
+            tabFactura.classList.remove('bg-amber-600', 'text-white');
+            tabFactura.classList.add('bg-slate-300', 'text-slate-700');
+        });
+
+        tabFactura.addEventListener('click', () => {
+            formFactura.classList.remove('hidden');
+            formCarta.classList.add('hidden');
+            tabFactura.classList.add('bg-amber-600', 'text-white');
+            tabFactura.classList.remove('bg-slate-300', 'text-slate-700');
+            tabCarta.classList.remove('bg-amber-600', 'text-white');
+            tabCarta.classList.add('bg-slate-300', 'text-slate-700');
+            numeroFactura = generarNumeroFactura();
+            factNumeroUI.value = numeroFactura;
+        });
+
+        /* ============ Sincronización ============ */
+        function sincronizar(idA, idB) {
+            const a = document.getElementById(idA);
+            const b = document.getElementById(idB);
+            if (!a || !b) return;
+            a.addEventListener('input', () => { b.value = a.value; });
+            b.addEventListener('input', () => { a.value = b.value; });
+        }
+        sincronizar('cartaNombre', 'factNombre');
+        sincronizar('cartaCedula', 'factCedula');
+
+        /* ============ Productos ============ */
+        function crearFilaProducto(nombre = '', precio = '') {
+            const row = document.createElement('div');
+            row.className = 'flex flex-col sm:flex-row gap-2 items-stretch';
+            row.innerHTML = `
+                <input type="text" class="prod-nombre flex-1 border border-slate-300 rounded-lg p-2 focus:ring-2 focus:ring-amber-500 outline-none" placeholder="Nombre del curso o producto">
+                <input type="number" class="prod-precio w-full sm:w-40 border border-slate-300 rounded-lg p-2 focus:ring-2 focus:ring-amber-500 outline-none" placeholder="Precio Bs." step="0.01" min="0">
+                <button type="button" class="prod-eliminar px-3 py-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition" title="Eliminar producto">✕</button>
+            `;
+            row.querySelector('.prod-nombre').value = nombre;
+            row.querySelector('.prod-precio').value = precio;
+            row.querySelector('.prod-eliminar').addEventListener('click', () => {
+                if (contenedorProductos.children.length > 1) {
+                    row.remove();
+                } else {
+                    row.querySelector('.prod-nombre').value = '';
+                    row.querySelector('.prod-precio').value = '';
+                }
+                actualizarTotalUI();
+            });
+            row.querySelectorAll('input').forEach(inp => inp.addEventListener('input', actualizarTotalUI));
+            return row;
+        }
+
+        function leerProductos() {
+            return Array.from(contenedorProductos.children).map(row => ({
+                nombre: row.querySelector('.prod-nombre').value.trim(),
+                precio: parseFloat(row.querySelector('.prod-precio').value) || 0
+            })).filter(p => p.nombre !== '' || p.precio > 0);
+        }
+
+        function actualizarTotalUI() {
+            const total = leerProductos().reduce((s, p) => s + p.precio, 0);
+            factTotalUI.textContent = fmt(total);
+        }
+
+        btnAddProducto.addEventListener('click', () => {
+            const curso = document.getElementById('cartaCurso').value.trim();
+            contenedorProductos.appendChild(crearFilaProducto(curso));
+            actualizarTotalUI();
+        });
+
+        contenedorProductos.appendChild(crearFilaProducto('', ''));
+        actualizarTotalUI();
+
+        /* ============ Botones en espera ============ */
+        function bloquearBoton(btn, texto) {
+            const original = btn.innerHTML;
+            btn.disabled = true;
+            btn.style.opacity = '0.7';
+            btn.style.cursor = 'wait';
+            btn.innerHTML = texto;
+            return () => {
+                btn.disabled = false;
+                btn.style.opacity = '';
+                btn.style.cursor = '';
+                btn.innerHTML = original;
+            };
+        }
+
+        /* ============ Generar CARTA ============ */
+        btnGenerarCarta.addEventListener('click', async () => {
+            const restaurar = bloquearBoton(btnGenerarCarta, '⏳ Generando…');
+            try {
+                await Promise.race([logoPromise, new Promise(r => setTimeout(r, 8000))]);
+
+                const nombre = document.getElementById('cartaNombre').value.trim() || '_________________________';
+                const cedula = document.getElementById('cartaCedula').value.trim() || '_________________________';
+                const curso = document.getElementById('cartaCurso').value.trim() || '_________________________';
+                const rol = document.getElementById('cartaRol').value.trim() || 'Estudiante';
+
+                const fragment = document.getElementById('templateCarta').content.cloneNode(true);
+                fragment.querySelector('#cartaFecha').textContent = fechaActual();
+                fragment.querySelector('#cartaLugarFecha').textContent = `Caracas, ${fechaActual()}`;
+                fragment.querySelector('#cartaNombreMostrar').textContent = nombre;
+                fragment.querySelector('#cartaCedulaMostrar').textContent = cedula;
+                fragment.querySelector('#cartaRolMostrar').textContent = rol;
+                fragment.querySelector('#cartaCursoMostrar').textContent = curso;
+
+                pdfContainer.innerHTML = '';
+                pdfContainer.appendChild(fragment);
+
+                const element = pdfContainer.firstElementChild;
+                aplicarLogo(element);
+                await esperarImagenes(element);
+
+                await html2pdf().set({
+                    margin: 0,
+                    filename: `Carta_Bienvenida_${nombre.replace(/\s+/g, '_')}.pdf`,
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2, useCORS: true, letterRendering: true, backgroundColor: '#ffffff' },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                }).from(element).save();
+
+                console.log('[Carta] PDF generado correctamente');
+            } catch (err) {
+                console.error('[Carta] Error:', err);
+                alert('Error al generar la carta:\n\n' + (err && err.message ? err.message : err));
+            } finally {
+                restaurar();
+            }
+        });
+
+        /* ============ Generar FACTURA ============ */
+        async function generarFactura(conSello) {
+            const btn = conSello ? btnFacturaPagada : btnFacturaSinSello;
+            const restaurar = bloquearBoton(btn, '⏳ Generando…');
+            try {
+                await Promise.race([logoPromise, new Promise(r => setTimeout(r, 8000))]);
+
+                const nombre = document.getElementById('factNombre').value.trim() || '_________________________';
+                const cedula = document.getElementById('factCedula').value.trim() || '_________________________';
+                const productos = leerProductos();
+                const fecha = fechaActual();
+
+                const fragment = document.getElementById('templateFactura').content.cloneNode(true);
+                fragment.querySelector('#factFecha').textContent = fecha;
+                fragment.querySelector('#factNumero').textContent = numeroFactura;
+                fragment.querySelector('#factNombreMostrar').textContent = nombre;
+                fragment.querySelector('#factCedulaMostrar').textContent = cedula;
+
+                const tbody = fragment.querySelector('#factProductosBody');
+                let total = 0;
+
+                if (productos.length === 0) {
+                    const tr = document.createElement('tr');
+                    const td = document.createElement('td');
+                    td.colSpan = 2;
+                    td.textContent = '— Sin productos registrados —';
+                    td.style.cssText = 'padding:8px; border:1px solid #ddd; text-align:center; color:#888;';
+                    tr.appendChild(td);
+                    tbody.appendChild(tr);
+                } else {
+                    productos.forEach(p => {
+                        total += p.precio;
+                        const tr = document.createElement('tr');
+                        const tdNom = document.createElement('td');
+                        tdNom.style.cssText = 'padding:8px; border:1px solid #ddd;';
+                        tdNom.textContent = p.nombre || 'Servicio educativo';
+                        const tdPre = document.createElement('td');
+                        tdPre.style.cssText = 'padding:8px; text-align:right; border:1px solid #ddd;';
+                        tdPre.textContent = fmt(p.precio);
+                        tr.appendChild(tdNom);
+                        tr.appendChild(tdPre);
+                        tbody.appendChild(tr);
+                    });
+                }
+
+                fragment.querySelector('#factTotalMostrar').textContent = fmt(total);
+
+                const sello = fragment.querySelector('#selloPagado');
+                if (conSello) {
+                    sello.style.display = 'block';
+                    fragment.querySelector('#selloFecha').textContent = fecha;
+                } else {
+                    sello.style.display = 'none';
+                }
+
+                pdfContainer.innerHTML = '';
+                pdfContainer.appendChild(fragment);
+
+                const element = pdfContainer.firstElementChild;
+                aplicarLogo(element);
+                await esperarImagenes(element);
+
+                const sufijo = conSello ? 'PAGADA' : 'SinSello';
+                await html2pdf().set({
+                    margin: 0,
+                    filename: `Factura_${numeroFactura}_${nombre.replace(/\s+/g, '_')}_${sufijo}.pdf`,
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2, useCORS: true, letterRendering: true, backgroundColor: '#ffffff' },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                }).from(element).save();
+
+                console.log('[Factura] PDF generado:', sufijo);
+            } catch (err) {
+                console.error('[Factura] Error:', err);
+                alert('Error al generar la factura:\n\n' + (err && err.message ? err.message : err));
+            } finally {
+                restaurar();
+            }
+        }
+
+        btnFacturaSinSello.addEventListener('click', () => generarFactura(false));
+        btnFacturaPagada.addEventListener('click', () => generarFactura(true));
+
+        window.addEventListener('error', e => console.error('[Error global]', e.error || e.message));
+        window.addEventListener('unhandledrejection', e => console.error('[Promise rechazada]', e.reason));
+
+        tabCarta.click();
+        factNumeroUI.value = numeroFactura;
+    </script>
+</body>
+</html>
