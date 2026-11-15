@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-<title>Ateneodev</title>
+<title>Ateneodev · Desarrollo Web</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{min-height:100%}
@@ -152,6 +152,16 @@ gap:16px;flex-wrap:wrap;margin-bottom:24px}
 .dash-footer{text-align:center;font-size:.72rem;color:rgba(255,255,255,.3);padding:12px 0 4px;line-height:1.8}
 .link-btn{background:none;border:none;color:rgba(255,255,255,.4);font-size:.72rem;text-decoration:underline;cursor:pointer;font-family:inherit;padding:2px 6px}
 
+/* ZONA DE PRÁCTICA */
+.practice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:24px}
+.practice-card{display:flex;align-items:center;gap:14px;padding:18px;border-radius:18px;
+background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);cursor:pointer;
+text-align:left;font-family:inherit;color:inherit;transition:all .2s}
+.practice-card:hover{border-color:#38bdf8;background:rgba(56,189,248,.08);transform:translateY(-3px)}
+.pc-icon{font-size:1.9rem;flex-shrink:0}
+.pc-title{font-weight:800;font-size:.95rem}
+.pc-desc{font-size:.74rem;color:#8ba3c7;line-height:1.35}
+
 /* MODULE VIEW */
 .module-header{display:flex;align-items:center;gap:12px;padding:14px 20px;margin-bottom:20px;
 background:rgba(0,0,0,.35);border-radius:60px;border:1px solid rgba(56,189,248,.18);flex-wrap:wrap;justify-content:space-between}
@@ -160,6 +170,7 @@ background:rgba(0,0,0,.35);border-radius:60px;border:1px solid rgba(56,189,248,.
 font-size:1.5rem;background:rgba(0,0,0,.3);border:1px solid var(--mod-color,#38bdf8);box-shadow:0 0 14px var(--mod-color,#38bdf8);flex-shrink:0}
 .mh-title{font-size:1rem;font-weight:800}
 .mh-sub{font-size:.7rem;color:#8ba3c7}
+.mh-actions{display:flex;gap:8px;flex-wrap:wrap}
 .back-btn{padding:9px 16px;border-radius:40px;background:rgba(255,255,255,.08);
 border:1px solid rgba(255,255,255,.14);color:#e8f0ff;font-size:.78rem;font-weight:700;
 cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap}
@@ -216,8 +227,12 @@ border-radius:20px;padding:24px;margin-bottom:18px;line-height:1.7}
 .lo-body h3:first-child{margin-top:0}
 .lo-body ul,.lo-body ol{margin:8px 0 12px 22px;color:#cbd5e1}
 .lo-body li{margin-bottom:6px;font-size:.93rem}
+.lo-body table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.85rem}
+.lo-body th,.lo-body td{border:1px solid rgba(56,189,248,.2);padding:8px 10px;text-align:left;vertical-align:top}
+.lo-body th{background:rgba(56,189,248,.12);color:#7dd3fc;font-size:.7rem;text-transform:uppercase;letter-spacing:1px}
+.lo-body td{color:#cbd5e1}
 .code-block{background:#0a0f1a;border:1px solid rgba(56,189,248,.2);border-radius:12px;
-padding:16px;margin:12px 0;overflow-x:auto;font-family:'Consolas','Monaco',monospace;font-size:.85rem;line-height:1.6;color:#e8f0ff}
+padding:16px;margin:12px 0;overflow-x:auto;font-family:'Consolas','Monaco',monospace;font-size:.85rem;line-height:1.6;color:#e8f0ff;white-space:pre}
 .code-block .kw{color:#c4b5fd}
 .code-block .str{color:#86efac}
 .code-block .num{color:#fbbf24}
@@ -302,6 +317,53 @@ justify-content:center;border:3px solid #b45309;transform:rotate(-15deg);padding
 .cert-date{font-size:.78rem;color:#64748b;margin-top:10px}
 .cert-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:720px;width:100%}
 
+/* EDITOR DE CÓDIGO */
+.editor-header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+padding:14px 20px;background:rgba(0,0,0,.35);border-radius:22px;border:1px solid rgba(56,189,248,.18);margin-bottom:14px}
+.eh-left{display:flex;align-items:center;gap:12px;min-width:0}
+.eh-actions{display:flex;gap:8px;flex-wrap:wrap}
+.challenge-box{background:rgba(255,255,255,.05);border:1px solid rgba(250,204,21,.35);border-radius:18px;
+padding:16px 18px;margin-bottom:14px}
+.ch-top{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.ch-select-label{font-size:.78rem;color:#8ba3c7;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+#challengeSelect{background:#0a1628;color:#e8f0ff;border:1px solid rgba(56,189,248,.35);border-radius:10px;
+padding:8px 10px;font-family:inherit;font-size:.8rem;max-width:100%}
+.ch-title{font-size:1rem;color:#facc15;margin-bottom:4px}
+.ch-desc{font-size:.82rem;color:#cbd5e1;margin-bottom:10px}
+.ch-checks{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.ch-check{display:flex;gap:8px;font-size:.8rem;color:#8ba3c7;align-items:flex-start;line-height:1.4}
+.ch-check.ok{color:#86efac}
+.ch-check.bad{color:#fca5a5}
+.ch-hint{margin-bottom:10px;font-size:.8rem;color:#8ba3c7}
+.ch-hint summary{cursor:pointer;color:#7dd3fc;font-weight:700}
+.ch-hint p{margin-top:6px;color:#cbd5e1}
+.ch-actions{display:flex;gap:10px;flex-wrap:wrap}
+.editor-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;margin-bottom:20px}
+@media(max-width:860px){.editor-grid{grid-template-columns:1fr}}
+.editor-pane{background:#080d16;border:1px solid rgba(56,189,248,.25);border-radius:18px;overflow:hidden}
+.editor-tabs{display:flex;gap:6px;padding:8px;background:rgba(0,0,0,.5);border-bottom:1px solid rgba(56,189,248,.18)}
+.editor-tab{padding:7px 16px;border-radius:10px;border:1px solid transparent;background:transparent;
+color:#8ba3c7;font-weight:700;font-size:.78rem;cursor:pointer;font-family:inherit;transition:all .2s}
+.editor-tab.active{background:rgba(56,189,248,.18);color:#7dd3fc;border-color:rgba(56,189,248,.4)}
+.code-area{display:none;width:100%;height:340px;background:transparent;border:none;outline:none;
+color:#e8f0ff;font-family:'Consolas','Monaco',monospace;font-size:.84rem;line-height:1.6;
+padding:14px;resize:vertical;tab-size:2}
+.code-area.active{display:block}
+.preview-pane{border:1px solid rgba(56,189,248,.25);border-radius:18px;overflow:hidden;background:#fff}
+.preview-bar{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;
+background:#0a1628;color:#8ba3c7;font-size:.74rem;font-family:inherit;flex-wrap:wrap;gap:8px}
+.auto-label{display:flex;align-items:center;gap:6px;cursor:pointer;color:#7dd3fc}
+#previewFrame{width:100%;height:520px;border:none;background:#fff;display:block}
+@media(max-width:640px){#previewFrame{height:380px}.code-area{height:260px}}
+
+/* CHULETA */
+.cheat-group{background:rgba(255,255,255,.04);border:1px solid rgba(56,189,248,.18);border-radius:20px;padding:20px;margin-bottom:16px}
+.cheat-group h3{color:#7dd3fc;font-size:1rem;margin-bottom:10px}
+.cheat-group table{width:100%;border-collapse:collapse;font-size:.84rem}
+.cheat-group th,.cheat-group td{border:1px solid rgba(56,189,248,.18);padding:8px 10px;text-align:left;vertical-align:top}
+.cheat-group th{background:rgba(56,189,248,.1);color:#7dd3fc;font-size:.68rem;text-transform:uppercase;letter-spacing:1px}
+.cheat-group td code{background:rgba(0,0,0,.4);color:#7dd3fc;padding:2px 6px;border-radius:5px;font-family:monospace;font-size:.85em}
+
 /* TOAST */
 .toast-container{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:4000;
 display:flex;flex-direction:column;gap:10px;width:calc(100% - 32px);max-width:440px;pointer-events:none}
@@ -338,6 +400,7 @@ display:flex;align-items:flex-start;gap:10px;pointer-events:auto;animation:toast
   .btn-group{flex-direction:column}
   .btn-group button{width:100%}
   .mh-title{font-size:.9rem}
+  .editor-header{padding:12px}
 }
 </style>
 </head>
@@ -379,7 +442,7 @@ display:flex;align-items:flex-start;gap:10px;pointer-events:auto;animation:toast
         </div>
         <div class="auth-title">Ateneodev</div>
       </div>
-      <p class="auth-sub">Aprende a programar desde cero</p>
+      <p class="auth-sub">Aprende HTML, CSS y JavaScript desde cero</p>
 
       <div class="auth-tabs">
         <button class="auth-tab active" data-tab="login">Iniciar sesión</button>
@@ -416,7 +479,7 @@ display:flex;align-items:flex-start;gap:10px;pointer-events:auto;animation:toast
         <button type="submit" class="auth-btn" id="registerBtn">Crear cuenta →</button>
       </form>
 
-      <p class="auth-demo" id="demoNote">⚡ Tu progreso se guarda automáticamente</p>
+      <p class="auth-demo" id="demoNote">⚡ Tu progreso y tu código se guardan automáticamente</p>
     </div>
   </div>
 
@@ -447,7 +510,7 @@ display:flex;align-items:flex-start;gap:10px;pointer-events:auto;animation:toast
         </div>
         <div>
           <div class="dash-brand-name">Ateneodev</div>
-          <div class="dash-brand-sub">Aprende a programar</div>
+          <div class="dash-brand-sub">Desarrollo Web</div>
         </div>
       </div>
       <div class="dash-user">
@@ -458,7 +521,7 @@ display:flex;align-items:flex-start;gap:10px;pointer-events:auto;animation:toast
 
     <div class="hero">
       <div class="hero-left">
-        <div class="hero-greeting">Tu viaje como programador</div>
+        <div class="hero-greeting">Tu viaje como desarrollador web</div>
         <h1 class="hero-name" id="heroName">¡Hola! 👋</h1>
         <div class="hero-rank" id="heroRank">
           <span class="icon" id="rankIcon">🐣</span>
@@ -467,7 +530,7 @@ display:flex;align-items:flex-start;gap:10px;pointer-events:auto;animation:toast
             <span class="val" id="rankVal">Principiante</span>
           </div>
         </div>
-        <p class="hero-sub" id="heroSub">Completa lecciones y ejercicios para subir de rango</p>
+        <p class="hero-sub" id="heroSub">Completa lecciones, retos y ejercicios para subir de rango</p>
       </div>
       <div class="progress-ring-wrap">
         <svg class="progress-ring" viewBox="0 0 160 160">
@@ -488,6 +551,24 @@ display:flex;align-items:flex-start;gap:10px;pointer-events:auto;animation:toast
       </div>
     </div>
 
+    <div class="section-title">🛠️ Zona de práctica</div>
+    <div class="practice-grid">
+      <button class="practice-card" id="openEditorBtn">
+        <div class="pc-icon">🛠️</div>
+        <div>
+          <div class="pc-title">Editor de código</div>
+          <div class="pc-desc">Escribe HTML, CSS y JS con vista previa en vivo</div>
+        </div>
+      </button>
+      <button class="practice-card" id="openCheatsheetBtn">
+        <div class="pc-icon">📖</div>
+        <div>
+          <div class="pc-title">Chuleta de comandos</div>
+          <div class="pc-desc">Etiquetas, propiedades y métodos siempre a mano</div>
+        </div>
+      </button>
+    </div>
+
     <div class="section-title">📚 Módulos de aprendizaje</div>
     <div class="modules-grid" id="modulesGrid"></div>
 
@@ -496,7 +577,7 @@ display:flex;align-items:flex-start;gap:10px;pointer-events:auto;animation:toast
       <div class="stat-card"><div class="stat-icon">📖</div><div class="stat-value" id="statLessons">0</div><div class="stat-label">Lecciones</div></div>
       <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-value" id="statModules">0</div><div class="stat-label">Módulos</div></div>
       <div class="stat-card"><div class="stat-icon">🏆</div><div class="stat-value" id="statScore">0</div><div class="stat-label">Nota media</div></div>
-      <div class="stat-card"><div class="stat-icon">🔥</div><div class="stat-value" id="statStreak">0</div><div class="stat-label">Racha</div></div>
+      <div class="stat-card"><div class="stat-icon">🎯</div><div class="stat-value" id="statChallenges">0</div><div class="stat-label">Retos</div></div>
     </div>
 
     <div id="certBannerArea"></div>
@@ -518,6 +599,61 @@ display:flex;align-items:flex-start;gap:10px;pointer-events:auto;animation:toast
       <button class="start-btn" id="startExerciseBtn">Empezar ejercicio</button>
       <div class="best-score" id="bestScore"></div>
     </div>
+  </div>
+
+  <!-- ============ EDITOR DE CÓDIGO ============ -->
+  <div id="view-editor" class="view">
+    <div class="editor-header">
+      <div class="eh-left">
+        <div class="mh-icon" style="--mod-color:#38bdf8">🛠️</div>
+        <div>
+          <div class="mh-title">Editor de código</div>
+          <div class="mh-sub">Escribe HTML, CSS y JavaScript · vista previa en vivo</div>
+        </div>
+      </div>
+      <div class="eh-actions">
+        <button class="back-btn" id="runCodeBtn">▶ Ejecutar</button>
+        <button class="back-btn" id="editorResetBtn">↻ Reiniciar</button>
+        <button class="back-btn" id="editorHomeBtn">🏠 Inicio</button>
+      </div>
+    </div>
+
+    <div class="challenge-box" id="challengeBox"></div>
+
+    <div class="editor-grid">
+      <div class="editor-pane">
+        <div class="editor-tabs">
+          <button class="editor-tab active" data-lang="html">HTML</button>
+          <button class="editor-tab" data-lang="css">CSS</button>
+          <button class="editor-tab" data-lang="js">JS</button>
+        </div>
+        <textarea class="code-area active" id="editorHtml" spellcheck="false" autocomplete="off" autocapitalize="off"></textarea>
+        <textarea class="code-area" id="editorCss" spellcheck="false" autocomplete="off" autocapitalize="off"></textarea>
+        <textarea class="code-area" id="editorJs" spellcheck="false" autocomplete="off" autocapitalize="off"></textarea>
+      </div>
+      <div class="preview-pane">
+        <div class="preview-bar">
+          <span>👁️ Vista previa</span>
+          <label class="auto-label"><input type="checkbox" id="autoRun" checked> Auto-ejecutar</label>
+        </div>
+        <iframe id="previewFrame" title="Vista previa del código"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CHULETA ============ -->
+  <div id="view-cheatsheet" class="view">
+    <div class="module-header" style="--mod-color:#facc15">
+      <div class="mh-left">
+        <div class="mh-icon">📖</div>
+        <div>
+          <div class="mh-title">Chuleta de comandos</div>
+          <div class="mh-sub">Referencia rápida de HTML, CSS y JavaScript</div>
+        </div>
+      </div>
+      <button class="back-btn" id="cheatHomeBtn">🏠 Inicio</button>
+    </div>
+    <div id="cheatsheetContent"></div>
   </div>
 
   <!-- ============ LESSON OVERLAY ============ -->
@@ -618,11 +754,11 @@ display:flex;align-items:flex-start;gap:10px;pointer-events:auto;animation:toast
           <div class="cert-brand">ateneodev</div>
         </div>
         <h1>Certificado de Finalización</h1>
-        <p class="cert-sub">Curso de Programación desde Cero</p>
+        <p class="cert-sub">Curso de Desarrollo Web · HTML · CSS · JavaScript</p>
         <div class="cert-body">
           <p>Se otorga el presente certificado a:</p>
           <input id="certName" class="cert-name-input" placeholder="Escribe tu nombre" maxlength="40">
-          <p>Por haber completado con éxito el <strong>Curso de Programación ateneodev</strong></p>
+          <p>Por haber completado con éxito el <strong>Curso de Desarrollo Web de ateneodev</strong></p>
           <div class="cert-score">
             <span class="cert-score-label">Nota final</span>
             <span class="cert-score-value" id="certScore">0%</span>
@@ -646,7 +782,7 @@ display:flex;align-items:flex-start;gap:10px;pointer-events:auto;animation:toast
 <!-- =================================================================== -->
 <script>
 /* =========================================================
-   CONFIGURACIÓN DE FIREBASE
+   CONFIGURACIÓN DE FIREBASE (opcional)
    ========================================================= */
 const FIREBASE_CONFIG = {
   apiKey: "TU_API_KEY",
@@ -667,441 +803,1102 @@ function toast(msg, type='info'){
   const t = document.createElement('div');
   t.className = 'toast ' + type;
   const icons = {info:'ℹ️', success:'✅', warn:'⚠️'};
-  t.innerHTML = `<span class="toast-icon">${icons[type]||'ℹ️'}</span><div class="toast-text">${escHtml(msg)}</div>`;
+  t.innerHTML = '<span class="toast-icon">' + (icons[type]||'ℹ️') + '</span><div class="toast-text">' + escHtml(msg) + '</div>';
   c.appendChild(t);
   setTimeout(()=>{ t.classList.add('out'); setTimeout(()=>t.remove(),320); }, 3600);
 }
 
-/* ============ DATA: MÓDULOS ============ */
+/* =========================================================
+   DATOS DEL CURSO: HTML · CSS · JAVASCRIPT
+   ========================================================= */
 const MODULES = [
+/* ---------------------------------------------------------- M1 */
 {
-  id:1, title:"Fundamentos y Lógica", icon:"🧠", color:"#38bdf8",
-  desc:"Qué es programar, algoritmos y pensamiento computacional",
+  id:1, title:"Fundamentos de la Web y HTML", icon:"🌐", color:"#38bdf8",
+  desc:"Cómo funciona la web y la estructura de un documento HTML",
   lessons:[
-    { id:"1.1", title:"¿Qué es programar?",
-      body:`<p><strong>Programar</strong> es dar instrucciones a una computadora para que realice una tarea. Esas instrucciones se escriben en un <strong>lenguaje de programación</strong> y deben ser precisas, ordenadas y sin ambigüedades.</p>
-<h3>Un programa es una receta</h3>
-<p>Piensa en una receta de cocina: tiene ingredientes (datos) y pasos (instrucciones). Si sigues los pasos en orden, obtienes el resultado esperado. Un programa funciona igual.</p>
-<h3>¿Por qué Python?</h3>
-<p>Usaremos <strong>Python</strong> porque su sintaxis es sencilla y legible. Es uno de los lenguajes más usados en el mundo para ciencia de datos, web, automatización e inteligencia artificial.</p>
-<div class="code-block"><span class="com"># Mi primer programa</span>
-<span class="fn">print</span>(<span class="str">"¡Hola, mundo!"</span>)</div>
-<p>El código anterior muestra un mensaje en pantalla. <code>print</code> es una función que imprime lo que le pasas entre paréntesis.</p>`
-    },
-    { id:"1.2", title:"Algoritmos",
-      body:`<p>Un <strong>algoritmo</strong> es una secuencia finita de pasos bien definidos que resuelve un problema. Los algoritmos son la base de toda la programación.</p>
-<h3>Características de un buen algoritmo</h3>
+    { id:"1.1", title:"¿Cómo funciona la web?",
+      body:`<p>Una página web se construye con tres lenguajes que trabajan juntos:</p>
 <ul>
-  <li><strong>Finito:</strong> debe terminar en algún momento.</li>
-  <li><strong>Preciso:</strong> cada paso debe ser claro e inequívoco.</li>
-  <li><strong>Definido:</strong> con la misma entrada produce siempre la misma salida.</li>
+  <li><strong>HTML</strong> → estructura y contenido (los huesos).</li>
+  <li><strong>CSS</strong> → presentación y diseño (la piel).</li>
+  <li><strong>JavaScript</strong> → comportamiento e interactividad (los músculos).</li>
 </ul>
-<h3>Ejemplo: calcular el promedio</h3>
-<div class="code-block"><span class="num">1.</span> Pedir tres números al usuario
-<span class="num">2.</span> Sumar los tres números
-<span class="num">3.</span> Dividir el resultado entre <span class="num">3</span>
-<span class="num">4.</span> Mostrar el resultado</div>
-<p>Este es un algoritmo en lenguaje natural. Cuando lo traducimos a Python, se convierte en un programa.</p>`
-    },
-    { id:"1.3", title:"Pensamiento computacional",
-      body:`<p>El <strong>pensamiento computacional</strong> es la habilidad de resolver problemas de forma que una computadora pueda ejecutar la solución. Se compone de cuatro pilares:</p>
+<h3>Cliente y servidor</h3>
+<p>Tu navegador (el <strong>cliente</strong>) pide un archivo a un <strong>servidor</strong> mediante el protocolo <code>HTTP</code>. El servidor responde con el documento <code>.html</code> y el navegador lo interpreta y lo pinta en pantalla.</p>
+<h3>El DOM</h3>
+<p>Al leer el HTML, el navegador construye el <strong>DOM</strong> (<em>Document Object Model</em>): un árbol de nodos que representa la página. Con JavaScript manipularemos ese árbol.</p>
+<h3>Tu primer comando</h3>
+<p>Abre las herramientas de desarrollo con <code>F12</code>, ve a la pestaña <em>Console</em> y escribe:</p>
+<div class="code-block"><span class="fn">document</span>.title</div>
+<p>Verás el título de la página. Acabas de consultar el DOM con JavaScript.</p>
+<table>
+<thead><tr><th>Término</th><th>Significado</th></tr></thead>
+<tbody>
+<tr><td><code>HTTP</code></td><td>Protocolo de transferencia de hipertexto</td></tr>
+<tr><td><code>URL</code></td><td>Dirección única de un recurso en la web</td></tr>
+<tr><td><code>DOM</code></td><td>Representación en árbol del documento HTML</td></tr>
+<tr><td><code>render</code></td><td>Proceso por el que el navegador pinta la página</td></tr>
+</tbody></table>` },
+
+    { id:"1.2", title:"Estructura de un documento HTML",
+      body:`<p>Todo documento HTML sigue esta plantilla mínima. Memorízala: la usarás siempre.</p>
+<div class="code-block">&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Mi primera página&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Hola, mundo&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</div>
+<h3>Qué hace cada parte</h3>
+<table>
+<thead><tr><th>Parte</th><th>Función</th></tr></thead>
+<tbody>
+<tr><td><code>&lt;!DOCTYPE html&gt;</code></td><td>Indica al navegador que el documento es HTML5</td></tr>
+<tr><td><code>&lt;html&gt;</code></td><td>Raíz del documento. <code>lang="es"</code> define el idioma</td></tr>
+<tr><td><code>&lt;head&gt;</code></td><td>Metadatos: no se ven en la página</td></tr>
+<tr><td><code>&lt;meta charset="UTF-8"&gt;</code></td><td>Codificación de caracteres (acentos y ñ)</td></tr>
+<tr><td><code>&lt;meta name="viewport"&gt;</code></td><td>Hace la página responsive en móviles</td></tr>
+<tr><td><code>&lt;title&gt;</code></td><td>Título de la pestaña del navegador</td></tr>
+<tr><td><code>&lt;body&gt;</code></td><td>Todo el contenido visible</td></tr>
+</tbody></table>
+<p><strong>Regla de oro:</strong> las etiquetas se abren y se cierran: <code>&lt;p&gt;texto&lt;/p&gt;</code>. Algunas son <em>vacías</em> y no se cierran, como <code>&lt;img&gt;</code>, <code>&lt;br&gt;</code> o <code>&lt;input&gt;</code>.</p>
+<h3>Anatomía de una etiqueta</h3>
+<div class="code-block">&lt;a href="https://ejemplo.com" target="_blank"&gt;Visitar&lt;/a&gt;
+   ↑ etiqueta  ↑ atributo       ↑ valor        ↑ contenido</div>` },
+
+    { id:"1.3", title:"Texto: encabezados, párrafos y énfasis",
+      body:`<h3>Encabezados</h3>
+<p>Van de <code>&lt;h1&gt;</code> a <code>&lt;h6&gt;</code>. Usa un solo <code>&lt;h1&gt;</code> por página (el título principal) y respeta la jerarquía sin saltarte niveles.</p>
+<div class="code-block">&lt;h1&gt;Título principal&lt;/h1&gt;
+&lt;h2&gt;Sección&lt;/h2&gt;
+&lt;h3&gt;Subsección&lt;/h3&gt;</div>
+<h3>Párrafos y énfasis</h3>
+<div class="code-block">&lt;p&gt;Este es un &lt;strong&gt;texto importante&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Y este está &lt;em&gt;enfatizado&lt;/em&gt;.&lt;/p&gt;</div>
+<table>
+<thead><tr><th>Etiqueta</th><th>Uso</th></tr></thead>
+<tbody>
+<tr><td><code>&lt;p&gt;</code></td><td>Párrafo de texto</td></tr>
+<tr><td><code>&lt;strong&gt;</code></td><td>Importancia (se muestra en negrita)</td></tr>
+<tr><td><code>&lt;em&gt;</code></td><td>Énfasis (se muestra en cursiva)</td></tr>
+<tr><td><code>&lt;br&gt;</code></td><td>Salto de línea</td></tr>
+<tr><td><code>&lt;hr&gt;</code></td><td>Línea horizontal separadora</td></tr>
+<tr><td><code>&lt;span&gt;</code></td><td>Contenedor en línea sin significado propio</td></tr>
+<tr><td><code>&lt;mark&gt;</code></td><td>Texto resaltado</td></tr>
+</tbody></table>
+<p>💡 <strong>Truco:</strong> <code>strong</code> y <code>em</code> aportan <em>significado</em>; <code>b</code> e <code>i</code> solo dan estilo. Usa los semánticos.</p>` }
+  ],
+  questions:[
+    { q:"¿Qué lenguaje define la estructura y el contenido de una página web?", opts:["CSS","HTML","JavaScript","SQL"], correct:1, explain:"HTML (HyperText Markup Language) define la estructura y el contenido." },
+    { q:"¿Qué significa DOM?", opts:["Document Object Model","Digital Object Machine","Data Output Mode","Document Order Map"], correct:0, explain:"DOM = Document Object Model: la representación en árbol del documento HTML." },
+    { q:"¿En qué etiqueta va el contenido visible de la página?", opts:["<head>","<title>","<body>","<meta>"], correct:2, explain:"Todo lo visible se escribe dentro de <body>." },
+    { q:"¿Qué etiqueta define el título que aparece en la pestaña del navegador?", opts:["<h1>","<title>","<header>","<meta>"], correct:1, explain:"<title> va dentro de <head> y define el título de la pestaña." },
+    { q:"¿Cuál es el encabezado de mayor importancia?", opts:["<h6>","<h3>","<h1>","<header>"], correct:2, explain:"<h1> es el encabezado principal; <h6> es el de menor nivel." }
+  ]
+},
+
+/* ---------------------------------------------------------- M2 */
+{
+  id:2, title:"Enlaces, imágenes y listas", icon:"🔗", color:"#22c55e",
+  desc:"Hipervínculos, imágenes accesibles y listas",
+  lessons:[
+    { id:"2.1", title:"Enlaces con <a>",
+      body:`<p>El enlace se crea con la etiqueta <code>&lt;a&gt;</code> y el atributo <code>href</code> (<em>hypertext reference</em>).</p>
+<div class="code-block">&lt;a href="https://developer.mozilla.org"&gt;Documentación MDN&lt;/a&gt;
+&lt;a href="contacto.html"&gt;Contacto&lt;/a&gt;
+&lt;a href="#seccion"&gt;Ir a la sección&lt;/a&gt;
+&lt;a href="https://ejemplo.com" target="_blank" rel="noopener"&gt;Pestaña nueva&lt;/a&gt;</div>
+<h3>Tipos de rutas</h3>
 <ul>
-  <li><strong>Descomposición:</strong> dividir un problema grande en partes pequeñas.</li>
-  <li><strong>Reconocimiento de patrones:</strong> identificar similitudes con problemas ya resueltos.</li>
-  <li><strong>Abstracción:</strong> quedarse con lo importante y descartar detalles irrelevantes.</li>
-  <li><strong>Algoritmos:</strong> diseñar los pasos para resolver cada parte.</li>
+  <li><strong>Absoluta:</strong> incluye el dominio completo → <code>https://sitio.com/pagina.html</code></li>
+  <li><strong>Relativa:</strong> depende de dónde esté el archivo → <code>contacto.html</code>, <code>../img/logo.png</code></li>
 </ul>
-<h3>Ejemplo práctico</h3>
-<p>Si quieres construir una app de notas, la descompones en: (1) agregar nota, (2) listar notas, (3) editar nota, (4) eliminar nota. Cada parte es un problema pequeño y manejable.</p>`
-    }
+<table>
+<thead><tr><th>Atributo</th><th>Para qué sirve</th></tr></thead>
+<tbody>
+<tr><td><code>href</code></td><td>Destino del enlace (obligatorio)</td></tr>
+<tr><td><code>target="_blank"</code></td><td>Abre el enlace en una pestaña nueva</td></tr>
+<tr><td><code>rel="noopener"</code></td><td>Seguridad al usar <code>target="_blank"</code></td></tr>
+<tr><td><code>download</code></td><td>Descarga el recurso en vez de abrirlo</td></tr>
+</tbody></table>
+<p>⚠️ Nunca escribas <em>“haz clic aquí”</em>: el texto del enlace debe describir el destino (accesibilidad y SEO).</p>` },
+
+    { id:"2.2", title:"Imágenes con <img>",
+      body:`<p><code>&lt;img&gt;</code> es una etiqueta <strong>vacía</strong> (no se cierra) y necesita dos atributos:</p>
+<div class="code-block">&lt;img src="logo.png" alt="Logotipo de Ateneodev" width="120"&gt;</div>
+<table>
+<thead><tr><th>Atributo</th><th>Función</th></tr></thead>
+<tbody>
+<tr><td><code>src</code></td><td>Ruta de la imagen (obligatorio)</td></tr>
+<tr><td><code>alt</code></td><td>Texto alternativo (obligatorio por accesibilidad)</td></tr>
+<tr><td><code>width</code> / <code>height</code></td><td>Tamaño en píxeles</td></tr>
+<tr><td><code>loading="lazy"</code></td><td>Carga diferida: mejora el rendimiento</td></tr>
+</tbody></table>
+<p><strong>alt</strong> lo leen los lectores de pantalla y aparece si la imagen no carga. Si la imagen es decorativa, usa <code>alt=""</code>.</p>
+<h3>Figure y figcaption</h3>
+<p>Para imágenes con pie de foto:</p>
+<div class="code-block">&lt;figure&gt;
+  &lt;img src="grafico.png" alt="Ventas del trimestre"&gt;
+  &lt;figcaption&gt;Ventas del primer trimestre&lt;/figcaption&gt;
+&lt;/figure&gt;</div>` },
+
+    { id:"2.3", title:"Listas: ul, ol y dl",
+      body:`<h3>Lista desordenada (ul)</h3>
+<div class="code-block">&lt;ul&gt;
+  &lt;li&gt;HTML&lt;/li&gt;
+  &lt;li&gt;CSS&lt;/li&gt;
+  &lt;li&gt;JavaScript&lt;/li&gt;
+&lt;/ul&gt;</div>
+<h3>Lista ordenada (ol)</h3>
+<div class="code-block">&lt;ol&gt;
+  &lt;li&gt;Aprender HTML&lt;/li&gt;
+  &lt;li&gt;Aprender CSS&lt;/li&gt;
+  &lt;li&gt;Aprender JavaScript&lt;/li&gt;
+&lt;/ol&gt;</div>
+<h3>Lista de definiciones (dl)</h3>
+<div class="code-block">&lt;dl&gt;
+  &lt;dt&gt;HTML&lt;/dt&gt;&lt;dd&gt;Lenguaje de marcado&lt;/dd&gt;
+  &lt;dt&gt;CSS&lt;/dt&gt;&lt;dd&gt;Hojas de estilo&lt;/dd&gt;
+&lt;/dl&gt;</div>
+<table>
+<thead><tr><th>Etiqueta</th><th>Significado</th></tr></thead>
+<tbody>
+<tr><td><code>&lt;ul&gt;</code></td><td>Unordered list: viñetas</td></tr>
+<tr><td><code>&lt;ol&gt;</code></td><td>Ordered list: numerada</td></tr>
+<tr><td><code>&lt;li&gt;</code></td><td>List item: cada elemento</td></tr>
+<tr><td><code>&lt;dl&gt;</code> / <code>&lt;dt&gt;</code> / <code>&lt;dd&gt;</code></td><td>Lista de definiciones, término y descripción</td></tr>
+</tbody></table>
+<p>💡 Los menús de navegación se construyen con <code>&lt;ul&gt;</code> dentro de <code>&lt;nav&gt;</code>: es la práctica estándar.</p>` }
   ],
   questions:[
-    { q:"¿Qué es un algoritmo?", opts:["Un lenguaje de programación","Una secuencia de pasos para resolver un problema","Un tipo de computadora","Un error de código"], correct:1, explain:"Un algoritmo es una secuencia ordenada y finita de pasos para resolver un problema." },
-    { q:"¿Cuál de estas NO es una característica de un buen algoritmo?", opts:["Debe ser finito","Debe ser preciso","Debe ser infinito","Debe producir siempre el mismo resultado con la misma entrada"], correct:2, explain:"Un algoritmo debe ser finito: tiene que terminar en algún momento." },
-    { q:"¿Qué pilar del pensamiento computacional consiste en dividir un problema grande en partes pequeñas?", opts:["Abstracción","Descomposición","Patrones","Algoritmo"], correct:1, explain:"La descomposición divide un problema complejo en subproblemas más simples." },
-    { q:"¿Qué función de Python imprime en pantalla?", opts:["echo()","write()","print()","display()"], correct:2, explain:"print() es la función estándar para mostrar texto en la consola de Python." },
-    { q:"¿Qué lenguaje usaremos en este curso?", opts:["JavaScript","Java","Python","C++"], correct:2, explain:"Usamos Python por su sintaxis simple y legible para principiantes." }
+    { q:"¿Qué atributo indica el destino de un enlace?", opts:["src","href","link","url"], correct:1, explain:"href (hypertext reference) contiene el destino del enlace." },
+    { q:"¿Qué atributo de <img> es obligatorio por accesibilidad?", opts:["title","width","alt","class"], correct:2, explain:"alt describe la imagen para lectores de pantalla y si no carga." },
+    { q:"¿Qué etiqueta crea una lista numerada?", opts:["<ul>","<ol>","<dl>","<li>"], correct:1, explain:"<ol> = ordered list, muestra los elementos numerados." },
+    { q:"¿Qué valor de target abre el enlace en una pestaña nueva?", opts:["_self","_new","_blank","_top"], correct:2, explain:"target=\"_blank\" abre el enlace en una pestaña o ventana nueva." },
+    { q:"¿Cuál es una ruta relativa?", opts:["https://sitio.com/a.html","/var/www/a.html","contacto.html","ftp://servidor/a.html"], correct:2, explain:"contacto.html es relativa: depende de la ubicación del archivo actual." }
   ]
 },
+
+/* ---------------------------------------------------------- M3 */
 {
-  id:2, title:"Primeros pasos con Python", icon:"🐍", color:"#22c55e",
-  desc:"Variables, tipos de datos y operadores",
+  id:3, title:"HTML semántico y formularios", icon:"📝", color:"#f59e0b",
+  desc:"Estructura semántica, formularios y tablas",
   lessons:[
-    { id:"2.1", title:"Variables y tipos de datos",
-      body:`<p>Una <strong>variable</strong> es un espacio en memoria donde guardamos un valor. En Python se crea asignando con <code>=</code>.</p>
-<div class="code-block">nombre = <span class="str">"Ana"</span>
-edad = <span class="num">25</span>
-altura = <span class="num">1.68</span>
-es_estudiante = <span class="kw">True</span></div>
-<h3>Tipos de datos básicos</h3>
-<ul>
-  <li><strong>str</strong> (texto): <code>"Hola"</code>, <code>'mundo'</code></li>
-  <li><strong>int</strong> (entero): <code>42</code>, <code>-7</code></li>
-  <li><strong>float</strong> (decimal): <code>3.14</code>, <code>0.5</code></li>
-  <li><strong>bool</strong> (booleano): <code>True</code>, <code>False</code></li>
-</ul>
-<p>Puedes comprobar el tipo de una variable con <code>type()</code>.</p>
-<div class="code-block"><span class="fn">print</span>(<span class="fn">type</span>(<span class="num">42</span>))     <span class="com"># &lt;class 'int'&gt;</span>
-<span class="fn">print</span>(<span class="fn">type</span>(<span class="str">"hola"</span>))  <span class="com"># &lt;class 'str'&gt;</span></div>`
-    },
-    { id:"2.2", title:"Operadores",
-      body:`<p>Python incluye operadores para hacer cálculos y comparaciones.</p>
-<h3>Operadores aritméticos</h3>
-<div class="code-block"><span class="num">10</span> + <span class="num">3</span>   <span class="com"># 13 (suma)</span>
-<span class="num">10</span> - <span class="num">3</span>   <span class="com"># 7  (resta)</span>
-<span class="num">10</span> * <span class="num">3</span>   <span class="com"># 30 (multiplicación)</span>
-<span class="num">10</span> / <span class="num">3</span>   <span class="com"># 3.33 (división)</span>
-<span class="num">10</span> // <span class="num">3</span>  <span class="com"># 3   (división entera)</span>
-<span class="num">10</span> % <span class="num">3</span>   <span class="com"># 1   (módulo/resto)</span>
-<span class="num">2</span> ** <span class="num">3</span>   <span class="com"># 8   (potencia)</span></div>
-<h3>Operadores de comparación</h3>
-<div class="code-block"><span class="num">5</span> == <span class="num">5</span>   <span class="com"># True (igual)</span>
-<span class="num">5</span> != <span class="num">3</span>   <span class="com"># True (distinto)</span>
-<span class="num">5</span> &gt; <span class="num">3</span>    <span class="com"># True (mayor)</span>
-<span class="num">5</span> &lt; <span class="num">3</span>    <span class="com"># False (menor)</span>
-<span class="num">5</span> &gt;= <span class="num">5</span>   <span class="com"># True (mayor o igual)</span></div>`
-    }
+    { id:"3.1", title:"HTML semántico",
+      body:`<p>Las etiquetas semánticas describen <em>qué es</em> cada bloque, no solo cómo se ve. Mejoran accesibilidad y SEO.</p>
+<div class="code-block">&lt;header&gt;Cabecera&lt;/header&gt;
+&lt;nav&gt;Menú de navegación&lt;/nav&gt;
+&lt;main&gt;
+  &lt;section&gt;
+    &lt;h2&gt;Sección&lt;/h2&gt;
+    &lt;article&gt;Contenido independiente&lt;/article&gt;
+  &lt;/section&gt;
+  &lt;aside&gt;Contenido lateral&lt;/aside&gt;
+&lt;/main&gt;
+&lt;footer&gt;Pie de página&lt;/footer&gt;</div>
+<table>
+<thead><tr><th>Etiqueta</th><th>Uso</th></tr></thead>
+<tbody>
+<tr><td><code>&lt;header&gt;</code></td><td>Cabecera de la página o de una sección</td></tr>
+<tr><td><code>&lt;nav&gt;</code></td><td>Bloque de navegación (menús)</td></tr>
+<tr><td><code>&lt;main&gt;</code></td><td>Contenido principal (uno por página)</td></tr>
+<tr><td><code>&lt;section&gt;</code></td><td>Sección temática con su propio encabezado</td></tr>
+<tr><td><code>&lt;article&gt;</code></td><td>Contenido autónomo (post, tarjeta, noticia)</td></tr>
+<tr><td><code>&lt;aside&gt;</code></td><td>Contenido secundario o lateral</td></tr>
+<tr><td><code>&lt;footer&gt;</code></td><td>Pie de página</td></tr>
+</tbody></table>
+<p>❌ Evita abusar de <code>&lt;div&gt;</code>. Un <code>&lt;div&gt;</code> no significa nada; <code>&lt;nav&gt;</code> sí.</p>` },
+
+    { id:"3.2", title:"Formularios",
+      body:`<p>Los formularios recogen datos del usuario con <code>&lt;form&gt;</code>, <code>&lt;input&gt;</code>, <code>&lt;label&gt;</code> y <code>&lt;button&gt;</code>.</p>
+<div class="code-block">&lt;form action="/enviar" method="post"&gt;
+  &lt;label for="nombre"&gt;Nombre&lt;/label&gt;
+  &lt;input type="text" id="nombre" name="nombre" required&gt;
+
+  &lt;label for="correo"&gt;Correo&lt;/label&gt;
+  &lt;input type="email" id="correo" name="correo" required&gt;
+
+  &lt;label for="mensaje"&gt;Mensaje&lt;/label&gt;
+  &lt;textarea id="mensaje" name="mensaje" rows="4"&gt;&lt;/textarea&gt;
+
+  &lt;button type="submit"&gt;Enviar&lt;/button&gt;
+&lt;/form&gt;</div>
+<h3>Tipos de input más usados</h3>
+<table>
+<thead><tr><th>type</th><th>Para qué</th></tr></thead>
+<tbody>
+<tr><td><code>text</code></td><td>Texto libre</td></tr>
+<tr><td><code>email</code></td><td>Correo (valida formato)</td></tr>
+<tr><td><code>password</code></td><td>Contraseña (oculta caracteres)</td></tr>
+<tr><td><code>number</code></td><td>Solo números</td></tr>
+<tr><td><code>checkbox</code></td><td>Casilla de verificación</td></tr>
+<tr><td><code>radio</code></td><td>Opción única dentro de un grupo</td></tr>
+<tr><td><code>submit</code></td><td>Botón de envío</td></tr>
+</tbody></table>
+<p>🔑 <strong>label + for</strong> debe coincidir con el <strong>id</strong> del input: así al pulsar la etiqueta se enfoca el campo (y el lector de pantalla lo anuncia).</p>` },
+
+    { id:"3.3", title:"Tablas",
+      body:`<p>Las tablas muestran datos tabulares (nunca para maquetar).</p>
+<div class="code-block">&lt;table&gt;
+  &lt;caption&gt;Notas del curso&lt;/caption&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;&lt;th&gt;Alumno&lt;/th&gt;&lt;th&gt;Nota&lt;/th&gt;&lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;&lt;td&gt;Ana&lt;/td&gt;&lt;td&gt;9&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Luis&lt;/td&gt;&lt;td&gt;7&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</div>
+<table>
+<thead><tr><th>Etiqueta</th><th>Función</th></tr></thead>
+<tbody>
+<tr><td><code>&lt;table&gt;</code></td><td>Contenedor de la tabla</td></tr>
+<tr><td><code>&lt;caption&gt;</code></td><td>Título descriptivo de la tabla</td></tr>
+<tr><td><code>&lt;thead&gt;</code> / <code>&lt;tbody&gt;</code></td><td>Cabecera y cuerpo</td></tr>
+<tr><td><code>&lt;tr&gt;</code></td><td>Fila (table row)</td></tr>
+<tr><td><code>&lt;th&gt;</code></td><td>Celda de cabecera</td></tr>
+<tr><td><code>&lt;td&gt;</code></td><td>Celda de datos</td></tr>
+<tr><td><code>colspan</code> / <code>rowspan</code></td><td>Combinar columnas / filas</td></tr>
+</tbody></table>` }
   ],
   questions:[
-    { q:"¿Cuál es el tipo de dato de 3.14 en Python?", opts:["int","str","float","bool"], correct:2, explain:"3.14 tiene decimales, por lo que es un float." },
-    { q:"¿Qué resultado da 10 % 3 en Python?", opts:["3","1","0","3.33"], correct:1, explain:"El operador % devuelve el resto de la división: 10 entre 3 es 3 y sobra 1." },
-    { q:"¿Cómo se declara una variable en Python?", opts:["var x = 5","int x = 5","x = 5","let x = 5"], correct:2, explain:"En Python basta con asignar con =, sin declarar el tipo." },
-    { q:"¿Qué devuelve type('hola')?", opts:["<class 'int'>","<class 'str'>","<class 'bool'>","<class 'float'>"], correct:1, explain:"'hola' es un string (str)." },
-    { q:"¿Cuál es el resultado de 2 ** 3?", opts:["6","8","9","5"], correct:1, explain:"** es el operador de potencia: 2 elevado a 3 = 8." }
+    { q:"¿Qué etiqueta contiene el contenido principal de la página?", opts:["<section>","<main>","<article>","<div>"], correct:1, explain:"<main> envuelve el contenido principal y debe haber solo uno." },
+    { q:"¿Qué etiqueta se usa para un menú de navegación?", opts:["<menu>","<nav>","<header>","<aside>"], correct:1, explain:"<nav> define un bloque de enlaces de navegación." },
+    { q:"¿Qué atributo conecta un <label> con su <input>?", opts:["name","id en el label y for en el input","class","type"], correct:1, explain:"El atributo for del label debe coincidir con el id del input." },
+    { q:"¿Qué tipo de input valida el formato de un correo?", opts:["type=\"text\"","type=\"email\"","type=\"mail\"","type=\"string\""], correct:1, explain:"type=\"email\" hace que el navegador valide el formato del correo." },
+    { q:"¿Qué etiqueta define una celda de cabecera en una tabla?", opts:["<td>","<tr>","<th>","<thead>"], correct:2, explain:"<th> es una celda de cabecera (table header)." }
   ]
 },
+
+/* ---------------------------------------------------------- M4 */
 {
-  id:3, title:"Control de Flujo", icon:"🔀", color:"#f59e0b",
-  desc:"Condicionales, bucles y control",
+  id:4, title:"CSS: fundamentos y selectores", icon:"🎨", color:"#a855f7",
+  desc:"Sintaxis, selectores, color, tipografía y unidades",
   lessons:[
-    { id:"3.1", title:"Condicionales (if / elif / else)",
-      body:`<p>Los <strong>condicionales</strong> permiten que el programa tome decisiones según una condición.</p>
-<div class="code-block">edad = <span class="num">18</span>
-
-<span class="kw">if</span> edad &gt;= <span class="num">18</span>:
-    <span class="fn">print</span>(<span class="str">"Eres mayor de edad"</span>)
-<span class="kw">elif</span> edad &gt;= <span class="num">13</span>:
-    <span class="fn">print</span>(<span class="str">"Eres adolescente"</span>)
-<span class="kw">else</span>:
-    <span class="fn">print</span>(<span class="str">"Eres un niño"</span>)</div>
-<p>Python usa <strong>indentación</strong> (4 espacios) para definir qué código pertenece a cada bloque. ¡Es obligatorio!</p>`
-    },
-    { id:"3.2", title:"Bucles for y while",
-      body:`<h3>Bucle for</h3>
-<p>Recorre una secuencia (lista, rango, texto).</p>
-<div class="code-block"><span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">5</span>):
-    <span class="fn">print</span>(i)
-<span class="com"># Imprime: 0, 1, 2, 3, 4</span></div>
-<h3>Bucle while</h3>
-<p>Se repite mientras se cumpla una condición.</p>
-<div class="code-block">contador = <span class="num">0</span>
-<span class="kw">while</span> contador &lt; <span class="num">3</span>:
-    <span class="fn">print</span>(contador)
-    contador += <span class="num">1</span></div>
-<p><strong>Cuidado:</strong> si la condición nunca se vuelve falsa, el bucle será infinito.</p>`
-    },
-    { id:"3.3", title:"break y continue",
-      body:`<p>Dentro de un bucle puedes usar:</p>
-<ul>
-  <li><strong>break</strong>: sale del bucle inmediatamente.</li>
-  <li><strong>continue</strong>: salta a la siguiente iteración sin ejecutar el resto del bloque.</li>
-</ul>
-<div class="code-block"><span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">10</span>):
-    <span class="kw">if</span> i == <span class="num">5</span>:
-        <span class="kw">break</span>
-    <span class="kw">if</span> i % <span class="num">2</span> == <span class="num">0</span>:
-        <span class="kw">continue</span>
-    <span class="fn">print</span>(i)  <span class="com"># Solo imprime impares hasta 4</span></div>`
-    }
-  ],
-  questions:[
-    { q:"¿Qué palabra clave se usa para una condición alternativa en Python?", opts:["elseif","elif","else if","otherwise"], correct:1, explain:"Python usa 'elif' (contracción de else if)." },
-    { q:"¿Qué imprime range(3)?", opts:["1,2,3","0,1,2","0,1,2,3","1,2"], correct:1, explain:"range(3) genera 0, 1, 2 (no incluye el 3)." },
-    { q:"¿Qué hace la instrucción break?", opts:["Salta a la siguiente iteración","Sale inmediatamente del bucle","Termina el programa","Reinicia el bucle"], correct:1, explain:"break detiene la ejecución del bucle por completo." },
-    { q:"¿Qué instrucción salta a la siguiente iteración?", opts:["break","pass","continue","skip"], correct:2, explain:"continue salta al siguiente ciclo del bucle." },
-    { q:"¿Qué es esencial en Python para definir bloques de código?", opts:["Llaves {}","Paréntesis ()","Indentación","Punto y coma ;"], correct:2, explain:"Python usa indentación (espacios) en lugar de llaves." }
-  ]
-},
-{
-  id:4, title:"Estructuras de Datos", icon:"📦", color:"#a855f7",
-  desc:"Listas, tuplas, diccionarios y sets",
-  lessons:[
-    { id:"4.1", title:"Listas y tuplas",
-      body:`<h3>Listas</h3>
-<p>Una <strong>lista</strong> es una colección ordenada y <strong>mutable</strong> (puede modificarse).</p>
-<div class="code-block">frutas = [<span class="str">"manzana"</span>, <span class="str">"pera"</span>, <span class="str">"uva"</span>]
-frutas.append(<span class="str">"kiwi"</span>)   <span class="com"># añadir al final</span>
-frutas[<span class="num">0</span>]              <span class="com"># "manzana"</span>
-<span class="fn">len</span>(frutas)            <span class="com"># 4</span></div>
-<h3>Tuplas</h3>
-<p>Una <strong>tupla</strong> es como una lista pero <strong>inmutable</strong> (no puede modificarse).</p>
-<div class="code-block">coordenadas = (<span class="num">10</span>, <span class="num">20</span>)
-x, y = coordenadas  <span class="com"># desempaquetado</span></div>`
-    },
-    { id:"4.2", title:"Diccionarios y sets",
-      body:`<h3>Diccionarios</h3>
-<p>Almacenan pares <strong>clave: valor</strong>. Son ideales para datos estructurados.</p>
-<div class="code-block">persona = {
-    <span class="str">"nombre"</span>: <span class="str">"Ana"</span>,
-    <span class="str">"edad"</span>: <span class="num">25</span>
-}
-persona[<span class="str">"nombre"</span>]      <span class="com"># "Ana"</span>
-persona[<span class="str">"ciudad"</span>] = <span class="str">"Madrid"</span>  <span class="com"># añadir clave</span></div>
-<h3>Sets (conjuntos)</h3>
-<p>Colecciones <strong>sin duplicados</strong> y sin orden.</p>
-<div class="code-block">numeros = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">3</span>, <span class="num">3</span>}
-<span class="fn">print</span>(numeros)  <span class="com"># {1, 2, 3}</span></div>`
-    }
-  ],
-  questions:[
-    { q:"¿Qué estructura de datos es inmutable?", opts:["Lista","Diccionario","Tupla","Set"], correct:2, explain:"Las tuplas son inmutables: no se pueden modificar después de crearlas." },
-    { q:"¿Cómo se añade un elemento al final de una lista?", opts:["lista.add(x)","lista.push(x)","lista.append(x)","lista.insert(x)"], correct:2, explain:"El método append() agrega un elemento al final de la lista." },
-    { q:"¿Qué estructura almacena pares clave:valor?", opts:["Lista","Tupla","Diccionario","Set"], correct:2, explain:"Los diccionarios almacenan pares clave:valor." },
-    { q:"¿Qué hace un set con los duplicados?", opts:["Los conserva","Los elimina automáticamente","Lanza un error","Los convierte en tuplas"], correct:1, explain:"Los sets no permiten elementos duplicados; los eliminan automáticamente." },
-    { q:"¿Cómo se accede al valor de la clave 'nombre' en un diccionario d?", opts:["d.nombre","d->nombre","d['nombre']","d(nombre)"], correct:2, explain:"Se accede usando corchetes con la clave entre comillas: d['nombre']." }
-  ]
-},
-{
-  id:5, title:"Funciones y Modularidad", icon:"🧩", color:"#ec4899",
-  desc:"Definir funciones, parámetros, return y módulos",
-  lessons:[
-    { id:"5.1", title:"Definir funciones",
-      body:`<p>Una <strong>función</strong> es un bloque de código reutilizable que realiza una tarea. Se define con <code>def</code>.</p>
-<div class="code-block"><span class="kw">def</span> <span class="fn">saludar</span>(nombre):
-    <span class="fn">print</span>(<span class="str">"Hola,"</span>, nombre)
-
-saludar(<span class="str">"Ana"</span>)  <span class="com"># Hola, Ana</span></div>
-<h3>Retornar valores</h3>
-<div class="code-block"><span class="kw">def</span> <span class="fn">sumar</span>(a, b):
-    <span class="kw">return</span> a + b
-
-resultado = sumar(<span class="num">3</span>, <span class="num">4</span>)  <span class="com"># 7</span></div>
-<p><code>return</code> devuelve un valor y termina la ejecución de la función.</p>`
-    },
-    { id:"5.2", title:"Parámetros y scope",
-      body:`<h3>Parámetros por defecto</h3>
-<div class="code-block"><span class="kw">def</span> <span class="fn">saludar</span>(nombre=<span class="str">"mundo"</span>):
-    <span class="fn">print</span>(<span class="str">"Hola,"</span>, nombre)
-
-saludar()        <span class="com"># Hola, mundo</span>
-saludar(<span class="str">"Ana"</span>)  <span class="com"># Hola, Ana</span></div>
-<h3>Scope (ámbito)</h3>
-<p>Las variables creadas dentro de una función son <strong>locales</strong>: no existen fuera.</p>
-<div class="code-block">x = <span class="num">10</span>  <span class="com"># global</span>
-<span class="kw">def</span> <span class="fn">f</span>():
-    x = <span class="num">5</span>  <span class="com"># local</span>
-    <span class="fn">print</span>(x)
-f()       <span class="com"># 5</span>
-<span class="fn">print</span>(x) <span class="com"># 10</span></div>`
-    },
-    { id:"5.3", title:"Módulos",
-      body:`<p>Un <strong>módulo</strong> es un archivo con funciones y variables que puedes importar en otros archivos.</p>
-<div class="code-block"><span class="com"># archivo mates.py</span>
-<span class="kw">def</span> <span class="fn">sumar</span>(a, b):
-    <span class="kw">return</span> a + b
-
-<span class="com"># archivo principal.py</span>
-<span class="kw">import</span> mates
-mates.sumar(<span class="num">2</span>, <span class="num">3</span>)  <span class="com"># 5</span>
-
-<span class="com"># También:</span>
-<span class="kw">from</span> mates <span class="kw">import</span> sumar
-sumar(<span class="num">2</span>, <span class="num">3</span>)  <span class="com"># 5</span></div>
-<p>Python trae módulos incluidos como <code>math</code>, <code>random</code> y <code>datetime</code>.</p>`
-    }
-  ],
-  questions:[
-    { q:"¿Qué palabra clave se usa para definir una función en Python?", opts:["function","fun","def","define"], correct:2, explain:"Se usa 'def' para definir funciones." },
-    { q:"¿Qué hace la instrucción return?", opts:["Imprime un valor","Devuelve un valor y termina la función","Reinicia la función","Crea una variable"], correct:1, explain:"return devuelve un valor y finaliza la ejecución de la función." },
-    { q:"¿Qué es una variable local?", opts:["Una definida fuera de la función","Una definida dentro de una función","Una variable global","Una constante"], correct:1, explain:"Las variables locales se crean dentro de una función y solo existen dentro de ella." },
-    { q:"¿Cómo se importa un módulo llamado 'math'?", opts:["include math","import math","require math","using math"], correct:1, explain:"La sintaxis correcta es: import math" },
-    { q:"¿Qué pasa si llamas a una función sin argumentos cuando tiene valores por defecto?", opts:["Error","Se usan los valores por defecto","Se pasa None","Se salta la función"], correct:1, explain:"Si los parámetros tienen valores por defecto, la función los usará al llamarla sin argumentos." }
-  ]
-},
-{
-  id:6, title:"Errores y Archivos", icon:"⚠️", color:"#ef4444",
-  desc:"Manejo de excepciones y archivos",
-  lessons:[
-    { id:"6.1", title:"try / except",
-      body:`<p>Los errores (excepciones) ocurren. Podemos manejarlos con <code>try</code> / <code>except</code> para que el programa no se detenga.</p>
-<div class="code-block"><span class="kw">try</span>:
-    resultado = <span class="num">10</span> / <span class="num">0</span>
-<span class="kw">except</span> ZeroDivisionError:
-    <span class="fn">print</span>(<span class="str">"No puedes dividir entre cero"</span>)
-<span class="kw">except</span> Exception <span class="kw">as</span> e:
-    <span class="fn">print</span>(<span class="str">"Error:"</span>, e)
-<span class="kw">finally</span>:
-    <span class="fn">print</span>(<span class="str">"Siempre se ejecuta"</span>)</div>`
-    },
-    { id:"6.2", title:"Lectura y escritura de archivos",
-      body:`<p>Python permite leer y escribir archivos fácilmente.</p>
-<h3>Leer</h3>
-<div class="code-block"><span class="kw">with</span> <span class="fn">open</span>(<span class="str">"notas.txt"</span>, <span class="str">"r"</span>) <span class="kw">as</span> f:
-    contenido = f.read()
-    <span class="fn">print</span>(contenido)</div>
-<h3>Escribir</h3>
-<div class="code-block"><span class="kw">with</span> <span class="fn">open</span>(<span class="str">"notas.txt"</span>, <span class="str">"w"</span>) <span class="kw">as</span> f:
-    f.write(<span class="str">"Hola, mundo\\n"</span>)</div>
-<p>El bloque <code>with</code> cierra el archivo automáticamente, incluso si ocurre un error.</p>`
-    }
-  ],
-  questions:[
-    { q:"¿Qué palabra clave se usa para capturar un error en Python?", opts:["catch","except","error","rescue"], correct:1, explain:"Python usa try/except; 'except' captura la excepción." },
-    { q:"¿Qué bloque se ejecuta SIEMPRE, haya error o no?", opts:["try","except","finally","else"], correct:2, explain:"finally se ejecuta siempre, independientemente de si hubo error o no." },
-    { q:"¿Qué modo de open() sirve para escribir en un archivo?", opts:["'r'","'w'","'a+'","'x'"], correct:1, explain:"El modo 'w' abre el archivo para escritura (sobrescribe)." },
-    { q:"¿Para qué sirve el bloque 'with' al abrir archivos?", opts:["Para nada","Cierra el archivo automáticamente","Encripta el archivo","Lo copia"], correct:1, explain:"with cierra el archivo automáticamente al terminar el bloque." }
-  ]
-},
-{
-  id:7, title:"Programación Orientada a Objetos", icon:"🏗️", color:"#06b6d4",
-  desc:"Clases, objetos, herencia",
-  lessons:[
-    { id:"7.1", title:"Clases y objetos",
-      body:`<p>La <strong>POO</strong> organiza el código en <strong>clases</strong> (plantillas) y <strong>objetos</strong> (instancias).</p>
-<div class="code-block"><span class="kw">class</span> <span class="fn">Persona</span>:
-    <span class="kw">def</span> <span class="fn">__init__</span>(self, nombre, edad):
-        self.nombre = nombre
-        self.edad = edad
-
-    <span class="kw">def</span> <span class="fn">saludar</span>(self):
-        <span class="kw">return</span> <span class="str">f"Hola, soy {self.nombre}"</span>
-
-ana = Persona(<span class="str">"Ana"</span>, <span class="num">25</span>)
-<span class="fn">print</span>(ana.saludar())  <span class="com"># Hola, soy Ana</span></div>
-<p><code>__init__</code> es el constructor: se ejecuta al crear el objeto. <code>self</code> es la referencia al propio objeto.</p>`
-    },
-    { id:"7.2", title:"Herencia",
-      body:`<p>Una clase puede <strong>heredar</strong> de otra, reutilizando sus atributos y métodos.</p>
-<div class="code-block"><span class="kw">class</span> <span class="fn">Animal</span>:
-    <span class="kw">def</span> <span class="fn">__init__</span>(self, nombre):
-        self.nombre = nombre
-    <span class="kw">def</span> <span class="fn">hablar</span>(self):
-        <span class="kw">return</span> <span class="str">"..."</span>
-
-<span class="kw">class</span> <span class="fn">Perro</span>(Animal):
-    <span class="kw">def</span> <span class="fn">hablar</span>(self):
-        <span class="kw">return</span> <span class="str">"¡Guau!"</span>
-
-p = Perro(<span class="str">"Max"</span>)
-<span class="fn">print</span>(p.hablar())  <span class="com"># ¡Guau!</span></div>
-<p><code>Perro</code> hereda de <code>Animal</code> y puede sobrescribir métodos.</p>`
-    }
-  ],
-  questions:[
-    { q:"¿Cómo se define una clase en Python?", opts:["def MiClase:","class MiClase:","object MiClase:","new MiClase:"], correct:1, explain:"Se usa 'class MiClase:' para definir una clase." },
-    { q:"¿Qué método actúa como constructor en Python?", opts:["__new__","__init__","__start__","__create__"], correct:1, explain:"__init__ es el constructor: se llama al crear una instancia." },
-    { q:"¿Qué representa 'self'?", opts:["Una variable global","La referencia al propio objeto","Una función","Un módulo"], correct:1, explain:"self hace referencia al objeto actual dentro de la clase." },
-    { q:"¿Qué permite la herencia?", opts:["Crear variables globales","Reutilizar atributos y métodos de otra clase","Eliminar clases","Nada especial"], correct:1, explain:"La herencia permite que una clase reutilice código de otra." },
-    { q:"¿Qué es un objeto?", opts:["Una clase","Una instancia de una clase","Un módulo","Un método"], correct:1, explain:"Un objeto es una instancia concreta de una clase." }
-  ]
-},
-{
-  id:8, title:"Testing y Buenas Prácticas", icon:"✅", color:"#10b981",
-  desc:"Pruebas unitarias y código limpio",
-  lessons:[
-    { id:"8.1", title:"Testing con pytest",
-      body:`<p>Las <strong>pruebas</strong> verifican que tu código funcione como esperas. <code>pytest</code> es la librería más popular.</p>
-<div class="code-block"><span class="com"># test_mates.py</span>
-<span class="kw">from</span> mates <span class="kw">import</span> sumar
-
-<span class="kw">def</span> <span class="fn">test_sumar</span>():
-    <span class="kw">assert</span> sumar(<span class="num">2</span>, <span class="num">3</span>) == <span class="num">5</span>
-
-<span class="kw">def</span> <span class="fn">test_sumar_negativos</span>():
-    <span class="kw">assert</span> sumar(-<span class="num">2</span>, -<span class="num">3</span>) == -<span class="num">5</span></div>
-<p>Se ejecuta con <code>pytest</code> en la terminal. Cada función que empieza con <code>test_</code> se ejecuta como prueba.</p>
-<h3>Buenas prácticas</h3>
-<ul>
-  <li>Sigue <strong>PEP 8</strong> (estilo oficial de Python).</li>
-  <li>Usa nombres descriptivos: <code>calcular_promedio</code> mejor que <code>cp</code>.</li>
-  <li>Funciones cortas y con una sola responsabilidad.</li>
-  <li>Documenta con docstrings.</li>
-</ul>`
-    }
-  ],
-  questions:[
-    { q:"¿Qué librería se usa popularmente para testing en Python?", opts:["jest","pytest","mocha","chai"], correct:1, explain:"pytest es la librería de testing más usada en Python." },
-    { q:"¿Qué palabra clave de Python comprueba una condición en un test?", opts:["check","assert","verify","expect"], correct:1, explain:"assert evalúa una condición y falla si es False." },
-    { q:"¿Qué es PEP 8?", opts:["Un framework web","La guía de estilo oficial de Python","Un módulo de testing","Una librería de datos"], correct:1, explain:"PEP 8 es la guía de estilo para escribir código Python limpio." },
-    { q:"¿Por qué es buena idea escribir tests?", opts:["Para que el código pese más","Para detectar errores y evitar romper funcionalidad al cambiar código","No sirve de nada","Para encriptar código"], correct:1, explain:"Los tests detectan errores y protegen la funcionalidad al hacer cambios." }
-  ]
-},
-{
-  id:9, title:"Proyecto Integrador", icon:"🚀", color:"#facc15",
-  desc:"Construye un gestor de tareas aplicando todo lo aprendido",
-  lessons:[
-    { id:"9.1", title:"Gestor de tareas (guía)",
-      body:`<p>Vamos a integrar todo lo aprendido construyendo un <strong>gestor de tareas</strong> de consola. Requisitos:</p>
-<ul>
-  <li>Agregar tareas.</li>
-  <li>Listar tareas.</li>
-  <li>Marcar tareas como completadas.</li>
-  <li>Guardar en archivo (persistencia).</li>
-</ul>
-<h3>Estructura sugerida</h3>
-<div class="code-block"><span class="kw">class</span> <span class="fn">Tarea</span>:
-    <span class="kw">def</span> <span class="fn">__init__</span>(self, titulo):
-        self.titulo = titulo
-        self.completada = <span class="kw">False</span>
-
-<span class="kw">class</span> <span class="fn">GestorTareas</span>:
-    <span class="kw">def</span> <span class="fn">__init__</span>(self):
-        self.tareas = []
-
-    <span class="kw">def</span> <span class="fn">agregar</span>(self, titulo):
-        self.tareas.append(Tarea(titulo))
-
-    <span class="kw">def</span> <span class="fn">listar</span>(self):
-        <span class="kw">for</span> i, t <span class="kw">in</span> <span class="fn">enumerate</span>(self.tareas, <span class="num">1</span>):
-            estado = <span class="str">"✅"</span> <span class="kw">if</span> t.completada <span class="kw">else</span> <span class="str">"⏳"</span>
-            <span class="fn">print</span>(<span class="str">f"{i}. {estado} {t.titulo}"</span>)
-
-    <span class="kw">def</span> <span class="fn">completar</span>(self, idx):
-        self.tareas[idx].completada = <span class="kw">True</span></div>
-<h3>Retos</h3>
-<ol>
-  <li>Guardar las tareas en un archivo JSON con <code>json.dump</code>.</li>
-  <li>Cargarlas al iniciar con <code>json.load</code>.</li>
-  <li>Manejar errores con try/except.</li>
-  <li>Escribir al menos 3 tests con pytest.</li>
-</ol>`
-    }
-  ],
-  questions:[
-    { q:"¿Qué módulo de Python sirve para guardar datos en formato JSON?", opts:["csv","json","pickle","yaml"], correct:1, explain:"El módulo json permite serializar y deserializar datos JSON." },
-    { q:"¿Qué estructura es ideal para guardar una lista de tareas con estado?", opts:["Una tupla","Una lista de diccionarios u objetos","Una variable suelta","Un set"], correct:1, explain:"Una lista de diccionarios u objetos es ideal para almacenar tareas con estado." },
-    { q:"¿Qué función de json convierte un objeto Python en texto JSON?", opts:["json.parse","json.dumps","json.read","json.encode"], correct:1, explain:"json.dumps() convierte un objeto Python en un string JSON." }
-  ]
-},
-{
-  id:10, title:"Introducción al Desarrollo Web", icon:"🌐", color:"#8b5cf6",
-  desc:"HTML, CSS y JavaScript básico",
-  lessons:[
-    { id:"10.1", title:"HTML, CSS y JavaScript",
-      body:`<h3>HTML: estructura</h3>
-<div class="code-block"><span class="kw">&lt;h1&gt;</span>Hola mundo<span class="kw">&lt;/h1&gt;</span>
-<span class="kw">&lt;p&gt;</span>Mi primer párrafo<span class="kw">&lt;/p&gt;</span>
-<span class="kw">&lt;button&gt;</span>Haz clic<span class="kw">&lt;/button&gt;</span></div>
-<h3>CSS: estilo</h3>
-<div class="code-block">h1 {
-  color: #38bdf8;
-  font-size: 2rem;
+    { id:"4.1", title:"Sintaxis CSS",
+      body:`<p><strong>CSS</strong> (<em>Cascading Style Sheets</em>) describe cómo se ve el HTML. Su sintaxis es siempre la misma:</p>
+<div class="code-block">selector {
+  propiedad: valor;
+  otra-propiedad: valor;
 }</div>
-<h3>JavaScript: interactividad</h3>
-<div class="code-block"><span class="fn">document</span>.querySelector(<span class="str">"button"</span>)
-  .addEventListener(<span class="str">"click"</span>, () =&gt; {
-    <span class="fn">alert</span>(<span class="str">"¡Hola desde JS!"</span>);
-  });</div>
-<p>Con estos tres lenguajes puedes construir páginas web completas: HTML estructura, CSS estiliza y JS da vida.</p>`
-    }
+<p>Ejemplo real:</p>
+<div class="code-block"><span class="fn">h1</span> {
+  <span class="kw">color</span>: <span class="str">#facc15</span>;
+  <span class="kw">font-size</span>: <span class="num">2rem</span>;
+}</div>
+<h3>Tres formas de aplicar CSS</h3>
+<ol>
+  <li><strong>Externo</strong> (recomendado): <code>&lt;link rel="stylesheet" href="estilos.css"&gt;</code></li>
+  <li><strong>Interno</strong>: <code>&lt;style&gt; ... &lt;/style&gt;</code> en el <code>&lt;head&gt;</code></li>
+  <li><strong>En línea</strong>: <code>style="color:red"</code> (evítalo salvo casos puntuales)</li>
+</ol>
+<h3>Cascada y especificidad</h3>
+<p>Si dos reglas afectan al mismo elemento, gana la más <strong>específica</strong>. Orden de prioridad:</p>
+<p><code>!important</code> &gt; estilo en línea &gt; <code>#id</code> &gt; <code>.clase</code> &gt; etiqueta</p>` },
+
+    { id:"4.2", title:"Selectores",
+      body:`<h3>Selectores básicos</h3>
+<table>
+<thead><tr><th>Selector</th><th>Ejemplo</th><th>Selecciona</th></tr></thead>
+<tbody>
+<tr><td>Etiqueta</td><td><code>p { }</code></td><td>Todos los &lt;p&gt;</td></tr>
+<tr><td>Clase</td><td><code>.destacado { }</code></td><td>Elementos con <code>class="destacado"</code></td></tr>
+<tr><td>ID</td><td><code>#cabecera { }</code></td><td>El elemento con <code>id="cabecera"</code></td></tr>
+<tr><td>Universal</td><td><code>* { }</code></td><td>Todos los elementos</td></tr>
+<tr><td>Descendiente</td><td><code>nav a { }</code></td><td>Enlaces dentro de nav</td></tr>
+<tr><td>Hijo directo</td><td><code>ul &gt; li { }</code></td><td>li hijos directos de ul</td></tr>
+<tr><td>Agrupado</td><td><code>h1, h2 { }</code></td><td>h1 y h2 a la vez</td></tr>
+</tbody></table>
+<h3>Pseudo-clases</h3>
+<div class="code-block"><span class="fn">a</span>:<span class="kw">hover</span> { <span class="kw">color</span>: <span class="str">#38bdf8</span>; }      <span class="com">/* al pasar el ratón */</span>
+<span class="fn">li</span>:<span class="kw">first-child</span> { <span class="kw">font-weight</span>: <span class="num">700</span>; }  <span class="com">/* primer hijo */</span>
+<span class="fn">input</span>:<span class="kw">focus</span> { <span class="kw">border-color</span>: <span class="str">#38bdf8</span>; }  <span class="com">/* al enfocar */</span></div>
+<p>💡 Usa <strong>clases</strong> para estilos reutilizables y <strong>ids</strong> solo para anclas o JavaScript.</p>` },
+
+    { id:"4.3", title:"Color, tipografía y unidades",
+      body:`<h3>Color</h3>
+<div class="code-block"><span class="kw">color</span>: <span class="str">red</span>;              <span class="com">/* nombre */</span>
+<span class="kw">color</span>: <span class="str">#38bdf8</span>;           <span class="com">/* hexadecimal */</span>
+<span class="kw">color</span>: <span class="fn">rgb</span>(<span class="num">56</span>, <span class="num">189</span>, <span class="num">248</span>);  <span class="com">/* rgb */</span>
+<span class="kw">color</span>: <span class="fn">rgba</span>(<span class="num">56</span>, <span class="num">189</span>, <span class="num">248</span>, <span class="num">0.5</span>); <span class="com">/* con transparencia */</span></div>
+<h3>Tipografía</h3>
+<div class="code-block"><span class="fn">body</span> {
+  <span class="kw">font-family</span>: <span class="str">'Segoe UI'</span>, sans-serif;
+  <span class="kw">font-size</span>: <span class="num">16px</span>;
+  <span class="kw">font-weight</span>: <span class="num">400</span>;
+  <span class="kw">line-height</span>: <span class="num">1.6</span>;
+  <span class="kw">text-align</span>: <span class="kw">center</span>;
+}</div>
+<h3>Unidades</h3>
+<table>
+<thead><tr><th>Unidad</th><th>Significado</th></tr></thead>
+<tbody>
+<tr><td><code>px</code></td><td>Píxeles (absoluta)</td></tr>
+<tr><td><code>%</code></td><td>Relativa al elemento padre</td></tr>
+<tr><td><code>rem</code></td><td>Relativa al font-size del <code>&lt;html&gt;</code></td></tr>
+<tr><td><code>em</code></td><td>Relativa al font-size del propio elemento</td></tr>
+<tr><td><code>vh</code> / <code>vw</code></td><td>1% de la altura / anchura de la ventana</td></tr>
+</tbody></table>
+<p>💡 Usa <code>rem</code> para tipografía: respeta la configuración de accesibilidad del usuario.</p>` }
   ],
   questions:[
-    { q:"¿Qué lenguaje define la estructura de una página web?", opts:["CSS","HTML","JavaScript","Python"], correct:1, explain:"HTML define la estructura (títulos, párrafos, botones...)." },
-    { q:"¿Qué lenguaje se usa para los estilos visuales?", opts:["HTML","CSS","JavaScript","SQL"], correct:1, explain:"CSS (Cascading Style Sheets) controla la apariencia visual." },
-    { q:"¿Qué lenguaje aporta interactividad en el navegador?", opts:["HTML","CSS","JavaScript","Java"], correct:2, explain:"JavaScript se ejecuta en el navegador y añade interactividad." },
-    { q:"¿Qué etiqueta HTML representa un título de máximo nivel?", opts:["<title>","<h1>","<header>","<p>"], correct:1, explain:"<h1> es el encabezado principal de la página." }
+    { q:"¿Cómo se selecciona un elemento con class=\"destacado\"?", opts:["#destacado","destacado","​.destacado",".destacado"], correct:3, explain:"El punto (.) delante del nombre selecciona por clase: .destacado" },
+    { q:"¿Qué selector tiene mayor especificidad?", opts:["Etiqueta (p)","Clase (.caja)","ID (#caja)","Universal (*)"], correct:2, explain:"El ID tiene mayor especificidad que la clase y que la etiqueta." },
+    { q:"¿Qué pseudo-clase aplica un estilo al pasar el ratón?", opts:[":focus",":active",":hover",":visited"], correct:2, explain:":hover se activa cuando el puntero está sobre el elemento." },
+    { q:"¿A qué es relativa la unidad rem?", opts:["Al elemento padre","Al font-size del elemento html","A la ventana","Al padding"], correct:1, explain:"1rem = font-size del elemento raíz <html> (normalmente 16px)." },
+    { q:"¿Cuál es la sintaxis correcta de una regla CSS?", opts:["selector(propiedad: valor)","selector { propiedad: valor; }","selector [propiedad=valor]","propiedad: valor -> selector"], correct:1, explain:"La forma correcta es: selector { propiedad: valor; }" }
+  ]
+},
+
+/* ---------------------------------------------------------- M5 */
+{
+  id:5, title:"Modelo de caja y layout", icon:"📐", color:"#06b6d4",
+  desc:"Box model, display, position, Flexbox y Grid",
+  lessons:[
+    { id:"5.1", title:"El modelo de caja",
+      body:`<p>Todo elemento HTML es una caja con cuatro capas, de dentro hacia fuera:</p>
+<div class="code-block">┌───────── margin ─────────┐
+│ ┌─────── border ───────┐ │
+│ │ ┌───── padding ────┐ │ │
+│ │ │   contenido      │ │ │
+│ │ └──────────────────┘ │ │
+│ └──────────────────────┘ │
+└──────────────────────────┘</div>
+<div class="code-block"><span class="fn">.caja</span> {
+  <span class="kw">width</span>: <span class="num">200px</span>;
+  <span class="kw">padding</span>: <span class="num">16px</span>;      <span class="com">/* espacio interior */</span>
+  <span class="kw">border</span>: <span class="num">2px</span> solid <span class="str">#38bdf8</span>;
+  <span class="kw">margin</span>: <span class="num">20px</span>;       <span class="com">/* espacio exterior */</span>
+  <span class="kw">box-sizing</span>: border-box; <span class="com">/* el width incluye padding y border */</span>
+}</div>
+<p>⚠️ Sin <code>box-sizing: border-box</code>, el ancho real = width + padding + border. Es la causa nº1 de layouts rotos.</p>
+<div class="code-block"><span class="com">/* Aplícalo siempre al inicio de tu CSS */</span>
+*, *::before, *::after { <span class="kw">box-sizing</span>: border-box; }</div>` },
+
+    { id:"5.2", title:"display y position",
+      body:`<h3>display</h3>
+<table>
+<thead><tr><th>Valor</th><th>Comportamiento</th></tr></thead>
+<tbody>
+<tr><td><code>block</code></td><td>Ocupa todo el ancho y salta de línea (div, p, h1)</td></tr>
+<tr><td><code>inline</code></td><td>Ocupa solo lo necesario, no admite width/height (span, a)</td></tr>
+<tr><td><code>inline-block</code></td><td>En línea pero admite width y height</td></tr>
+<tr><td><code>flex</code></td><td>Contenedor flexible (ver siguiente lección)</td></tr>
+<tr><td><code>grid</code></td><td>Contenedor de rejilla</td></tr>
+<tr><td><code>none</code></td><td>Oculta el elemento y libera su espacio</td></tr>
+</tbody></table>
+<h3>position</h3>
+<div class="code-block"><span class="kw">position</span>: <span class="kw">static</span>;    <span class="com">/* por defecto */</span>
+<span class="kw">position</span>: <span class="kw">relative</span>;  <span class="com">/* se desplaza respecto a su sitio original */</span>
+<span class="kw">position</span>: <span class="kw">absolute</span>;  <span class="com">/* respecto al ancestro posicionado más cercano */</span>
+<span class="kw">position</span>: <span class="kw">fixed</span>;     <span class="com">/* fijo respecto a la ventana */</span>
+<span class="kw">position</span>: <span class="kw">sticky</span>;    <span class="com">/* se pega al hacer scroll */</span></div>
+<p>Se combinan con <code>top</code>, <code>right</code>, <code>bottom</code> y <code>left</code>, y a menudo con <code>z-index</code>.</p>` },
+
+    { id:"5.3", title:"Flexbox",
+      body:`<p><strong>Flexbox</strong> distribuye elementos en una fila o columna. Se activa en el <em>contenedor</em>:</p>
+<div class="code-block"><span class="fn">.contenedor</span> {
+  <span class="kw">display</span>: flex;
+  <span class="kw">flex-direction</span>: row;      <span class="com">/* row | column */</span>
+  <span class="kw">justify-content</span>: center;  <span class="com">/* eje principal */</span>
+  <span class="kw">align-items</span>: center;      <span class="com">/* eje transversal */</span>
+  <span class="kw">gap</span>: <span class="num">16px</span>;
+  <span class="kw">flex-wrap</span>: wrap;
+}</div>
+<table>
+<thead><tr><th>Propiedad</th><th>Valores habituales</th></tr></thead>
+<tbody>
+<tr><td><code>justify-content</code></td><td>flex-start, center, space-between, space-around, space-evenly</td></tr>
+<tr><td><code>align-items</code></td><td>stretch, flex-start, center, flex-end</td></tr>
+<tr><td><code>flex-direction</code></td><td>row, row-reverse, column, column-reverse</td></tr>
+<tr><td><code>gap</code></td><td>Separación entre elementos</td></tr>
+</tbody></table>
+<p>💡 El truco clásico para centrar <strong>perfectamente</strong> un elemento:</p>
+<div class="code-block">display: flex; justify-content: center; align-items: center;</div>` },
+
+    { id:"5.4", title:"CSS Grid",
+      body:`<p><strong>Grid</strong> es un sistema de rejilla bidimensional (filas y columnas).</p>
+<div class="code-block"><span class="fn">.rejilla</span> {
+  <span class="kw">display</span>: grid;
+  <span class="kw">grid-template-columns</span>: <span class="fn">repeat</span>(<span class="num">3</span>, <span class="num">1fr</span>);
+  <span class="kw">gap</span>: <span class="num">16px</span>;
+}</div>
+<table>
+<thead><tr><th>Propiedad</th><th>Uso</th></tr></thead>
+<tbody>
+<tr><td><code>grid-template-columns</code></td><td>Define las columnas</td></tr>
+<tr><td><code>grid-template-rows</code></td><td>Define las filas</td></tr>
+<tr><td><code>repeat(3, 1fr)</code></td><td>Tres columnas iguales</td></tr>
+<tr><td><code>gap</code></td><td>Separación entre celdas</td></tr>
+<tr><td><code>grid-column: span 2</code></td><td>Un elemento ocupa 2 columnas</td></tr>
+</tbody></table>
+<p>💡 Rejilla responsive sin media queries:</p>
+<div class="code-block"><span class="kw">grid-template-columns</span>: <span class="fn">repeat</span>(<span class="kw">auto-fit</span>, <span class="fn">minmax</span>(<span class="num">240px</span>, <span class="num">1fr</span>));</div>
+<p><strong>Flexbox</strong> = una dimensión (fila <em>o</em> columna). <strong>Grid</strong> = dos dimensiones.</p>` }
+  ],
+  questions:[
+    { q:"¿Qué propiedad hace que el width incluya padding y border?", opts:["box-model","box-sizing: border-box","display: border","padding: 0"], correct:1, explain:"box-sizing: border-box incluye padding y border dentro del width." },
+    { q:"¿Qué propiedad centra elementos horizontalmente en un contenedor flex?", opts:["align-items","justify-content","text-align","flex-wrap"], correct:1, explain:"justify-content actúa sobre el eje principal (horizontal por defecto)." },
+    { q:"¿Qué valor de display oculta un elemento y libera su espacio?", opts:["hidden","invisible","none","block"], correct:2, explain:"display: none elimina el elemento del flujo del documento." },
+    { q:"¿Qué propiedad crea tres columnas iguales en Grid?", opts:["grid-template-columns: repeat(3, 1fr)","grid: 3fr","columns: 3","display: columns(3)"], correct:0, explain:"repeat(3, 1fr) crea 3 columnas de una fracción cada una." },
+    { q:"¿Qué posición fija un elemento respecto a la ventana al hacer scroll?", opts:["relative","absolute","fixed","static"], correct:2, explain:"position: fixed ancla el elemento a la ventana del navegador." }
+  ]
+},
+
+/* ---------------------------------------------------------- M6 */
+{
+  id:6, title:"CSS responsive, variables y animación", icon:"📱", color:"#ec4899",
+  desc:"Variables CSS, media queries y transiciones",
+  lessons:[
+    { id:"6.1", title:"Variables CSS (custom properties)",
+      body:`<p>Las variables CSS se declaran con dos guiones y se usan con <code>var()</code>. Cambian el mantenimiento de un sitio entero.</p>
+<div class="code-block"><span class="fn">:root</span> {
+  <span class="kw">--color-principal</span>: <span class="str">#38bdf8</span>;
+  <span class="kw">--color-texto</span>: <span class="str">#e8f0ff</span>;
+  <span class="kw">--radio</span>: <span class="num">12px</span>;
+}
+
+<span class="fn">.boton</span> {
+  <span class="kw">background</span>: <span class="fn">var</span>(--color-principal);
+  <span class="kw">border-radius</span>: <span class="fn">var</span>(--radio);
+  <span class="kw">color</span>: <span class="fn">var</span>(--color-texto);
+}</div>
+<p><code>:root</code> es el elemento <code>&lt;html&gt;</code>: declarar ahí las variables las hace globales.</p>
+<p>💡 También permiten <strong>temas</strong>: cambia el valor de una variable y toda la web se actualiza.</p>` },
+
+    { id:"6.2", title:"Media queries y diseño responsive",
+      body:`<p>Las <strong>media queries</strong> aplican CSS solo cuando se cumple una condición (ancho de pantalla, orientación, etc.).</p>
+<div class="code-block"><span class="com">/* Mobile first: primero el móvil, luego ampliamos */</span>
+<span class="fn">.rejilla</span> { <span class="kw">display</span>: grid; <span class="kw">grid-template-columns</span>: <span class="num">1fr</span>; }
+
+<span class="kw">@media</span> (min-width: <span class="num">640px</span>) {
+  <span class="fn">.rejilla</span> { <span class="kw">grid-template-columns</span>: <span class="fn">repeat</span>(<span class="num">2</span>, <span class="num">1fr</span>); }
+}
+
+<span class="kw">@media</span> (min-width: <span class="num">1024px</span>) {
+  <span class="fn">.rejilla</span> { <span class="kw">grid-template-columns</span>: <span class="fn">repeat</span>(<span class="num">4</span>, <span class="num">1fr</span>); }
+}</div>
+<table>
+<thead><tr><th>Concepto</th><th>Significado</th></tr></thead>
+<tbody>
+<tr><td><code>@media</code></td><td>Regla condicional</td></tr>
+<tr><td><code>min-width</code></td><td>Se aplica a partir de ese ancho (mobile first)</td></tr>
+<tr><td><code>max-width</code></td><td>Se aplica hasta ese ancho (desktop first)</td></tr>
+<tr><td><code>viewport</code></td><td>Metaetiqueta obligatoria en el &lt;head&gt;</td></tr>
+</tbody></table>
+<p>⚠️ Sin <code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code> las media queries no funcionan bien en móvil.</p>` },
+
+    { id:"6.3", title:"Transiciones y animaciones",
+      body:`<h3>Transiciones</h3>
+<p>Suavizan el cambio entre dos estados (normalmente con <code>:hover</code>).</p>
+<div class="code-block"><span class="fn">.boton</span> {
+  <span class="kw">background</span>: <span class="str">#0284c7</span>;
+  <span class="kw">transition</span>: background <span class="num">0.3s</span> ease, transform <span class="num">0.3s</span> ease;
+}
+<span class="fn">.boton</span>:<span class="kw">hover</span> {
+  <span class="kw">background</span>: <span class="str">#38bdf8</span>;
+  <span class="kw">transform</span>: <span class="fn">translateY</span>(-<span class="num">2px</span>);
+}</div>
+<h3>Animaciones con @keyframes</h3>
+<div class="code-block"><span class="kw">@keyframes</span> girar {
+  <span class="kw">from</span> { <span class="kw">transform</span>: <span class="fn">rotate</span>(<span class="num">0deg</span>); }
+  <span class="kw">to</span>   { <span class="kw">transform</span>: <span class="fn">rotate</span>(<span class="num">360deg</span>); }
+}
+<span class="fn">.spinner</span> { <span class="kw">animation</span>: girar <span class="num">1s</span> linear infinite; }</div>
+<table>
+<thead><tr><th>Propiedad</th><th>Uso</th></tr></thead>
+<tbody>
+<tr><td><code>transition</code></td><td>Interpola entre dos estados</td></tr>
+<tr><td><code>transform</code></td><td>translate, rotate, scale</td></tr>
+<tr><td><code>animation</code></td><td>Aplica un <code>@keyframes</code></td></tr>
+<tr><td><code>opacity</code></td><td>Transparencia (0 a 1)</td></tr>
+</tbody></table>` }
+  ],
+  questions:[
+    { q:"¿Cómo se declara una variable CSS?", opts:["$color: red;","--color: red;","var color = red;","@color: red;"], correct:1, explain:"Se declaran con dos guiones: --nombre: valor;" },
+    { q:"¿Con qué función se usa una variable CSS?", opts:["value(--x)","var(--x)","get(--x)","$x"], correct:1, explain:"Se usa con var(--nombre-de-la-variable)." },
+    { q:"¿Qué regla aplica estilos según el ancho de pantalla?", opts:["@import","@media","@screen","@query"], correct:1, explain:"@media permite aplicar CSS condicionalmente según el dispositivo." },
+    { q:"¿Qué enfoque empieza diseñando para móvil y amplía después?", opts:["Desktop first","Mobile first","Tablet first","Print first"], correct:1, explain:"Mobile first usa min-width para ir ampliando el diseño." },
+    { q:"¿Qué propiedad suaviza el cambio entre dos estados?", opts:["animation","transform","transition","filter"], correct:2, explain:"transition interpola los valores entre el estado inicial y el :hover." }
+  ]
+},
+
+/* ---------------------------------------------------------- M7 */
+{
+  id:7, title:"JavaScript: fundamentos", icon:"⚡", color:"#facc15",
+  desc:"Variables, tipos de datos, operadores y condicionales",
+  lessons:[
+    { id:"7.1", title:"¿Qué es JavaScript?",
+      body:`<p><strong>JavaScript</strong> es el lenguaje de programación del navegador. Añade interactividad: reacciona a clics, valida formularios, pide datos, cambia el DOM.</p>
+<h3>Cómo incluirlo</h3>
+<div class="code-block"><span class="com">&lt;!-- Al final del body (recomendado) --&gt;</span>
+&lt;script src="app.js"&gt;&lt;/script&gt;</div>
+<h3>Tu primer comando</h3>
+<div class="code-block"><span class="fn">console</span>.log(<span class="str">"¡Hola, JavaScript!"</span>);</div>
+<p><code>console.log()</code> imprime en la consola del navegador (F12 → Console). Es tu herramienta nº1 para depurar.</p>
+<table>
+<thead><tr><th>Término</th><th>Significado</th></tr></thead>
+<tbody>
+<tr><td><code>console.log()</code></td><td>Imprime un valor en la consola</td></tr>
+<tr><td><code>algoritmo</code></td><td>Secuencia finita de pasos para resolver algo</td></tr>
+<tr><td><code>sintaxis</code></td><td>Reglas gramaticales del lenguaje</td></tr>
+<tr><td><code>bug</code></td><td>Error en el código</td></tr>
+</tbody></table>` },
+
+    { id:"7.2", title:"Variables y tipos de datos",
+      body:`<p>Una <strong>variable</strong> es un espacio con nombre donde guardas un valor.</p>
+<div class="code-block"><span class="kw">let</span> edad = <span class="num">25</span>;          <span class="com">// puede cambiar</span>
+<span class="kw">const</span> nombre = <span class="str">"Ana"</span>;   <span class="com">// NO puede reasignarse</span>
+<span class="kw">var</span> antiguo = <span class="kw">true</span>;      <span class="com">// forma antigua, evítala</span></div>
+<p>Usa <code>const</code> por defecto y <code>let</code> solo cuando el valor deba cambiar. <code>var</code> está en desuso.</p>
+<h3>Tipos de datos</h3>
+<table>
+<thead><tr><th>Tipo</th><th>Ejemplo</th></tr></thead>
+<tbody>
+<tr><td><code>string</code></td><td>"Hola" · 'Hola' · \`Hola\`</td></tr>
+<tr><td><code>number</code></td><td>42 · 3.14 · -7</td></tr>
+<tr><td><code>boolean</code></td><td>true · false</td></tr>
+<tr><td><code>undefined</code></td><td>Declarada sin valor</td></tr>
+<tr><td><code>null</code></td><td>Vacío intencionalmente</td></tr>
+<tr><td><code>object</code></td><td>{ nombre: "Ana" } · [1, 2, 3]</td></tr>
+</tbody></table>
+<h3>Template literals</h3>
+<p>Con comillas invertidas puedes insertar variables con \${ }:</p>
+<div class="code-block"><span class="kw">const</span> nombre = <span class="str">"Ana"</span>;
+<span class="fn">console</span>.log(<span class="str">\`Hola, \${nombre}!\`</span>);  <span class="com">// Hola, Ana!</span></div>
+<p>Comprueba el tipo con <code>typeof</code>:</p>
+<div class="code-block"><span class="fn">typeof</span> <span class="str">"hola"</span>   <span class="com">// "string"</span>
+<span class="fn">typeof</span> <span class="num">42</span>       <span class="com">// "number"</span></div>` },
+
+    { id:"7.3", title:"Operadores y condicionales",
+      body:`<h3>Operadores aritméticos</h3>
+<div class="code-block"><span class="num">10</span> + <span class="num">3</span>   <span class="com">// 13</span>
+<span class="num">10</span> - <span class="num">3</span>   <span class="com">// 7</span>
+<span class="num">10</span> * <span class="num">3</span>   <span class="com">// 30</span>
+<span class="num">10</span> / <span class="num">3</span>   <span class="com">// 3.333...</span>
+<span class="num">10</span> % <span class="num">3</span>   <span class="com">// 1  (resto)</span>
+<span class="num">2</span> ** <span class="num">3</span>   <span class="com">// 8  (potencia)</span></div>
+<h3>Comparación</h3>
+<div class="code-block"><span class="num">5</span> == <span class="str">"5"</span>   <span class="com">// true  (compara valor, MALO)</span>
+<span class="num">5</span> === <span class="str">"5"</span>  <span class="com">// false (compara valor y tipo, BUENO)</span>
+<span class="num">5</span> !== <span class="num">3</span>    <span class="com">// true</span>
+<span class="num">5</span> &gt; <span class="num">3</span>      <span class="com">// true</span></div>
+<p>⚠️ Usa siempre <strong>===</strong> y <strong>!==</strong> (igualdad estricta).</p>
+<h3>Condicionales</h3>
+<div class="code-block"><span class="kw">const</span> nota = <span class="num">7</span>;
+
+<span class="kw">if</span> (nota &gt;= <span class="num">9</span>) {
+  <span class="fn">console</span>.log(<span class="str">"Sobresaliente"</span>);
+} <span class="kw">else if</span> (nota &gt;= <span class="num">5</span>) {
+  <span class="fn">console</span>.log(<span class="str">"Aprobado"</span>);
+} <span class="kw">else</span> {
+  <span class="fn">console</span>.log(<span class="str">"Suspenso"</span>);
+}</div>
+<p>Operadores lógicos: <code>&amp;&amp;</code> (and), <code>||</code> (or), <code>!</code> (not).</p>` }
+  ],
+  questions:[
+    { q:"¿Qué palabra clave declara una constante en JavaScript?", opts:["let","var","const","static"], correct:2, explain:"const declara una constante: no se puede reasignar." },
+    { q:"¿Qué método imprime un valor en la consola?", opts:["print()","console.log()","echo()","log.console()"], correct:1, explain:"console.log() es el método estándar para imprimir en la consola." },
+    { q:"¿Cuál es la diferencia entre == y ===?", opts:["Ninguna","=== compara valor y tipo; == solo valor","== es más moderno","=== solo sirve para números"], correct:1, explain:"=== es igualdad estricta: compara valor y tipo de dato." },
+    { q:"¿Qué devuelve typeof 42?", opts:["\"int\"","\"number\"","\"integer\"","\"float\""], correct:1, explain:"En JavaScript todos los números son de tipo number." },
+    { q:"¿Qué operador devuelve el resto de una división?", opts:["/","//","%","**"], correct:2, explain:"El operador módulo (%) devuelve el resto de la división." }
+  ]
+},
+
+/* ---------------------------------------------------------- M8 */
+{
+  id:8, title:"Funciones, arrays y objetos", icon:"🧩", color:"#10b981",
+  desc:"Funciones, métodos de arrays, objetos y bucles",
+  lessons:[
+    { id:"8.1", title:"Funciones",
+      body:`<p>Una <strong>función</strong> agrupa código reutilizable. Recibe parámetros y devuelve un valor con <code>return</code>.</p>
+<div class="code-block"><span class="kw">function</span> <span class="fn">saludar</span>(nombre) {
+  <span class="kw">return</span> <span class="str">"Hola, "</span> + nombre;
+}
+<span class="fn">console</span>.log(<span class="fn">saludar</span>(<span class="str">"Ana"</span>));  <span class="com">// Hola, Ana</span></div>
+<h3>Funciones flecha (arrow functions)</h3>
+<div class="code-block"><span class="kw">const</span> <span class="fn">saludar</span> = (nombre) => <span class="str">"Hola, "</span> + nombre;
+
+<span class="kw">const</span> <span class="fn">sumar</span> = (a, b) => a + b;
+<span class="fn">sumar</span>(<span class="num">2</span>, <span class="num">3</span>);  <span class="com">// 5</span></div>
+<table>
+<thead><tr><th>Concepto</th><th>Significado</th></tr></thead>
+<tbody>
+<tr><td><code>function</code></td><td>Palabra clave para declarar funciones</td></tr>
+<tr><td><code>parámetro</code></td><td>Variable que recibe la función</td></tr>
+<tr><td><code>argumento</code></td><td>Valor real que se pasa al llamarla</td></tr>
+<tr><td><code>return</code></td><td>Devuelve el resultado y termina la función</td></tr>
+<tr><td><code>=&gt;</code></td><td>Sintaxis de función flecha</td></tr>
+</tbody></table>` },
+
+    { id:"8.2", title:"Arrays y sus métodos",
+      body:`<p>Un <strong>array</strong> es una lista ordenada de valores.</p>
+<div class="code-block"><span class="kw">const</span> frutas = [<span class="str">"manzana"</span>, <span class="str">"pera"</span>, <span class="str">"uva"</span>];
+
+frutas[<span class="num">0</span>];        <span class="com">// "manzana"</span>
+frutas.length;      <span class="com">// 3</span>
+frutas.push(<span class="str">"kiwi"</span>); <span class="com">// añade al final</span>
+frutas.pop();       <span class="com">// quita el último</span></div>
+<h3>Métodos imprescindibles</h3>
+<table>
+<thead><tr><th>Método</th><th>Qué hace</th></tr></thead>
+<tbody>
+<tr><td><code>push(x)</code></td><td>Añade al final</td></tr>
+<tr><td><code>pop()</code></td><td>Elimina el último</td></tr>
+<tr><td><code>forEach(fn)</code></td><td>Recorre cada elemento</td></tr>
+<tr><td><code>map(fn)</code></td><td>Devuelve un array transformado</td></tr>
+<tr><td><code>filter(fn)</code></td><td>Devuelve los que cumplen una condición</td></tr>
+<tr><td><code>find(fn)</code></td><td>Devuelve el primer elemento que cumple</td></tr>
+<tr><td><code>join(", ")</code></td><td>Une los elementos en un string</td></tr>
+</tbody></table>
+<div class="code-block"><span class="kw">const</span> numeros = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>];
+
+<span class="kw">const</span> dobles = numeros.<span class="fn">map</span>(n => n * <span class="num">2</span>);       <span class="com">// [2,4,6,8]</span>
+<span class="kw">const</span> pares  = numeros.<span class="fn">filter</span>(n => n % <span class="num">2</span> === <span class="num">0</span>); <span class="com">// [2,4]</span></div>` },
+
+    { id:"8.3", title:"Objetos",
+      body:`<p>Un <strong>objeto</strong> agrupa datos en pares <strong>clave: valor</strong>.</p>
+<div class="code-block"><span class="kw">const</span> persona = {
+  nombre: <span class="str">"Ana"</span>,
+  edad: <span class="num">25</span>,
+  <span class="fn">saludar</span>() {
+    <span class="kw">return</span> <span class="str">"Hola, soy "</span> + <span class="kw">this</span>.nombre;
+  }
+};
+
+persona.nombre;        <span class="com">// "Ana"</span>
+persona[<span class="str">"edad"</span>];        <span class="com">// 25</span>
+persona.<span class="fn">saludar</span>();       <span class="com">// "Hola, soy Ana"</span>
+persona.ciudad = <span class="str">"Madrid"</span>; <span class="com">// añadir propiedad</span></div>
+<h3>Recorrer un objeto</h3>
+<div class="code-block"><span class="kw">for</span> (<span class="kw">const</span> clave <span class="kw">in</span> persona) {
+  <span class="fn">console</span>.log(clave, persona[clave]);
+}</div>
+<p><code>this</code> dentro de un método hace referencia al propio objeto.</p>` },
+
+    { id:"8.4", title:"Bucles",
+      body:`<h3>for clásico</h3>
+<div class="code-block"><span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i &lt; <span class="num">5</span>; i++) {
+  <span class="fn">console</span>.log(i);  <span class="com">// 0 1 2 3 4</span>
+}</div>
+<h3>for...of (arrays)</h3>
+<div class="code-block"><span class="kw">const</span> frutas = [<span class="str">"pera"</span>, <span class="str">"uva"</span>];
+<span class="kw">for</span> (<span class="kw">const</span> fruta <span class="kw">of</span> frutas) {
+  <span class="fn">console</span>.log(fruta);
+}</div>
+<h3>while</h3>
+<div class="code-block"><span class="kw">let</span> n = <span class="num">0</span>;
+<span class="kw">while</span> (n &lt; <span class="num">3</span>) {
+  <span class="fn">console</span>.log(n);
+  n++;
+}</div>
+<table>
+<thead><tr><th>Bucle</th><th>Cuándo usarlo</th></tr></thead>
+<tbody>
+<tr><td><code>for</code></td><td>Número de repeticiones conocido</td></tr>
+<tr><td><code>for...of</code></td><td>Recorrer arrays</td></tr>
+<tr><td><code>for...in</code></td><td>Recorrer claves de un objeto</td></tr>
+<tr><td><code>while</code></td><td>Mientras se cumpla una condición</td></tr>
+<tr><td><code>break</code> / <code>continue</code></td><td>Salir del bucle / saltar a la siguiente iteración</td></tr>
+</tbody></table>
+<p>⚠️ Si la condición del <code>while</code> nunca se vuelve falsa, tendrás un <strong>bucle infinito</strong>.</p>` }
+  ],
+  questions:[
+    { q:"¿Qué palabra clave devuelve un valor desde una función?", opts:["print","return","yield","back"], correct:1, explain:"return devuelve el resultado y termina la ejecución de la función." },
+    { q:"¿Qué método de array añade un elemento al final?", opts:["push()","pop()","shift()","add()"], correct:0, explain:"push() añade elementos al final del array." },
+    { q:"¿Qué método devuelve un array con los elementos transformados?", opts:["forEach()","filter()","map()","find()"], correct:2, explain:"map() aplica una función a cada elemento y devuelve un nuevo array." },
+    { q:"¿Cómo se accede a la propiedad 'nombre' de un objeto persona?", opts:["persona->nombre","persona.nombre","persona(nombre)","nombre.persona"], correct:1, explain:"Se accede con la notación de punto: persona.nombre" },
+    { q:"¿Qué bucle es ideal para recorrer un array?", opts:["for...in","for...of","while","do...while"], correct:1, explain:"for...of recorre los valores de un iterable como un array." }
+  ]
+},
+
+/* ---------------------------------------------------------- M9 */
+{
+  id:9, title:"DOM y eventos", icon:"🖱️", color:"#8b5cf6",
+  desc:"Seleccionar, modificar y escuchar el DOM",
+  lessons:[
+    { id:"9.1", title:"Seleccionar y modificar el DOM",
+      body:`<p>El <strong>DOM</strong> es el árbol de nodos que representa el HTML. JavaScript puede leerlo y modificarlo.</p>
+<h3>Seleccionar elementos</h3>
+<div class="code-block"><span class="fn">document</span>.<span class="fn">getElementById</span>(<span class="str">"titulo"</span>);
+<span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">".caja"</span>);      <span class="com">// primer coincidencia</span>
+<span class="fn">document</span>.<span class="fn">querySelectorAll</span>(<span class="str">"li"</span>);    <span class="com">// todos (NodeList)</span></div>
+<h3>Modificar contenido</h3>
+<div class="code-block"><span class="kw">const</span> titulo = <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">"h1"</span>);
+
+titulo.textContent = <span class="str">"Nuevo título"</span>;      <span class="com">// solo texto (seguro)</span>
+titulo.innerHTML = <span class="str">"&lt;em&gt;Hola&lt;/em&gt;"</span>;    <span class="com">// interpreta HTML (¡cuidado!)</span>
+titulo.style.color = <span class="str">"#facc15"</span>;         <span class="com">// estilo en línea</span>
+titulo.classList.<span class="fn">add</span>(<span class="str">"activo"</span>);           <span class="com">// añade una clase</span>
+titulo.classList.<span class="fn">toggle</span>(<span class="str">"activo"</span>);        <span class="com">// añade/quita</span></div>
+<table>
+<thead><tr><th>Método / propiedad</th><th>Uso</th></tr></thead>
+<tbody>
+<tr><td><code>querySelector()</code></td><td>Selecciona el primer elemento que coincide con el selector CSS</td></tr>
+<tr><td><code>textContent</code></td><td>Texto plano del elemento</td></tr>
+<tr><td><code>innerHTML</code></td><td>Contenido HTML interior</td></tr>
+<tr><td><code>classList</code></td><td>Añadir, quitar o alternar clases</td></tr>
+<tr><td><code>style</code></td><td>Estilos en línea</td></tr>
+</tbody></table>` },
+
+    { id:"9.2", title:"Eventos",
+      body:`<p>Un <strong>evento</strong> es algo que ocurre: un clic, una tecla, el envío de un formulario.</p>
+<div class="code-block"><span class="kw">const</span> boton = <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">"#miBoton"</span>);
+
+boton.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => {
+  <span class="fn">alert</span>(<span class="str">"¡Me has pulsado!"</span>);
+});</div>
+<h3>Eventos habituales</h3>
+<table>
+<thead><tr><th>Evento</th><th>Se dispara cuando…</th></tr></thead>
+<tbody>
+<tr><td><code>click</code></td><td>Se hace clic</td></tr>
+<tr><td><code>input</code></td><td>El usuario escribe en un campo</td></tr>
+<tr><td><code>submit</code></td><td>Se envía un formulario</td></tr>
+<tr><td><code>keydown</code></td><td>Se pulsa una tecla</td></tr>
+<tr><td><code>DOMContentLoaded</code></td><td>El HTML ha terminado de cargarse</td></tr>
+</tbody></table>
+<h3>El objeto event</h3>
+<div class="code-block"><span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">"form"</span>).<span class="fn">addEventListener</span>(<span class="str">"submit"</span>, (e) => {
+  e.<span class="fn">preventDefault</span>();  <span class="com">// evita que la página se recargue</span>
+  <span class="fn">console</span>.log(<span class="str">"Formulario capturado"</span>);
+});</div>
+<p>💡 Escucha siempre con <code>addEventListener</code>, no con atributos <code>onclick=""</code> en el HTML: separa estructura y comportamiento.</p>` },
+
+    { id:"9.3", title:"Crear y eliminar elementos",
+      body:`<div class="code-block"><span class="kw">const</span> lista = <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">"#lista"</span>);
+
+<span class="kw">const</span> li = <span class="fn">document</span>.<span class="fn">createElement</span>(<span class="str">"li"</span>);
+li.textContent = <span class="str">"Nueva tarea"</span>;
+
+lista.<span class="fn">appendChild</span>(li);   <span class="com">// lo añade al final</span>
+li.<span class="fn">remove</span>();               <span class="com">// lo elimina</span></div>
+<table>
+<thead><tr><th>Método</th><th>Uso</th></tr></thead>
+<tbody>
+<tr><td><code>createElement(tag)</code></td><td>Crea un elemento nuevo</td></tr>
+<tr><td><code>appendChild(el)</code></td><td>Inserta un hijo al final</td></tr>
+<tr><td><code>prepend(el)</code></td><td>Inserta al principio</td></tr>
+<tr><td><code>remove()</code></td><td>Elimina el elemento</td></tr>
+<tr><td><code>setAttribute()</code></td><td>Añade o cambia un atributo</td></tr>
+</tbody></table>
+<h3>Patrón completo</h3>
+<div class="code-block"><span class="kw">function</span> <span class="fn">agregarTarea</span>(texto) {
+  <span class="kw">const</span> li = <span class="fn">document</span>.<span class="fn">createElement</span>(<span class="str">"li"</span>);
+  li.textContent = texto;
+
+  <span class="kw">const</span> btn = <span class="fn">document</span>.<span class="fn">createElement</span>(<span class="str">"button"</span>);
+  btn.textContent = <span class="str">"✕"</span>;
+  btn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => li.<span class="fn">remove</span>());
+
+  li.<span class="fn">appendChild</span>(btn);
+  <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">"#lista"</span>).<span class="fn">appendChild</span>(li);
+}</div>` }
+  ],
+  questions:[
+    { q:"¿Qué método selecciona el primer elemento que coincide con un selector CSS?", opts:["getElementById","querySelector","querySelectorAll","getElement"], correct:1, explain:"querySelector acepta cualquier selector CSS y devuelve el primero." },
+    { q:"¿Qué propiedad cambia solo el texto de un elemento?", opts:["innerHTML","textContent","value","outerHTML"], correct:1, explain:"textContent cambia el texto sin interpretar HTML." },
+    { q:"¿Qué método registra un escuchador de eventos?", opts:["on()","addEventListener()","attach()","listen()"], correct:1, explain:"addEventListener(tipo, función) registra un manejador de eventos." },
+    { q:"¿Qué hace event.preventDefault()?", opts:["Recarga la página","Evita el comportamiento por defecto del evento","Elimina el elemento","Detiene todos los scripts"], correct:1, explain:"preventDefault cancela la acción por defecto, como el envío de un formulario." },
+    { q:"¿Qué método crea un nuevo elemento HTML desde JavaScript?", opts:["document.new()","document.createElement()","document.make()","element.create()"], correct:1, explain:"document.createElement('div') crea un elemento nuevo." }
+  ]
+},
+
+/* ---------------------------------------------------------- M10 */
+{
+  id:10, title:"Proyecto integrador", icon:"🚀", color:"#ef4444",
+  desc:"Construye una mini app con HTML, CSS y JavaScript",
+  lessons:[
+    { id:"10.1", title:"Proyecto: lista de tareas",
+      body:`<p>Vamos a integrar todo lo aprendido en una <strong>lista de tareas</strong>. Repasa la estructura:</p>
+<h3>1. HTML (estructura)</h3>
+<div class="code-block">&lt;h1&gt;Mis tareas&lt;/h1&gt;
+&lt;form id="formTarea"&gt;
+  &lt;input type="text" id="inputTarea" placeholder="Nueva tarea" required&gt;
+  &lt;button type="submit"&gt;Añadir&lt;/button&gt;
+&lt;/form&gt;
+&lt;ul id="lista"&gt;&lt;/ul&gt;</div>
+<h3>2. CSS (estilo)</h3>
+<div class="code-block"><span class="fn">:root</span> { <span class="kw">--principal</span>: <span class="str">#38bdf8</span>; }
+<span class="fn">body</span> { <span class="kw">font-family</span>: system-ui, sans-serif; <span class="kw">padding</span>: <span class="num">24px</span>; }
+<span class="fn">ul</span> { <span class="kw">list-style</span>: none; <span class="kw">padding</span>: <span class="num">0</span>; }
+<span class="fn">li</span> { <span class="kw">display</span>: flex; <span class="kw">justify-content</span>: space-between;
+     <span class="kw">padding</span>: <span class="num">10px</span>; <span class="kw">border-bottom</span>: <span class="num">1px</span> solid <span class="str">#ddd</span>; }
+<span class="fn">button</span> { <span class="kw">background</span>: <span class="fn">var</span>(--principal); <span class="kw">border</span>: none;
+        <span class="kw">padding</span>: <span class="num">8px 16px</span>; <span class="kw">border-radius</span>: <span class="num">8px</span>; <span class="kw">cursor</span>: pointer; }</div>
+<h3>3. JavaScript (comportamiento)</h3>
+<div class="code-block"><span class="kw">const</span> form = <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">"#formTarea"</span>);
+<span class="kw">const</span> input = <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">"#inputTarea"</span>);
+<span class="kw">const</span> lista = <span class="fn">document</span>.<span class="fn">querySelector</span>(<span class="str">"#lista"</span>);
+
+form.<span class="fn">addEventListener</span>(<span class="str">"submit"</span>, (e) => {
+  e.<span class="fn">preventDefault</span>();
+  <span class="kw">if</span> (input.value.trim() === <span class="str">""</span>) <span class="kw">return</span>;
+
+  <span class="kw">const</span> li = <span class="fn">document</span>.<span class="fn">createElement</span>(<span class="str">"li"</span>);
+  li.textContent = input.value;
+
+  <span class="kw">const</span> btn = <span class="fn">document</span>.<span class="fn">createElement</span>(<span class="str">"button"</span>);
+  btn.textContent = <span class="str">"✕"</span>;
+  btn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () => li.<span class="fn">remove</span>());
+
+  li.<span class="fn">appendChild</span>(btn);
+  lista.<span class="fn">appendChild</span>(li);
+  input.value = <span class="str">""</span>;
+});</div>
+<p>👉 Abre el <strong>Editor de código</strong> del panel principal y escríbelo tú mismo. Practicar es lo único que fija los términos.</p>` },
+
+    { id:"10.2", title:"Buenas prácticas y siguientes pasos",
+      body:`<h3>Buenas prácticas</h3>
+<ul>
+  <li>Separa <strong>HTML</strong> (estructura), <strong>CSS</strong> (estilo) y <strong>JS</strong> (comportamiento) en archivos distintos.</li>
+  <li>Nombra en <code>kebab-case</code> las clases CSS: <code>.tarjeta-producto</code>.</li>
+  <li>Usa <code>const</code> por defecto y <code>let</code> solo si el valor cambia.</li>
+  <li>Indenta siempre con 2 espacios y comenta lo complejo.</li>
+  <li>Valida tu HTML y prueba en varios navegadores.</li>
+</ul>
+<h3>Siguientes pasos</h3>
+<table>
+<thead><tr><th>Tema</th><th>Para qué</th></tr></thead>
+<tbody>
+<tr><td>Git y GitHub</td><td>Versionar tu código y publicarlo</td></tr>
+<tr><td>Responsive avanzado</td><td>Diseño adaptado a cualquier pantalla</td></tr>
+<tr><td>Fetch / APIs</td><td>Traer datos de un servidor</td></tr>
+<tr><td>React / Vue</td><td>Interfaces modernas por componentes</td></tr>
+<tr><td>Node.js</td><td>JavaScript en el servidor</td></tr>
+</tbody></table>
+<p>🎓 Completa todos los módulos para desbloquear tu certificado.</p>` }
+  ],
+  questions:[
+    { q:"¿Qué método evita que un formulario recargue la página?", opts:["event.stop()","event.preventDefault()","event.cancel()","event.returnFalse()"], correct:1, explain:"preventDefault() cancela el envío por defecto del formulario." },
+    { q:"¿Qué propiedad se usa para leer lo que el usuario escribió en un input?", opts:["textContent","innerHTML","value","innerText"], correct:2, explain:"Los campos de formulario guardan su contenido en la propiedad value." },
+    { q:"¿Cómo se crea un elemento nuevo en el DOM?", opts:["document.createElement()","document.newElement()","document.append()","new Element()"], correct:0, explain:"document.createElement('li') crea un nuevo elemento." },
+    { q:"¿Qué convención de nombres es habitual para clases CSS?", opts:["camelCase","PascalCase","kebab-case","SCREAMING_CASE"], correct:2, explain:"En CSS se usa kebab-case: .tarjeta-producto" }
   ]
 }
+];
+
+/* =========================================================
+   RETOS PRÁCTICOS DEL EDITOR
+   ========================================================= */
+const CHALLENGES = [
+{
+  id:"r1", moduleId:1, title:"Hola, mundo en HTML",
+  desc:"Crea un documento con un <title>, un <h1> que diga 'Hola, mundo' y un <p> con cualquier texto.",
+  hint:"Recuerda: <title> va en el <head> y el <h1> y el <p> en el <body>.",
+  starter:{
+    html:'<h1>Hola, mundo</h1>\n<p>Mi primera página web.</p>',
+    css:'body {\n  font-family: system-ui, sans-serif;\n  padding: 24px;\n}',
+    js:'console.log("¡Hola desde JavaScript!");'
+  },
+  checks:[
+    { label:"El HTML contiene una etiqueta <title>", test:c=>/<title[\s>]/i.test(c.html) },
+    { label:"Hay un <h1> que contiene 'Hola, mundo'", test:c=>/<h1[^>]*>[^<]*hola[^<]*<\/h1>/i.test(c.html) },
+    { label:"Hay al menos un párrafo <p>", test:c=>/<p[^>]*>/i.test(c.html) }
+  ]
+},
+{
+  id:"r2", moduleId:2, title:"Enlaces, imágenes y listas",
+  desc:"Añade un enlace con href, una imagen con src y alt, y una lista desordenada con al menos dos <li>.",
+  hint:"<a href=\"...\">texto</a> · <img src=\"...\" alt=\"...\"> · <ul><li>...</li></ul>",
+  starter:{
+    html:'<h1>Mi página</h1>\n\n<!-- Añade aquí el enlace, la imagen y la lista -->\n',
+    css:'body { font-family: system-ui, sans-serif; padding: 24px; }\nimg { max-width: 200px; border-radius: 8px; }',
+    js:''
+  },
+  checks:[
+    { label:"Hay un enlace <a> con atributo href", test:c=>/<a[^>]+href\s*=/i.test(c.html) },
+    { label:"Hay una imagen <img> con src y alt", test:c=>/<img[^>]+src\s*=[^>]*alt\s*=|img[^>]+alt\s*=[^>]*src\s*=/i.test(c.html) },
+    { label:"Hay una lista <ul> con al menos dos <li>", test:c=>/<ul[\s>]/i.test(c.html) && (c.html.match(/<li[\s>]/gi)||[]).length>=2 }
+  ]
+},
+{
+  id:"r3", moduleId:3, title:"Formulario de contacto",
+  desc:"Crea un <form> con un <label>, un <input type=\"email\"> y un <button> de envío.",
+  hint:"El atributo for del label debe coincidir con el id del input.",
+  starter:{
+    html:'<h1>Contacto</h1>\n<form>\n  <!-- label + input email + button -->\n</form>',
+    css:'body { font-family: system-ui, sans-serif; padding: 24px; }\nform { display: grid; gap: 10px; max-width: 320px; }\ninput, button { padding: 10px; border-radius: 8px; border: 1px solid #ccc; }',
+    js:''
+  },
+  checks:[
+    { label:"Existe una etiqueta <form>", test:c=>/<form[\s>]/i.test(c.html) },
+    { label:"Existe una etiqueta <label>", test:c=>/<label[\s>]/i.test(c.html) },
+    { label:"Existe un <input type=\"email\">", test:c=>/type\s*=\s*["']email["']/i.test(c.html) },
+    { label:"Existe un <button>", test:c=>/<button[\s>]/i.test(c.html) }
+  ]
+},
+{
+  id:"r4", moduleId:4, title:"Estiliza con una clase",
+  desc:"Crea un elemento con class=\"destacado\" y en CSS define el selector .destacado con una propiedad color.",
+  hint:"En CSS la clase se selecciona con punto: .destacado { color: #facc15; }",
+  starter:{
+    html:'<h1 class="destacado">Título destacado</h1>\n<p class="destacado">Este párrafo también está destacado.</p>',
+    css:'/* Escribe aquí el selector de clase */\n\n',
+    js:''
+  },
+  checks:[
+    { label:"El HTML usa class=\"destacado\"", test:c=>/class\s*=\s*["'][^"']*destacado/i.test(c.html) },
+    { label:"El CSS define el selector .destacado", test:c=>/\.destacado\s*\{/.test(c.css) },
+    { label:"La regla incluye una propiedad color", test:c=>/color\s*:/i.test(c.css) }
+  ]
+},
+{
+  id:"r5", moduleId:5, title:"Centra con Flexbox",
+  desc:"Crea un contenedor .contenedor con display:flex, justify-content:center y align-items:center.",
+  hint:"Flexbox se activa en el contenedor (el padre), no en los hijos.",
+  starter:{
+    html:'<div class="contenedor">\n  <div class="caja">Soy una caja</div>\n</div>',
+    css:'.contenedor {\n  height: 300px;\n  background: #eef6ff;\n  /* añade flexbox aquí */\n}\n\n.caja {\n  padding: 24px;\n  background: #38bdf8;\n  border-radius: 12px;\n}',
+    js:''
+  },
+  checks:[
+    { label:"El CSS usa display: flex", test:c=>/display\s*:\s*flex/i.test(c.css) },
+    { label:"El CSS usa justify-content: center", test:c=>/justify-content\s*:\s*center/i.test(c.css) },
+    { label:"El CSS usa align-items: center", test:c=>/align-items\s*:\s*center/i.test(c.css) }
+  ]
+},
+{
+  id:"r6", moduleId:6, title:"Variables y responsive",
+  desc:"Declara una variable CSS en :root, úsala con var(), añade una media query y una transición.",
+  hint:"--color: #38bdf8;  →  var(--color);  →  @media (min-width: 640px) { }",
+  starter:{
+    html:'<button class="boton">Pulsa aquí</button>',
+    css:':root {\n  /* declara --color-principal aquí */\n}\n\n.boton {\n  padding: 12px 24px;\n  border: none;\n  border-radius: 10px;\n  /* usa var(--color-principal) */\n}\n\n/* añade una media query */\n',
+    js:''
+  },
+  checks:[
+    { label:"Hay una variable CSS declarada (--nombre: valor)", test:c=>/--[a-zA-Z0-9-]+\s*:/.test(c.css) },
+    { label:"Se usa var(--...)", test:c=>/var\s*\(\s*--/.test(c.css) },
+    { label:"Hay una media query @media", test:c=>/@media/i.test(c.css) },
+    { label:"Hay una propiedad transition", test:c=>/transition\s*:/i.test(c.css) }
+  ]
+},
+{
+  id:"r7", moduleId:7, title:"Primeros pasos en JavaScript",
+  desc:"Declara una constante, usa console.log() y muestra un mensaje con un template literal (comillas invertidas).",
+  hint:"const nombre = \"Ana\";  console.log(`Hola, ${nombre}`);",
+  starter:{
+    html:'<h1>Consola de JavaScript</h1>\n<p>Abre la consola (F12) para ver el resultado.</p>',
+    css:'body { font-family: system-ui, sans-serif; padding: 24px; }',
+    js:'// Declara una constante y muéstrala en la consola\n'
+  },
+  checks:[
+    { label:"Se usa const o let", test:c=>/\b(const|let)\b/.test(c.js) },
+    { label:"Se usa console.log()", test:c=>/console\.log\s*\(/.test(c.js) },
+    { label:"Se usa un template literal con comillas invertidas", test:c=>/\x60/.test(c.js) }
+  ]
+},
+{
+  id:"r8", moduleId:8, title:"Funciones y arrays",
+  desc:"Crea una función (normal o flecha), usa map o filter sobre un array y utiliza return.",
+  hint:"const dobles = numeros.map(n => n * 2);",
+  starter:{
+    html:'<h1>Funciones y arrays</h1>',
+    css:'body { font-family: system-ui, sans-serif; padding: 24px; }',
+    js:'const numeros = [1, 2, 3, 4];\n\n// Crea una función y usa map o filter\n'
+  },
+  checks:[
+    { label:"Se declara una función (function o =>)", test:c=>/(function\s+\w+|=>)/.test(c.js) },
+    { label:"Se usa .map() o .filter()", test:c=>/\.(map|filter)\s*\(/.test(c.js) },
+    { label:"Se usa return", test:c=>/\breturn\b/.test(c.js) }
+  ]
+},
+{
+  id:"r9", moduleId:9, title:"Interactividad con el DOM",
+  desc:"Selecciona un elemento con document.querySelector, escucha un clic con addEventListener y cambia su textContent o innerHTML.",
+  hint:"boton.addEventListener(\"click\", () => { titulo.textContent = \"¡Cambiado!\"; });",
+  starter:{
+    html:'<h1 id="titulo">Título original</h1>\n<button id="boton">Cambiar título</button>',
+    css:'body { font-family: system-ui, sans-serif; padding: 24px; }\nbutton { padding: 10px 18px; border-radius: 8px; border: none; background: #38bdf8; cursor: pointer; }',
+    js:'// Selecciona, escucha el clic y cambia el texto\n'
+  },
+  checks:[
+    { label:"Se usa document.querySelector", test:c=>/document\.querySelector/.test(c.js) },
+    { label:"Se usa addEventListener con 'click'", test:c=>/addEventListener\s*\(\s*['"]click/i.test(c.js) },
+    { label:"Se usa textContent o innerHTML", test:c=>/(textContent|innerHTML)\s*=/.test(c.js) }
+  ]
+},
+{
+  id:"r10", moduleId:10, title:"Mini app: lista de tareas",
+  desc:"Combina todo: escucha el submit, crea elementos con createElement y recórrelos con forEach o map.",
+  hint:"form.addEventListener('submit', e => { e.preventDefault(); ... });",
+  starter:{
+    html:'<h1>Mis tareas</h1>\n<form id="formTarea">\n  <input id="inputTarea" type="text" placeholder="Nueva tarea">\n  <button type="submit">Añadir</button>\n</form>\n<ul id="lista"></ul>',
+    css:'body { font-family: system-ui, sans-serif; padding: 24px; }\nform { display: flex; gap: 8px; margin-bottom: 16px; }\ninput { padding: 10px; border-radius: 8px; border: 1px solid #ccc; }\nbutton { padding: 10px 16px; border-radius: 8px; border: none; background: #38bdf8; cursor: pointer; }\nul { list-style: none; padding: 0; }',
+    js:'// Implementa la lógica de la lista de tareas\n'
+  },
+  checks:[
+    { label:"Se usa addEventListener", test:c=>/addEventListener\s*\(/.test(c.js) },
+    { label:"Se crea contenido con createElement o innerHTML", test:c=>/(createElement|innerHTML)/.test(c.js) },
+    { label:"Se recorre algo con forEach o map", test:c=>/\.(forEach|map)\s*\(/.test(c.js) }
+  ]
+}
+];
+
+/* =========================================================
+   CHULETA DE COMANDOS
+   ========================================================= */
+const CHEATSHEET = [
+  { title:"Etiquetas HTML esenciales", icon:"🌐", rows:[
+    ["&lt;!DOCTYPE html&gt;","Declaración de HTML5 (primera línea)"],
+    ["&lt;html lang=\"es\"&gt;","Raíz del documento e idioma"],
+    ["&lt;head&gt;","Metadatos (no visibles)"],
+    ["&lt;body&gt;","Contenido visible"],
+    ["&lt;title&gt;","Título de la pestaña"],
+    ["&lt;h1&gt; … &lt;h6&gt;","Encabezados por jerarquía"],
+    ["&lt;p&gt;","Párrafo"],
+    ["&lt;a href=\"...\"&gt;","Enlace"],
+    ["&lt;img src=\"...\" alt=\"...\"&gt;","Imagen (etiqueta vacía)"],
+    ["&lt;ul&gt; / &lt;ol&gt; / &lt;li&gt;","Lista desordenada / ordenada / elemento"],
+    ["&lt;div&gt;","Contenedor en bloque sin semántica"],
+    ["&lt;span&gt;","Contenedor en línea sin semántica"],
+    ["&lt;header&gt; &lt;nav&gt; &lt;main&gt; &lt;section&gt; &lt;article&gt; &lt;aside&gt; &lt;footer&gt;","Etiquetas semánticas de estructura"],
+    ["&lt;form&gt; &lt;label&gt; &lt;input&gt; &lt;textarea&gt; &lt;select&gt; &lt;button&gt;","Formularios"],
+    ["&lt;table&gt; &lt;tr&gt; &lt;th&gt; &lt;td&gt;","Tablas de datos"]
+  ]},
+  { title:"Propiedades CSS más usadas", icon:"🎨", rows:[
+    ["color","Color del texto"],
+    ["background / background-color","Fondo"],
+    ["font-family / font-size / font-weight","Tipografía"],
+    ["text-align / line-height","Alineación y altura de línea"],
+    ["margin / padding","Espacio exterior / interior"],
+    ["border / border-radius","Borde y esquinas redondeadas"],
+    ["width / height / max-width","Dimensiones"],
+    ["box-sizing: border-box","Incluye padding y border en el width"],
+    ["display: block | inline | flex | grid | none","Modelo de caja del elemento"],
+    ["position: static | relative | absolute | fixed | sticky","Posicionamiento"],
+    ["justify-content / align-items / gap","Alineación en Flexbox y Grid"],
+    ["grid-template-columns: repeat(3, 1fr)","Columnas de Grid"],
+    ["transition / transform / animation","Animación y movimiento"],
+    ["@media (min-width: 640px) { }","Regla responsive"],
+    ["--variable / var(--variable)","Variables CSS"]
+  ]},
+  { title:"JavaScript: comandos clave", icon:"⚡", rows:[
+    ["const / let","Declarar variables (evita var)"],
+    ["console.log()","Imprimir en la consola"],
+    ["typeof valor","Saber el tipo de dato"],
+    ["=== / !==","Igualdad y desigualdad estrictas"],
+    ["if / else if / else","Condicionales"],
+    ["function nombre() {}","Declarar una función"],
+    ["const f = () =&gt; {}","Función flecha"],
+    ["return","Devolver un valor"],
+    ["array.push() / pop() / length","Operaciones básicas de arrays"],
+    ["array.map() / filter() / forEach()","Recorrer y transformar arrays"],
+    ["objeto.propiedad","Acceder a una propiedad"],
+    ["for / for...of / while","Bucles"],
+    ["document.querySelector()","Seleccionar un elemento del DOM"],
+    ["element.textContent / innerHTML","Cambiar el contenido"],
+    ["element.classList.add() / toggle()","Manipular clases"],
+    ["element.addEventListener('click', fn)","Escuchar un evento"],
+    ["document.createElement() / appendChild()","Crear e insertar elementos"],
+    ["event.preventDefault()","Cancelar el comportamiento por defecto"]
+  ]}
 ];
 
 /* ============ STATE ============ */
@@ -1113,21 +1910,22 @@ const App = {
   progress: null,
   currentModule: null,
   currentLesson: null,
+  editor: { challengeId: null },
   exercise: { questions: [], idx: 0, score: 0, moduleId: null, answered: false }
 };
 
 const RANKS = [
   { min:0,  icon:"🐣", name:"Principiante" },
   { min:10, icon:"🦉", name:"Aprendiz" },
-  { min:30, icon:"🐍", name:"Codificador" },
-  { min:60, icon:"⚡", name:"Desarrollador" },
+  { min:30, icon:"🐍", name:"Maquetador" },
+  { min:60, icon:"⚡", name:"Desarrollador Web" },
   { min:90, icon:"🏆", name:"Maestro del Código" }
 ];
 
 /* ============ PROGRESS PERSISTENCE ============ */
 function progressKey(email){ return 'ateneodev_progress_' + (email||'anon'); }
 function loadProgress(email){
-  const def = { lessonsDone:{}, passed:{}, bestScores:{}, name:'', joinedAt: Date.now() };
+  const def = { lessonsDone:{}, passed:{}, bestScores:{}, challenges:{}, name:'', joinedAt: Date.now() };
   return safeParse(localStorage.getItem(progressKey(email)), def);
 }
 function saveProgress(){
@@ -1136,7 +1934,7 @@ function saveProgress(){
 }
 
 /* ============ SESSION HELPERS ============ */
-const LOCAL_USERS_KEY = 'ateneoev_local_users';
+const LOCAL_USERS_KEY = 'ateneodev_local_users';
 const LOCAL_SESSION_KEY = 'ateneodev_session';
 
 function localGetUsers(){ return safeParse(localStorage.getItem(LOCAL_USERS_KEY), {}); }
@@ -1159,7 +1957,7 @@ async function initFirebase(){
   const isPlaceholder = !FIREBASE_CONFIG.apiKey || FIREBASE_CONFIG.apiKey === 'TU_API_KEY';
   if(isPlaceholder){
     console.log('[ateneodev] Firebase no configurado → usando auth local');
-    $('demoNote').innerHTML = '';
+    $('demoNote').innerHTML = '⚡ Tu progreso y tu código se guardan automáticamente';
     return false;
   }
   try{
@@ -1279,9 +2077,10 @@ function translateAuthError(err){
 function enterApp(){
   App.progress = loadProgress(App.user.email);
   if(!App.progress.name) App.progress.name = App.user.name;
+  if(!App.progress.challenges) App.progress.challenges = {};
   saveProgress();
   $('userEmail').textContent = App.user.email;
-  $('heroName').textContent = `¡Hola, ${App.user.name}! 👋`;
+  $('heroName').textContent = '¡Hola, ' + App.user.name + '! 👋';
   renderDashboard();
   showView('dashboard');
   toast('Bienvenido/a, ' + App.user.name, 'success');
@@ -1301,7 +2100,7 @@ function showView(name){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   const el = $('view-'+name);
   if(el) el.classList.add('active');
-  document.body.classList.toggle('theme-module', name==='module' || name==='exercise' || name==='results');
+  document.body.classList.toggle('theme-module', name==='module' || name==='exercise' || name==='results' || name==='editor');
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
@@ -1334,25 +2133,25 @@ function renderDashboard(){
     const card = document.createElement('div');
     card.className = 'module-card' + (locked?' locked':'') + (isPassed?' complete':'');
     card.style.setProperty('--mod-color', m.color);
-    card.innerHTML = `
-      <div class="module-status ${locked?'locked':isPassed?'done':'progress'}">
-        ${locked?'🔒 Bloqueado':isPassed?'✅ Completado':'⏳ En curso'}
-      </div>
-      <div class="module-head">
-        <div class="module-icon">${m.icon}</div>
-        <div class="module-titles">
-          <div class="module-num">Módulo ${m.id}</div>
-          <div class="module-name">${escHtml(m.title)}</div>
-        </div>
-      </div>
-      <div class="module-body">
-        <div class="module-desc">${escHtml(m.desc)}</div>
-        <div class="module-bar"><div class="module-bar-fill" style="width:${mPct}%"></div></div>
-        <div class="module-meta">
-          <span>Lecciones: <b>${lessonsDone}/${totalLessons}</b></span>
-          <span>Nota: <b>${p.bestScores[m.id]??'—'}${p.bestScores[m.id]!=null?'%':''}</b></span>
-        </div>
-      </div>`;
+    card.innerHTML =
+      '<div class="module-status ' + (locked?'locked':isPassed?'done':'progress') + '">' +
+        (locked?'🔒 Bloqueado':isPassed?'✅ Completado':'⏳ En curso') +
+      '</div>' +
+      '<div class="module-head">' +
+        '<div class="module-icon">' + m.icon + '</div>' +
+        '<div class="module-titles">' +
+          '<div class="module-num">Módulo ' + m.id + '</div>' +
+          '<div class="module-name">' + escHtml(m.title) + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="module-body">' +
+        '<div class="module-desc">' + escHtml(m.desc) + '</div>' +
+        '<div class="module-bar"><div class="module-bar-fill" style="width:' + mPct + '%"></div></div>' +
+        '<div class="module-meta">' +
+          '<span>Lecciones: <b>' + lessonsDone + '/' + totalLessons + '</b></span>' +
+          '<span>Nota: <b>' + (p.bestScores[m.id] != null ? p.bestScores[m.id] + '%' : '—') + '</b></span>' +
+        '</div>' +
+      '</div>';
     if(!locked){
       card.addEventListener('click', ()=>openModule(m.id));
     } else {
@@ -1366,7 +2165,7 @@ function renderDashboard(){
   $('statModules').textContent = passed;
   const scores = Object.values(p.bestScores).filter(v=>typeof v==='number');
   $('statScore').textContent = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) + '%' : '0%';
-  $('statStreak').textContent = passed;
+  $('statChallenges').textContent = Object.keys(p.challenges||{}).filter(k=>p.challenges[k]).length;
 
   const certArea = $('certBannerArea');
   certArea.innerHTML = '';
@@ -1374,13 +2173,11 @@ function renderDashboard(){
     const avg = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : 0;
     const banner = document.createElement('div');
     banner.className = 'cert-banner';
-    banner.innerHTML = `
-      <div class="cb-icon">🎓</div>
-      <div class="cb-info">
-        <h3>¡Has completado el curso!</h3>
-        <p>Puedes generar tu certificado con nota media del ${avg}%.</p>
-      </div>
-      <button class="cb-btn" id="getCertBtn">Ver certificado</button>`;
+    banner.innerHTML =
+      '<div class="cb-icon">🎓</div>' +
+      '<div class="cb-info"><h3>¡Has completado el curso!</h3>' +
+      '<p>Puedes generar tu certificado con nota media del ' + avg + '%.</p></div>' +
+      '<button class="cb-btn" id="getCertBtn">Ver certificado</button>';
     certArea.appendChild(banner);
     $('getCertBtn').addEventListener('click', ()=>openCertificate(avg));
   }
@@ -1393,16 +2190,25 @@ function openModule(moduleId){
   App.currentModule = m;
   const p = App.progress;
 
-  $('moduleHeader').style.setProperty('--mod-color', m.color);
-  $('moduleHeader').innerHTML = `
-    <div class="mh-left">
-      <div class="mh-icon">${m.icon}</div>
-      <div>
-        <div class="mh-title">Módulo ${m.id} · ${escHtml(m.title)}</div>
-        <div class="mh-sub">${escHtml(m.desc)}</div>
-      </div>
-    </div>
-    <button class="back-btn" onclick="showView('dashboard'); renderDashboard();">🏠 Inicio</button>`;
+  const header = $('moduleHeader');
+  header.style.setProperty('--mod-color', m.color);
+  header.innerHTML =
+    '<div class="mh-left">' +
+      '<div class="mh-icon">' + m.icon + '</div>' +
+      '<div><div class="mh-title">Módulo ' + m.id + ' · ' + escHtml(m.title) + '</div>' +
+      '<div class="mh-sub">' + escHtml(m.desc) + '</div></div>' +
+    '</div>' +
+    '<div class="mh-actions">' +
+      '<button class="back-btn" id="practiceBtn">🛠️ Practicar</button>' +
+      '<button class="back-btn" id="moduleHomeBtn">🏠 Inicio</button>' +
+    '</div>';
+
+  $('moduleHomeBtn').addEventListener('click', ()=>{ showView('dashboard'); renderDashboard(); });
+  $('practiceBtn').addEventListener('click', ()=>{
+    const ch = CHALLENGES.find(c=>c.moduleId === m.id);
+    if(ch) openEditor(ch.id);
+    else openEditor();
+  });
 
   const list = $('lessonList');
   list.innerHTML = '';
@@ -1410,13 +2216,13 @@ function openModule(moduleId){
     const done = !!p.lessonsDone[l.id];
     const btn = document.createElement('button');
     btn.className = 'lesson-item' + (done?' done':'');
-    btn.innerHTML = `
-      <div class="li-num">${done?'✓':i+1}</div>
-      <div class="li-info">
-        <div class="li-title">${escHtml(l.title)}</div>
-        <div class="li-desc">Lección ${l.id}</div>
-      </div>
-      <span class="li-check">✓</span>`;
+    btn.innerHTML =
+      '<div class="li-num">' + (done?'✓':(i+1)) + '</div>' +
+      '<div class="li-info">' +
+        '<div class="li-title">' + escHtml(l.title) + '</div>' +
+        '<div class="li-desc">Lección ' + l.id + '</div>' +
+      '</div>' +
+      '<span class="li-check">✓</span>';
     btn.addEventListener('click', ()=>openLesson(m, l));
     list.appendChild(btn);
   });
@@ -1424,10 +2230,10 @@ function openModule(moduleId){
   const allLessonsDone = m.lessons.every(l=>p.lessonsDone[l.id]);
   const startBtn = $('startExerciseBtn');
   const best = p.bestScores[m.id];
-  $('bestScore').textContent = best != null ? `Mejor nota: ${best}%` : '';
+  $('bestScore').textContent = best != null ? 'Mejor nota: ' + best + '%' : '';
   $('exerciseDesc').textContent = allLessonsDone
-    ? `Responde ${m.questions.length} preguntas para validar el módulo. Necesitas ≥70% para aprobarlo.`
-    : `Completa primero las lecciones. Puedes intentarlo igualmente, pero te recomendamos leer todo antes.`;
+    ? 'Responde ' + m.questions.length + ' preguntas para validar el módulo. Necesitas ≥70% para aprobarlo.'
+    : 'Completa primero las lecciones. Puedes intentarlo igualmente, pero te recomendamos leer todo antes.';
   startBtn.disabled = false;
   startBtn.onclick = ()=>startExercise(m);
 
@@ -1437,15 +2243,13 @@ function openModule(moduleId){
 /* ============ LESSON OVERLAY ============ */
 function openLesson(m, lesson){
   App.currentLesson = lesson;
-  $('lessonTitle').textContent = `M${m.id} · ${lesson.title}`;
+  $('lessonTitle').textContent = 'M' + m.id + ' · ' + lesson.title;
   const content = $('lessonContent');
-  content.innerHTML = `
-    <div class="lo-badge">Lección ${lesson.id} · ${escHtml(m.title)}</div>
-    <h1 class="lo-h1">${escHtml(lesson.title)}</h1>
-    <div class="lo-body">${lesson.body}</div>
-    <div class="lo-next">
-      <button class="lo-next-btn" id="markDoneBtn">Marcar como completada ✓</button>
-    </div>`;
+  content.innerHTML =
+    '<div class="lo-badge">Lección ' + lesson.id + ' · ' + escHtml(m.title) + '</div>' +
+    '<h1 class="lo-h1">' + escHtml(lesson.title) + '</h1>' +
+    '<div class="lo-body">' + lesson.body + '</div>' +
+    '<div class="lo-next"><button class="lo-next-btn" id="markDoneBtn">Marcar como completada ✓</button></div>';
   $('lessonOverlay').classList.add('active');
   $('markDoneBtn').addEventListener('click', ()=>{
     App.progress.lessonsDone[lesson.id] = true;
@@ -1480,10 +2284,10 @@ function renderQuestion(){
   const q = ex.questions[ex.idx];
   if(!q) return;
   const total = ex.questions.length;
-  $('exProgressLabel').textContent = `Pregunta ${ex.idx+1} / ${total}`;
-  $('exScore').textContent = `✓ ${ex.score}`;
-  $('exProgressBar').style.width = `${(ex.idx/total)*100}%`;
-  $('exNum').textContent = `Pregunta ${ex.idx+1}`;
+  $('exProgressLabel').textContent = 'Pregunta ' + (ex.idx+1) + ' / ' + total;
+  $('exScore').textContent = '✓ ' + ex.score;
+  $('exProgressBar').style.width = ((ex.idx/total)*100) + '%';
+  $('exNum').textContent = 'Pregunta ' + (ex.idx+1);
   $('exQ').textContent = q.q;
   $('exFeedback').className = 'ex-feedback';
   $('exFeedback').textContent = '';
@@ -1517,12 +2321,12 @@ function answerQuestion(selected){
   if(selected === correct){
     ex.score++;
     fb.className = 'ex-feedback ok show';
-    fb.innerHTML = `✅ <strong>¡Correcto!</strong> ${q.explain||''}`;
+    fb.innerHTML = '✅ <strong>¡Correcto!</strong> ' + (q.explain||'');
   } else {
     fb.className = 'ex-feedback bad show';
-    fb.innerHTML = `❌ <strong>Incorrecto.</strong> La respuesta correcta es: <em>${escHtml(q.opts[correct])}</em>. ${q.explain||''}`;
+    fb.innerHTML = '❌ <strong>Incorrecto.</strong> La respuesta correcta es: <em>' + escHtml(q.opts[correct]) + '</em>. ' + (q.explain||'');
   }
-  $('exScore').textContent = `✓ ${ex.score}`;
+  $('exScore').textContent = '✓ ' + ex.score;
   $('nextBtn').classList.add('show');
   $('nextBtn').textContent = (ex.idx === ex.questions.length-1) ? 'Ver resultados →' : 'Siguiente →';
 }
@@ -1555,9 +2359,9 @@ function finishExercise(){
 
   $('resEmoji').textContent = passed ? '🎉' : '😅';
   $('resTitle').textContent = passed ? '¡Módulo superado!' : 'Casi lo tienes';
-  $('resSubtitle').textContent = `Módulo ${modId}: ${ex.questions.length} preguntas`;
+  $('resSubtitle').textContent = 'Módulo ' + modId + ': ' + ex.questions.length + ' preguntas';
   $('resScore').textContent = pct + '%';
-  $('resDetail').textContent = `Aciertos: ${ex.score} de ${total}`;
+  $('resDetail').textContent = 'Aciertos: ' + ex.score + ' de ' + total;
   $('resStatus').textContent = passed ? '✅ MÓDULO APROBADO' : '❌ Necesitas al menos 70% para aprobar';
   $('resStatus').className = 'status ' + (passed?'passed':'failed');
 
@@ -1576,13 +2380,218 @@ $('backToModuleBtn').addEventListener('click', ()=>{
 });
 $('backToDashBtn').addEventListener('click', ()=>{ renderDashboard(); showView('dashboard'); });
 
+/* =========================================================
+   EDITOR DE CÓDIGO CON VISTA PREVIA
+   ========================================================= */
+const DEFAULT_CODE = {
+  html:'<h1>¡Hola, mundo!</h1>\n<p>Escribe tu HTML aquí y mira el resultado a la derecha.</p>\n<button id="boton">Púlsame</button>',
+  css:'body {\n  font-family: system-ui, sans-serif;\n  padding: 24px;\n  background: #f8fafc;\n  color: #0f172a;\n}\n\nh1 {\n  color: #0284c7;\n}\n\nbutton {\n  padding: 10px 18px;\n  border: none;\n  border-radius: 8px;\n  background: #38bdf8;\n  cursor: pointer;\n}',
+  js:'document.getElementById("boton").addEventListener("click", () => {\n  alert("¡Funciona!");\n});'
+};
+
+const EDITOR_IDS = { html:'editorHtml', css:'editorCss', js:'editorJs' };
+let runTimer = null;
+
+function codeKey(){ return 'ateneodev_code_' + (App.user ? App.user.email : 'anon'); }
+
+function saveCode(){
+  try{
+    localStorage.setItem(codeKey(), JSON.stringify({
+      html: $('editorHtml').value,
+      css:  $('editorCss').value,
+      js:   $('editorJs').value,
+      challengeId: App.editor.challengeId
+    }));
+  }catch(e){}
+}
+
+function loadSavedCode(){ return safeParse(localStorage.getItem(codeKey()), null); }
+
+function setEditorCode(code){
+  $('editorHtml').value = code.html || '';
+  $('editorCss').value  = code.css  || '';
+  $('editorJs').value   = code.js   || '';
+}
+
+function scheduleRun(){
+  clearTimeout(runTimer);
+  runTimer = setTimeout(runCode, 700);
+}
+
+function runCode(){
+  const html = $('editorHtml').value;
+  const css  = $('editorCss').value;
+  const js   = $('editorJs').value;
+  const doc = '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">' +
+              '<style>' + css + '</style></head><body>' +
+              html + '<script>' + js + '<\/script></body></html>';
+  $('previewFrame').srcdoc = doc;
+}
+
+function setupEditor(){
+  document.querySelectorAll('.editor-tab').forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      document.querySelectorAll('.editor-tab').forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+      const lang = tab.dataset.lang;
+      ['html','css','js'].forEach(l=>{
+        $(EDITOR_IDS[l]).classList.toggle('active', l === lang);
+      });
+    });
+  });
+
+  ['html','css','js'].forEach(l=>{
+    const el = $(EDITOR_IDS[l]);
+    el.addEventListener('input', ()=>{
+      if($('autoRun').checked) scheduleRun();
+      saveCode();
+    });
+    el.addEventListener('keydown', (e)=>{
+      if(e.key === 'Tab'){
+        e.preventDefault();
+        const s = el.selectionStart, en = el.selectionEnd;
+        el.value = el.value.slice(0, s) + '  ' + el.value.slice(en);
+        el.selectionStart = el.selectionEnd = s + 2;
+        el.dispatchEvent(new Event('input'));
+      }
+    });
+  });
+
+  $('runCodeBtn').addEventListener('click', ()=>{ runCode(); toast('Código ejecutado','success'); });
+  $('editorResetBtn').addEventListener('click', ()=>{
+    if(!confirm('¿Restaurar el código inicial del reto actual?')) return;
+    const ch = CHALLENGES.find(c=>c.id === App.editor.challengeId);
+    setEditorCode(ch ? ch.starter : DEFAULT_CODE);
+    saveCode();
+    runCode();
+    toast('Editor reiniciado','success');
+  });
+  $('editorHomeBtn').addEventListener('click', ()=>{ renderDashboard(); showView('dashboard'); });
+}
+
+function openEditor(challengeId){
+  showView('editor');
+  if(challengeId){
+    const ch = CHALLENGES.find(c=>c.id === challengeId);
+    if(ch){ loadChallenge(ch); return; }
+  }
+  const saved = loadSavedCode();
+  if(saved){
+    setEditorCode(saved);
+    App.editor.challengeId = saved.challengeId || null;
+  } else {
+    setEditorCode(DEFAULT_CODE);
+    App.editor.challengeId = null;
+  }
+  renderChallengeBox();
+  runCode();
+}
+
+function loadChallenge(ch){
+  setEditorCode(ch.starter);
+  App.editor.challengeId = ch.id;
+  renderChallengeBox();
+  saveCode();
+  runCode();
+  // cambiar a la pestaña JS si el reto es de JavaScript
+  if(ch.moduleId >= 7){
+    document.querySelectorAll('.editor-tab').forEach(t=>t.classList.remove('active'));
+    const jsTab = document.querySelector('.editor-tab[data-lang="js"]');
+    if(jsTab) jsTab.classList.add('active');
+    ['html','css','js'].forEach(l=>$(EDITOR_IDS[l]).classList.toggle('active', l === 'js'));
+  }
+}
+
+function renderChallengeBox(){
+  const box = $('challengeBox');
+  const ch = CHALLENGES.find(c=>c.id === App.editor.challengeId) || null;
+
+  const options = CHALLENGES.map(c=>{
+    const sel = (ch && c.id === ch.id) ? ' selected' : '';
+    return '<option value="' + c.id + '"' + sel + '>Reto ' + c.id.toUpperCase() + ' · ' + escHtml(c.title) + '</option>';
+  }).join('');
+
+  let inner = '<div class="ch-top"><label class="ch-select-label">Reto:' +
+              '<select id="challengeSelect"><option value="">— práctica libre —</option>' + options + '</select>' +
+              '</label></div>';
+
+  if(ch){
+    inner += '<h3 class="ch-title">🎯 ' + escHtml(ch.title) + '</h3>';
+    inner += '<p class="ch-desc">' + escHtml(ch.desc) + '</p>';
+    inner += '<div class="ch-checks" id="chChecks">' +
+      ch.checks.map(c=>'<div class="ch-check"><span class="ch-ico">•</span><span>' + escHtml(c.label) + '</span></div>').join('') +
+      '</div>';
+    if(ch.hint) inner += '<details class="ch-hint"><summary>💡 Pista</summary><p>' + escHtml(ch.hint) + '</p></details>';
+    inner += '<div class="ch-actions"><button class="start-btn" id="checkBtn">✅ Comprobar reto</button></div>';
+  } else {
+    inner += '<p class="ch-desc">Elige un reto arriba o escribe libremente. El código se guarda automáticamente en este navegador.</p>';
+  }
+
+  box.innerHTML = inner;
+
+  $('challengeSelect').addEventListener('change', (e)=>{
+    const c = CHALLENGES.find(x=>x.id === e.target.value);
+    if(c) loadChallenge(c);
+    else { App.editor.challengeId = null; renderChallengeBox(); saveCode(); }
+  });
+
+  if(ch && $('checkBtn')) $('checkBtn').addEventListener('click', checkChallenge);
+}
+
+function checkChallenge(){
+  const ch = CHALLENGES.find(c=>c.id === App.editor.challengeId);
+  if(!ch){ toast('Selecciona un reto primero','warn'); return; }
+
+  const code = {
+    html: $('editorHtml').value,
+    css:  $('editorCss').value,
+    js:   $('editorJs').value
+  };
+
+  let allOk = true;
+  const results = ch.checks.map(c=>{
+    let ok = false;
+    try{ ok = !!c.test(code); }catch(e){ ok = false; }
+    if(!ok) allOk = false;
+    return { label: c.label, ok };
+  });
+
+  const cont = $('chChecks');
+  if(cont){
+    cont.innerHTML = results.map(r =>
+      '<div class="ch-check ' + (r.ok?'ok':'bad') + '"><span class="ch-ico">' + (r.ok?'✅':'❌') + '</span><span>' + escHtml(r.label) + '</span></div>'
+    ).join('');
+  }
+
+  if(allOk){
+    if(!App.progress.challenges) App.progress.challenges = {};
+    App.progress.challenges[ch.id] = true;
+    saveProgress();
+    toast('¡Reto completado! 🎉','success');
+    renderDashboard();
+  } else {
+    toast('Aún faltan requisitos. Revisa la lista.','warn');
+  }
+}
+
+/* ============ CHULETA ============ */
+function renderCheatsheet(){
+  const cont = $('cheatsheetContent');
+  cont.innerHTML = CHEATSHEET.map(g=>{
+    const rows = g.rows.map(r=>'<tr><td><code>' + r[0] + '</code></td><td>' + r[1] + '</td></tr>').join('');
+    return '<div class="cheat-group"><h3>' + g.icon + ' ' + g.title + '</h3>' +
+           '<table><thead><tr><th>Comando</th><th>Para qué sirve</th></tr></thead><tbody>' +
+           rows + '</tbody></table></div>';
+  }).join('');
+}
+
 /* ============ CERTIFICATE ============ */
 function openCertificate(avgScore){
   $('certName').value = App.progress.name || App.user.name;
   $('certScore').textContent = avgScore + '%';
   const d = new Date();
   const months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-  $('certDate').textContent = `Emitido el ${d.getDate()} de ${months[d.getMonth()]} de ${d.getFullYear()}`;
+  $('certDate').textContent = 'Emitido el ' + d.getDate() + ' de ' + months[d.getMonth()] + ' de ' + d.getFullYear();
   showView('certificate');
 }
 $('certBackBtn').addEventListener('click', ()=>{ renderDashboard(); showView('dashboard'); });
@@ -1591,16 +2600,22 @@ $('certBackBtn').addEventListener('click', ()=>{ renderDashboard(); showView('da
 $('resetBtn').addEventListener('click', ()=>{
   if(!App.user) return;
   if(confirm('¿Seguro que quieres borrar todo tu progreso? Esta acción no se puede deshacer.')){
-    App.progress = { lessonsDone:{}, passed:{}, bestScores:{}, name: App.user.name, joinedAt: Date.now() };
+    App.progress = { lessonsDone:{}, passed:{}, bestScores:{}, challenges:{}, name: App.user.name, joinedAt: Date.now() };
     saveProgress();
     renderDashboard();
     toast('Progreso reiniciado','success');
   }
 });
 
+/* ============ BOTONES DEL DASHBOARD ============ */
+$('openEditorBtn').addEventListener('click', ()=>openEditor());
+$('openCheatsheetBtn').addEventListener('click', ()=>{ renderCheatsheet(); showView('cheatsheet'); });
+$('cheatHomeBtn').addEventListener('click', ()=>{ renderDashboard(); showView('dashboard'); });
+
 /* ============ BOOT ============ */
 (async function boot(){
   setupAuthTabs();
+  setupEditor();
   showView('loading');
 
   fallbackTimer = setTimeout(() => {
